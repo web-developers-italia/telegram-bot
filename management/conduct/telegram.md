@@ -10,6 +10,8 @@ Regolamento
 
 - [Sì] discussione su news, lavoro e lifestyle del web-developer e affini
 
+- [No] richieste di supporto non inerenti al development, nessuno qui riparerà la tua stampante
+
 - [No] incollare codice direttamente in chat
 
 - [No] spam di qualsiasi forma nel flusso di chat
@@ -18,3 +20,4 @@ Regolamento
 
 - [No] gore e porno
 ```
+
