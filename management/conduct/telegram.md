@@ -10,9 +10,7 @@ Regolamento
 
 - [Sì] discussione su news, lavoro e lifestyle del web-developer e affini
 
-- [Sì] utilizzare paste tools, come pastebin.com o simili, per condividere il proprio codice
-
-- [No] a richieste di supporto non inerenti al development, nessuno qui riparerà la tua stampante
+- [No] richieste di supporto non inerenti al development, nessuno qui riparerà la tua stampante
 
 - [No] incollare codice direttamente in chat
 
