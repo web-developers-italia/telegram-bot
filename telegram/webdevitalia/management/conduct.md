@@ -1,6 +1,5 @@
 ## Rules
 
-
 Regolamento
 
 ```
@@ -20,4 +19,3 @@ Regolamento
 
 - [No] gore e porno
 ```
-
