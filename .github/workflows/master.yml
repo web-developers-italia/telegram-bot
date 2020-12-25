@@ -16,7 +16,7 @@ jobs:
           access_token: ${{ github.token }}
   deploy:
     name: Deploy
-    needs: build
+    needs: cancel
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Firebase
