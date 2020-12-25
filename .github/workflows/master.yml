@@ -24,7 +24,7 @@ jobs:
       - name: Setup configuration
         uses: w9jds/firebase-action@master
         with:
-          args: functions:config:set --project=default telegram.key="{{ secrets.TELEGRAM_BOT_KEY }}"
+          args: functions:config:set --project=default telegram.key="${{ secrets.TELEGRAM_BOT_KEY }}"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Deploy functions
