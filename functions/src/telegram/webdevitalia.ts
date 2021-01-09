@@ -9,7 +9,7 @@ const bot: Telegraf<TelegrafContext> = new Telegraf(functions.config().telegram.
 bot.hears('@admin', (context: TelegrafContext) => context.reply('@scaccogatto', context.message ? Extra.inReplyTo(context.message.message_id).markup(true) : undefined))
 
 // rules
-bot.hears(['/regolamento', '/regole'], (context: TelegrafContext) => {
+bot.hears(['/regolamento', '/regole', '/rules'], (context: TelegrafContext) => {
   const extra: ExtraEditMessage = context.message ?
     Extra.inReplyTo(context.message.message_id).markdown().webPreview(false).markup(true) :
     Extra.markdown().webPreview(false).markup(true)
