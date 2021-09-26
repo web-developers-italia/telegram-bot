@@ -44,6 +44,16 @@ bot.hears(['/contribute'], (context: TelegrafContext) => {
   return context.reply(`Contribuisci al gruppo: https://github.com/insieme-dev/community`, extra)
 })
 
+bot.hears(['/dontasktoask'], (context: TelegrafContext) => {
+  const messageReplyTarget = context.message?.reply_to_message?.message_id ?? context.message?.message_id
+
+  const extra: ExtraEditMessage = messageReplyTarget ?
+    Extra.inReplyTo(messageReplyTarget).markdown().webPreview(false).markup(true) :
+    Extra.markdown().webPreview(false).markup(true)
+
+  return context.reply(`Leggi questo per favore e poi rielabora la tua domanda: https://dontasktoask.com (ENG)`, extra)
+})
+
 exports.bot = functions
   .region('europe-west1')
   .https
