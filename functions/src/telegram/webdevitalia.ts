@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 import { Telegraf, Extra } from 'telegraf'
 import { TelegrafContext } from 'telegraf/typings/context';
 import { ExtraEditMessage } from 'telegraf/typings/telegram-types';
+import { sendRules } from "./commands/sendRules";
 
 const bot: Telegraf<TelegrafContext> = new Telegraf(functions.config().telegram.key)
 
@@ -9,32 +10,7 @@ const bot: Telegraf<TelegrafContext> = new Telegraf(functions.config().telegram.
 bot.hears('@admin', (context: TelegrafContext) => context.reply('@scaccogatto', context.message ? Extra.inReplyTo(context.message.message_id).markup(true) : undefined))
 
 // rules
-bot.hears(['/regolamento', '/regole', '/rules'], (context: TelegrafContext) => {
-  const extra: ExtraEditMessage = context.message ?
-    Extra.inReplyTo(context.message.message_id).markdown().webPreview(false).markup(true) :
-    Extra.markdown().webPreview(false).markup(true)
-  return context.reply(`Regolamento:
-
-  \`\`\`
-  - [Sì] alle richieste di supporto solo se specifiche, chiare, concise e accompagnate dalle soluzioni già provate
-
-  - [Sì] alle offerte di lavoro solo se accompagnate da tipo di contratto e range di retribuzione
-
-  - [Sì] discussione su news, lavoro e lifestyle del web-developer e affini
-
-  - [No] richieste di supporto non inerenti al development, nessuno qui riparerà la tua stampante
-
-  - [No] incollare codice direttamente in chat
-
-  - [No] spam di qualsiasi forma nel flusso di chat
-
-  - [No] foto agli schermi, sono accettati screenshot
-
-  - [No] gore e porno
-  \`\`\`
-
-  Contribuisci al gruppo: https://github.com/insieme-dev/community`, extra)
-})
+bot.hears(['/regolamento', '/regole', '/rules'], (context: TelegrafContext) => sendRules(context, context.message?.message_id))
 
 // contribute
 bot.hears(['/contribute'], (context: TelegrafContext) => {
@@ -52,6 +28,30 @@ bot.hears(['/dontasktoask'], (context: TelegrafContext) => {
     Extra.markdown().webPreview(false).markup(true)
 
   return context.reply(`Leggi questo per favore e poi rielabora la tua domanda: https://dontasktoask.com (ENG)`, extra)
+})
+
+bot.hears(['/rielabora'], async (context: TelegrafContext) => {
+  const {message_id, from} = context.message?.reply_to_message ?? context.message ?? {};
+
+  if (from && message_id) {
+    const rulesMessage = await sendRules(context);
+    await context.deleteMessage(message_id);
+
+    const extra = from.username
+      ? Extra.webPreview(false).markup(true)
+      : Extra.webPreview(false).markdown(true);
+
+    const mention = from.username
+      ? `@${from.username}`
+      : `[${from.first_name}](tg://user?id=${from.id})`;
+
+    return context.reply(
+      `${mention} leggi le regole e poi rielabora la tua domanda per favore`,
+      extra.inReplyTo(rulesMessage.message_id) as ExtraEditMessage
+    );
+  } else {
+    return context;
+  }
 })
 
 exports.bot = functions
