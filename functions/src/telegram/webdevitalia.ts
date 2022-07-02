@@ -7,7 +7,14 @@ import { sendRules } from "./commands/sendRules";
 const bot: Telegraf<TelegrafContext> = new Telegraf(functions.config().telegram.key)
 
 // Admin alias
-bot.hears('@admin', (context: TelegrafContext) => context.reply('@scaccogatto', context.message ? Extra.inReplyTo(context.message.message_id).markup(true) : undefined))
+bot.hears('@admin', async (context: TelegrafContext) => {
+  const admins = await context.getChatAdministrators();
+
+  const nicks = admins.map(a => `@${a.user.username}`).join(" ");
+
+  context.reply(nicks,
+    context.message ? Extra.inReplyTo(context.message.message_id).markup(true) : undefined)
+})
 
 // rules
 bot.hears(['/regolamento', '/regole', '/rules'], (context: TelegrafContext) => sendRules(context, context.message?.message_id))
