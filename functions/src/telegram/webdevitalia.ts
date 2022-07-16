@@ -36,7 +36,7 @@ bot.hears(['/dontasktoask', '/nonchiederedichiedere'], (context: TelegrafContext
 
   return context.reply(`
 Leggi questo per favore e poi rielabora la tua domanda:
-  - https://nonchiederedichiedere.com/ (ITA)
+  - https://nonchiederedichiedere.com (ITA)
   - https://dontasktoask.com (ENG)
 `)
 })
