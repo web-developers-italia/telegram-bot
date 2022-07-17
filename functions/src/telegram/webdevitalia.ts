@@ -2,7 +2,15 @@ import * as functions from "firebase-functions";
 import { Telegraf, Context } from "telegraf";
 import { sendRules } from "./commands/sendRules";
 
-const bot: Telegraf<Context> = new Telegraf(functions.config().telegram.key);
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      TELEGRAM_BOT_KEY: string;
+    }
+  }
+}
+
+const bot: Telegraf<Context> = new Telegraf(process.env.TELEGRAM_BOT_KEY);
 
 // Admin alias
 bot.hears("@admin", async (context: Context) => {
