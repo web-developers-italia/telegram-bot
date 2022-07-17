@@ -1,1 +1,1 @@
-exports.webdevitalia = require('./webdevitalia')
+export * as webdevitalia from "./webdevitalia";

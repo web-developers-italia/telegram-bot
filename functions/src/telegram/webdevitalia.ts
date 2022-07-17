@@ -87,9 +87,11 @@ bot.hears(["/rielabora"], async (context: Context) => {
   } else {
     return context;
   }
-})
+});
 
-exports.bot = functions
-  .region('europe-west1')
-  .https
-  .onRequest((req, res) => bot.handleUpdate(req.body, res).then(rv => !rv && res.sendStatus(200)))
+export default functions
+  .region("europe-west1")
+  .https.onRequest(async (req, res) => {
+    await bot.handleUpdate(req.body, res);
+    res.sendStatus(200);
+  });
