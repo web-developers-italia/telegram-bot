@@ -34,7 +34,7 @@ bot.hears(["/regolamento", "/regole", "/rules"], (context: Context) =>
 // contribute
 bot.hears(["/contribute"], (context: Context) => {
   return context.reply(
-    `Contribuisci al gruppo: https://github.com/insieme-dev/community`,
+    `Contribuisci al gruppo: https://github\\.com/insieme-dev/community`,
     {
       parse_mode: "MarkdownV2",
       disable_web_page_preview: true,
@@ -51,8 +51,8 @@ bot.hears(["/dontasktoask", "/nonchiederedichiedere"], (context: Context) => {
   return context.reply(
     `
 Leggi questo per favore e poi rielabora la tua domanda:
-  - https://nonchiederedichiedere.com (ITA)
-  - https://dontasktoask.com (ENG)
+  🇮🇹 https://nonchiederedichiedere\\.com
+  🇺🇸 https://dontasktoask\\.com
 `,
     {
       reply_to_message_id: messageReplyTarget,
