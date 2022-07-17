@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import { Telegraf, Context } from "telegraf";
 import { sendRules } from "./commands/sendRules";
+import type { Message } from "telegraf/typings/core/types/typegram";
 
 declare global {
   namespace NodeJS {
@@ -45,6 +46,7 @@ bot.hears(["/contribute"], (context: Context) => {
 
 bot.hears(["/dontasktoask", "/nonchiederedichiedere"], (context: Context) => {
   const messageReplyTarget =
+    // @ts-ignore - reply_to_message exists but telegraf typings are flawed
     context.message?.reply_to_message?.message_id ??
     context.message?.message_id;
 
@@ -66,7 +68,8 @@ bot.hears(["/rielabora"], async (context: Context) => {
   console.log("RIELABORA", context);
 
   const { message_id, from } =
-    context.message?.reply_to_message ?? context.message ?? {};
+    // @ts-ignore - reply_to_message exists but telegraf typings are flawed
+    (context.message?.reply_to_message ?? context.message ?? {}) as Message;
 
   if (from && message_id) {
     const rulesMessage = await sendRules(context);
