@@ -1,15 +1,10 @@
-import { TelegrafContext } from "telegraf/typings/context";
-import { ExtraEditMessage, Message } from "telegraf/typings/telegram-types";
-import { Extra } from "telegraf";
+import type { Context } from "telegraf";
+import type { Message } from "telegraf/typings/core/types/typegram";
 
 export function sendRules(
-  context: TelegrafContext,
+  context: Context,
   replyTo?: number | null
 ): Promise<Message> {
-  const extra: ExtraEditMessage = replyTo
-    ? Extra.inReplyTo(replyTo).markdown().webPreview(false).markup(true)
-    : Extra.markdown().webPreview(false).markup(true);
-
   return context.reply(
     `
 Regolamento:
@@ -59,6 +54,10 @@ Gli amministratori possono bandire qualunque membro dalla chat qualora possa ven
 \`\`\`
 
   Contribuisci al gruppo: https://github.com/insieme-dev/community`,
-    extra
+    {
+      reply_to_message_id: replyTo || undefined,
+      parse_mode: "MarkdownV2",
+      disable_web_page_preview: true,
+    }
   );
 }
