@@ -7,7 +7,14 @@ import { sendRules } from "./commands/sendRules";
 const bot: Telegraf<TelegrafContext> = new Telegraf(functions.config().telegram.key)
 
 // Admin alias
-bot.hears('@admin', (context: TelegrafContext) => context.reply('@scaccogatto', context.message ? Extra.inReplyTo(context.message.message_id).markup(true) : undefined))
+bot.hears('@admin', async (context: TelegrafContext) => {
+  const admins = await context.getChatAdministrators();
+
+  const nicks = admins.map(a => `@${a.user.username}`).join(" ");
+
+  context.reply(nicks,
+    context.message ? Extra.inReplyTo(context.message.message_id).markup(true) : undefined)
+})
 
 // rules
 bot.hears(['/regolamento', '/regole', '/rules'], (context: TelegrafContext) => sendRules(context, context.message?.message_id))
@@ -20,14 +27,18 @@ bot.hears(['/contribute'], (context: TelegrafContext) => {
   return context.reply(`Contribuisci al gruppo: https://github.com/insieme-dev/community`, extra)
 })
 
-bot.hears(['/dontasktoask'], (context: TelegrafContext) => {
+bot.hears(['/dontasktoask', '/nonchiederedichiedere'], (context: TelegrafContext) => {
   const messageReplyTarget = context.message?.reply_to_message?.message_id ?? context.message?.message_id
 
   const extra: ExtraEditMessage = messageReplyTarget ?
     Extra.inReplyTo(messageReplyTarget).markdown().webPreview(false).markup(true) :
     Extra.markdown().webPreview(false).markup(true)
 
-  return context.reply(`Leggi questo per favore e poi rielabora la tua domanda: https://dontasktoask.com (ENG)`, extra)
+  return context.reply(`
+Leggi questo per favore e poi rielabora la tua domanda:
+  - https://nonchiederedichiedere.com (ITA)
+  - https://dontasktoask.com (ENG)
+`)
 })
 
 bot.hears(['/rielabora'], async (context: TelegrafContext) => {
