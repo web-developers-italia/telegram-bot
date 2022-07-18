@@ -15,7 +15,7 @@ export function sendRules(
 
   ✅ Discussioni su news, lavoro e lifestyle del web developer e affini\\.
 
-  ❌ Richieste di aiuto in privato\\. il gruppo è qui per aiutare e per parlare\\. No, non intasi il flusso di chat con i tuoi problemi se chiedi qui\\. Scrivi /nonchiederedichiedere per il motivo\\.
+  ❌ Richieste di aiuto in privato\\. Il gruppo è qui per aiutare e per parlare\\. No, non intasi il flusso di chat con i tuoi problemi se chiedi qui\\. Scrivi /nonchiederedichiedere per il motivo\\.
 
   ❌ Richieste di supporto per esercizi scolastici\\. Va bene richiedere risorse per risolvere autonomamente il problema\\.
 
@@ -25,9 +25,9 @@ export function sendRules(
 
   ❌ Spam di qualsiasi forma nel flusso di chat\\.
 
-  ❌ Foto agli schermi\\. Sono accettati screenshot Impara ad usare gli strumenti della tua macchina\\.
+  ❌ Foto agli schermi\\. Sono accettati screenshot\\. Impara ad usare gli strumenti della tua macchina\\.
 
-  ❌ Gore, porno, nudità e tutto ciò che può urtare la sensibilità dei membri del gruppo\\. Incluse le foto profilo\\. Nel gruppo sono presenti membri minorenni\\.
+  ❌ Gore, porno, nudità e tutto ciò che può urtare la sensibilità dei membri del gruppo\\. Valido anche per le foto profilo\\. Nel gruppo sono presenti membri minorenni\\.
 
   ❌ Mandare messaggi con canali invece del proprio profilo personale\\.
 
