@@ -19,7 +19,7 @@ bot.hears("@admin", async (context: Context) => {
 
   const nicks = admins.map((a) => `@${a.user.username}`).join(" ");
 
-  context.reply(nicks, {
+  return context.reply(nicks, {
     parse_mode: "MarkdownV2",
     reply_to_message_id: context.message
       ? context.message.message_id
@@ -93,6 +93,5 @@ bot.hears(["/rielabora"], async (context: Context) => {
 });
 
 export default functions.region("europe-west1").https.onRequest((req, res) => {
-  bot.handleUpdate(req.body, res);
-  res.sendStatus(200);
+  return bot.handleUpdate(req.body, res);
 });
