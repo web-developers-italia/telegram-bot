@@ -87,7 +87,7 @@ E `ngrok` ha restituito
 https://c4b8-93-34-146-64.ngrok.io
 ```
 
-L'url sarà
+L'url del webhook sarà
 
 ```
 https://c4b8-93-34-146-64.ngrok.io/insieme-dev-4450f/europe-west1/telegram-webdevitalia-default
