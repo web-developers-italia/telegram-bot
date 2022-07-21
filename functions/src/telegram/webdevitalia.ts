@@ -1,56 +1,76 @@
-import * as functions from 'firebase-functions';
-import { Telegraf, Extra } from 'telegraf'
-import { TelegrafContext } from 'telegraf/typings/context';
-import { ExtraEditMessage } from 'telegraf/typings/telegram-types';
+import * as functions from "firebase-functions";
+import { Telegraf, Context } from "telegraf";
 import { sendRules } from "./commands/sendRules";
+import type { Message } from "telegraf/typings/core/types/typegram";
 
-const bot: Telegraf<TelegrafContext> = new Telegraf(functions.config().telegram.key)
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      TELEGRAM_BOT_KEY: string;
+    }
+  }
+}
+
+const bot: Telegraf<Context> = new Telegraf(process.env.TELEGRAM_BOT_KEY);
 
 // Admin alias
-bot.hears('@admin', async (context: TelegrafContext) => {
+bot.hears("@admin", async (context: Context) => {
   const admins = await context.getChatAdministrators();
 
-  const nicks = admins.map(a => `@${a.user.username}`).join(" ");
+  const nicks = admins.map((a) => `@${a.user.username}`).join(" ");
 
-  context.reply(nicks,
-    context.message ? Extra.inReplyTo(context.message.message_id).markup(true) : undefined)
-})
+  return context.reply(nicks, {
+    parse_mode: "MarkdownV2",
+    reply_to_message_id: context.message
+      ? context.message.message_id
+      : undefined,
+  });
+});
 
 // rules
-bot.hears(['/regolamento', '/regole', '/rules'], (context: TelegrafContext) => sendRules(context, context.message?.message_id))
+bot.hears(["/regolamento", "/regole", "/rules"], (context: Context) =>
+  sendRules(context, context.message?.message_id)
+);
 
-// contribute
-bot.hears(['/contribute'], (context: TelegrafContext) => {
-  const extra: ExtraEditMessage = context.message ?
-    Extra.inReplyTo(context.message.message_id).markdown().webPreview(false).markup(true) :
-    Extra.markdown().webPreview(false).markup(true)
-  return context.reply(`Contribuisci al gruppo: https://github.com/insieme-dev/community`, extra)
-})
+bot.hears(["/contribute", "/contribuisci"], (context: Context) => {
+  return context.reply(
+    `Contribuisci al gruppo: https://github\\.com/insieme-dev/community`,
+    {
+      parse_mode: "MarkdownV2",
+      disable_web_page_preview: true,
+      reply_to_message_id: context.message?.message_id ?? undefined,
+    }
+  );
+});
 
-bot.hears(['/dontasktoask', '/nonchiederedichiedere'], (context: TelegrafContext) => {
-  const messageReplyTarget = context.message?.reply_to_message?.message_id ?? context.message?.message_id
+bot.hears(["/dontasktoask", "/nonchiederedichiedere"], (context: Context) => {
+  const messageReplyTarget =
+    // @ts-ignore - reply_to_message exists but telegraf typings are flawed
+    context.message?.reply_to_message?.message_id ??
+    context.message?.message_id;
 
-  const extra: ExtraEditMessage = messageReplyTarget ?
-    Extra.inReplyTo(messageReplyTarget).markdown().webPreview(false).markup(true) :
-    Extra.markdown().webPreview(false).markup(true)
-
-  return context.reply(`
+  return context.reply(
+    `
 Leggi questo per favore e poi rielabora la tua domanda:
-  - https://nonchiederedichiedere.com (ITA)
-  - https://dontasktoask.com (ENG)
-`)
-})
+  🇮🇹 https://nonchiederedichiedere\\.com
+  🇺🇸 https://dontasktoask\\.com
+`,
+    {
+      reply_to_message_id: messageReplyTarget,
+      parse_mode: "MarkdownV2",
+      disable_web_page_preview: true,
+    }
+  );
+});
 
-bot.hears(['/rielabora'], async (context: TelegrafContext) => {
-  const {message_id, from} = context.message?.reply_to_message ?? context.message ?? {};
+bot.hears(["/rielabora"], async (context: Context) => {
+  const { message_id, from } =
+    // @ts-ignore - reply_to_message exists but telegraf typings are flawed
+    (context.message?.reply_to_message ?? context.message ?? {}) as Message;
 
   if (from && message_id) {
     const rulesMessage = await sendRules(context);
     await context.deleteMessage(message_id);
-
-    const extra = from.username
-      ? Extra.webPreview(false).markup(true)
-      : Extra.webPreview(false).markdown(true);
 
     const mention = from.username
       ? `@${from.username}`
@@ -58,14 +78,17 @@ bot.hears(['/rielabora'], async (context: TelegrafContext) => {
 
     return context.reply(
       `${mention} leggi le regole e poi rielabora la tua domanda per favore`,
-      extra.inReplyTo(rulesMessage.message_id) as ExtraEditMessage
+      {
+        disable_web_page_preview: true,
+        parse_mode: "MarkdownV2",
+        reply_to_message_id: rulesMessage.message_id,
+      }
     );
   } else {
     return context;
   }
-})
+});
 
-exports.bot = functions
-  .region('europe-west1')
-  .https
-  .onRequest((req, res) => bot.handleUpdate(req.body, res).then(rv => !rv && res.sendStatus(200)))
+export default functions.region("europe-west1").https.onRequest((req, res) => {
+  return bot.handleUpdate(req.body, res);
+});
