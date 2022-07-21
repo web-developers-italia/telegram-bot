@@ -1,6 +1,6 @@
 # Web Developers Italia Community bot
 
-Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/webdevitalia), mettendo a
+Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/webdevitalia), mettendo a disposizione una serie di strumenti.
 
 ## Dettagli tecnici
 
