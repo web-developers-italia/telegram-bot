@@ -64,8 +64,6 @@ Leggi questo per favore e poi rielabora la tua domanda:
 });
 
 bot.hears(["/rielabora"], async (context: Context) => {
-  console.log("RIELABORA", context);
-
   const { message_id, from } =
     // @ts-ignore - reply_to_message exists but telegraf typings are flawed
     (context.message?.reply_to_message ?? context.message ?? {}) as Message;
