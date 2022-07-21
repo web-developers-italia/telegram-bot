@@ -32,8 +32,7 @@ bot.hears(["/regolamento", "/regole", "/rules"], (context: Context) =>
   sendRules(context, context.message?.message_id)
 );
 
-// contribute
-bot.hears(["/contribute"], (context: Context) => {
+bot.hears(["/contribute", "/contribuisci"], (context: Context) => {
   return context.reply(
     `Contribuisci al gruppo: https://github\\.com/insieme-dev/community`,
     {
