@@ -1,1 +1,1 @@
-exports.telegram = require('./telegram')
+export * as telegram from "./telegram";
