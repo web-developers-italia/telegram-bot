@@ -1,6 +1,6 @@
 # Web Developers Italia Community bot
 
-Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/webdevitalia), mettendo a
+Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/webdevitalia), mettendo a disposizione una serie di strumenti.
 
 ## Dettagli tecnici
 
@@ -39,13 +39,13 @@ $ npm run serve
 **Esempio di output**
 
 ```
-✔  functions[europe-west1-telegram-webdevitalia-default]: http function initialized (http://localhost:5001/insieme-dev-4450f/europe-west1/telegram-webdevitalia-default).
+✔  functions[europe-west1-telegram-webdevitalia-bot]: http function initialized (http://localhost:5001/insieme-dev-4450f/europe-west1/telegram-webdevitalia-bot).
 ```
 
 Al momento della scrittura ne è presente solo una, chiamata come segue. La composizione del nome è dettata da come vengono esportate le variabili.
 
 ```
-telegram-webdevitalia-default
+telegram-webdevitalia-bot
 ```
 
 ---
@@ -78,7 +78,7 @@ https://api.telegram.org/bot<bot-token>/setWebhook?url=<url-webhook>
 Quindi se `npm run serve` ha restituito:
 
 ```
-http://localhost:5001/insieme-dev-4450f/europe-west1/telegram-webdevitalia-default
+http://localhost:5001/insieme-dev-4450f/europe-west1/telegram-webdevitalia-bot
 ```
 
 E `ngrok` ha restituito
@@ -87,16 +87,16 @@ E `ngrok` ha restituito
 https://c4b8-93-34-146-64.ngrok.io
 ```
 
-L'url sarà
+L'url del webhook sarà
 
 ```
-https://c4b8-93-34-146-64.ngrok.io/insieme-dev-4450f/europe-west1/telegram-webdevitalia-default
+https://c4b8-93-34-146-64.ngrok.io/insieme-dev-4450f/europe-west1/telegram-webdevitalia-bot
 ```
 
 Quindi l'url, ad esempio, verso cui fare la richiesta sarà:
 
 ```
-https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setWebhook?url=https://c4b8-93-34-146-64.ngrok.io/insieme-dev-4450f/europe-west1/telegram-webdevitalia-default
+https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setWebhook?url=https://c4b8-93-34-146-64.ngrok.io/insieme-dev-4450f/europe-west1/telegram-webdevitalia-bot
 ```
 
 La richiesta verso questo URL va eseguita ogni volta che riavvierete ngrok o cambiate token del bot. Ngrok, a meno di necessità particolari, non necessità di venir riavviato.

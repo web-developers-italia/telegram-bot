@@ -11,10 +11,12 @@ declare global {
   }
 }
 
-const bot: Telegraf<Context> = new Telegraf(process.env.TELEGRAM_BOT_KEY);
+const insiemeBot: Telegraf<Context> = new Telegraf(
+  process.env.TELEGRAM_BOT_KEY
+);
 
 // Admin alias
-bot.hears("@admin", async (context: Context) => {
+insiemeBot.hears("@admin", async (context: Context) => {
   const admins = await context.getChatAdministrators();
 
   const nicks = admins.map((a) => `@${a.user.username}`).join(" ");
@@ -28,11 +30,11 @@ bot.hears("@admin", async (context: Context) => {
 });
 
 // rules
-bot.hears(["/regolamento", "/regole", "/rules"], (context: Context) =>
+insiemeBot.hears(["/regolamento", "/regole", "/rules"], (context: Context) =>
   sendRules(context, context.message?.message_id)
 );
 
-bot.hears(["/contribute", "/contribuisci"], (context: Context) => {
+insiemeBot.hears(["/contribute", "/contribuisci"], (context: Context) => {
   return context.reply(
     `Contribuisci al gruppo: https://github\\.com/insieme-dev/community`,
     {
@@ -43,27 +45,30 @@ bot.hears(["/contribute", "/contribuisci"], (context: Context) => {
   );
 });
 
-bot.hears(["/dontasktoask", "/nonchiederedichiedere"], (context: Context) => {
-  const messageReplyTarget =
-    // @ts-ignore - reply_to_message exists but telegraf typings are flawed
-    context.message?.reply_to_message?.message_id ??
-    context.message?.message_id;
+insiemeBot.hears(
+  ["/dontasktoask", "/nonchiederedichiedere"],
+  (context: Context) => {
+    const messageReplyTarget =
+      // @ts-ignore - reply_to_message exists but telegraf typings are flawed
+      context.message?.reply_to_message?.message_id ??
+      context.message?.message_id;
 
-  return context.reply(
-    `
+    return context.reply(
+      `
 Leggi questo per favore e poi rielabora la tua domanda:
   🇮🇹 https://nonchiederedichiedere\\.com
   🇺🇸 https://dontasktoask\\.com
 `,
-    {
-      reply_to_message_id: messageReplyTarget,
-      parse_mode: "MarkdownV2",
-      disable_web_page_preview: true,
-    }
-  );
-});
+      {
+        reply_to_message_id: messageReplyTarget,
+        parse_mode: "MarkdownV2",
+        disable_web_page_preview: true,
+      }
+    );
+  }
+);
 
-bot.hears(["/rielabora"], async (context: Context) => {
+insiemeBot.hears(["/rielabora"], async (context: Context) => {
   const { message_id, from } =
     // @ts-ignore - reply_to_message exists but telegraf typings are flawed
     (context.message?.reply_to_message ?? context.message ?? {}) as Message;
@@ -89,6 +94,8 @@ bot.hears(["/rielabora"], async (context: Context) => {
   }
 });
 
-export default functions.region("europe-west1").https.onRequest((req, res) => {
-  return bot.handleUpdate(req.body, res);
-});
+export const bot = functions
+  .region("europe-west1")
+  .https.onRequest((req, res) => {
+    return insiemeBot.handleUpdate(req.body, res);
+  });
