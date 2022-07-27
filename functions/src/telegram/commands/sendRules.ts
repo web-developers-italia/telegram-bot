@@ -31,7 +31,7 @@ export function sendRules(
 
   ❌ Mandare messaggi con canali invece del proprio profilo personale\\.
 
-Gli utenti sono tenuti a evitare comportamenti adeguati al fine di mantenere stabile e non tossica la situazione nella chat\\.
+Gli utenti sono tenuti a evitare comportamenti inadeguati, al fine di mantenere stabile e non tossica la situazione nella chat\\.
 Gli amministratori possono bandire qualunque membro dalla chat qualora possa venir identificato come potenziale problema\\. Nessuno deve spiegazioni a nessuno\\.
 
 [Contribuisci al gruppo su Github](https://github\\.com/insieme\\-dev/community)
