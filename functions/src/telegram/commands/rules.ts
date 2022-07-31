@@ -1,10 +1,11 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
 
-export function sendRules(
-  context: Context,
-  replyTo?: number | null
+export function rules(
+  context: Context
 ): Promise<Message> {
+  const replyTo: number | undefined = context.message?.message_id
+
   return context.reply(
     `
 *Regolamento*:
