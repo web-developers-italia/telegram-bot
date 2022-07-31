@@ -23,13 +23,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup configuration
         uses: w9jds/firebase-action@master
-        with:
-          args: functions:config:set --project=default telegram.key="${{ secrets.TELEGRAM_BOT_KEY }}"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          TELEGRAM_BOT_KEY: ${{ secrets.TELEGRAM_BOT_KEY }}
       - name: Deploy functions
         uses: w9jds/firebase-action@master
         with:
           args: deploy --project=default --only functions
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          TELEGRAM_BOT_KEY: ${{ secrets.TELEGRAM_BOT_KEY }}
