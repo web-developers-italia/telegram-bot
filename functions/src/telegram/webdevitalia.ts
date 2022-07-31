@@ -97,6 +97,11 @@ insiemeBot.hears(["/rielabora"], async (context: Context) => {
 export const bot = functions
   .region("europe-west1")
   .https.onRequest((req, res) => {
-    insiemeBot.handleUpdate(req.body, res);
+    try {
+      insiemeBot.handleUpdate(req.body, res);
+    } catch (e) {
+      console.error(e);
+    }
+
     res.sendStatus(200);
   });
