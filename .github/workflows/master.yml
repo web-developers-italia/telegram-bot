@@ -1,35 +1,30 @@
-name: master
+# name: master
 
-on:
-  push:
-    branches:
-      - master
+# on:
+#   push:
+#     branches:
+#       - master
 
-jobs:
-  cancel:
-    name: Cancel Previous Runs
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    steps:
-      - uses: styfle/cancel-workflow-action@0.4.0
-        with:
-          access_token: ${{ github.token }}
-  deploy:
-    name: Deploy
-    needs: cancel
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup configuration
-        uses: w9jds/firebase-action@master
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          TELEGRAM_BOT_KEY: ${{ secrets.TELEGRAM_BOT_KEY }}
-      - name: Deploy functions
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --project=default --only functions
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          TELEGRAM_BOT_KEY: ${{ secrets.TELEGRAM_BOT_KEY }}
+# jobs:
+#   cancel:
+#     name: Cancel Previous Runs
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 3
+#     steps:
+#       - uses: styfle/cancel-workflow-action@0.4.0
+#         with:
+#           access_token: ${{ github.token }}
+#   deploy:
+#     name: Deploy
+#     needs: cancel
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#       - name: Deploy functions
+#         uses: w9jds/firebase-action@master
+#         with:
+#           args: deploy --project=default --only functions
+#         env:
+#           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+#           TELEGRAM_BOT_KEY: ${{ secrets.TELEGRAM_BOT_KEY }}
