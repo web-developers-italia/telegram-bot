@@ -1,8 +1,6 @@
 {
   "name": "functions",
   "scripts": {
-    "lint": "tslint --project tsconfig.json",
-    "lint:fix": "tslint --project tsconfig.json --fix",
     "build": "npx tsc",
     "serve": "npm run build && npx firebase emulators:start --only functions",
     "shell": "npm run build && npx firebase functions:shell",
@@ -23,7 +21,6 @@
     "@types/node": "^16.11.45",
     "firebase-functions-test": "^2.2.0",
     "firebase-tools": "^11.2.2",
-    "tslint": "^6.1.3",
     "typescript": "^4.7.4"
   },
   "private": true
