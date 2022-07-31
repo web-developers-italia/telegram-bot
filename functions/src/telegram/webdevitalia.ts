@@ -3,7 +3,7 @@ import { Telegraf, Context } from "telegraf";
 import { rules } from "./commands/rules";
 import { rielabora } from "./commands/rielabora";
 import { contribute } from "./commands/contribute";
-import { atAdmin } from "./commands/atAdmin";
+import { admin } from "./commands/admin";
 import { dontasktoask } from "./commands/dontasktoask";
 import { learn } from "./commands/learn";
 
@@ -19,7 +19,7 @@ const insiemeBot: Telegraf<Context> = new Telegraf(
   process.env.TELEGRAM_BOT_KEY
 );
 
-insiemeBot.hears("@admin", atAdmin);
+insiemeBot.hears(["@admin", "/admin"], admin);
 
 insiemeBot.hears(["/regolamento", "/regole", "/rules"], rules);
 

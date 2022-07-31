@@ -1,7 +1,7 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
 
-export async function atAdmin(context: Context): Promise<Message> {
+export async function admin(context: Context): Promise<Message> {
   const admins = await context.getChatAdministrators();
 
   const nicks = admins.map((a) => `@${a.user.username}`).join(" ");
