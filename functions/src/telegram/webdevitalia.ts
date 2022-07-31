@@ -5,6 +5,7 @@ import { rielabora } from "./commands/rielabora";
 import { contribute } from "./commands/contribute";
 import { atAdmin } from "./commands/atAdmin";
 import { dontasktoask } from "./commands/dontasktoask";
+import { learn } from "./commands/learn";
 
 declare global {
   namespace NodeJS {
@@ -27,6 +28,8 @@ insiemeBot.hears(["/contribute", "/contribuisci"], contribute);
 insiemeBot.hears(["/dontasktoask", "/nonchiederedichiedere"], dontasktoask);
 
 insiemeBot.hears(["/rielabora"], rielabora);
+
+insiemeBot.hears(["/learn"], learn);
 
 export const bot = functions
   .region("europe-west1")
