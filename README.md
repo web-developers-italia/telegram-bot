@@ -1,4 +1,4 @@
-# Web Developers Italia Community bot
+# Web Dev Italia Community bot
 
 Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/webdevitalia), mettendo a disposizione una serie di strumenti.
 
@@ -25,7 +25,7 @@ Assicurati di aver creato un bot di test attraverso l'uso del [BotFather](https:
 Crea un file `.env` dentro la cartella `functions/` e inserisci il seguente contenuto, rimpiazzando il token di esempio con quello ottenuto dal BotFather.
 
 ```env
-TELEGRAM_BOT_KEY="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
+TELEGRAM_BOT_KEY="123456789:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
 ```
 
 ---
