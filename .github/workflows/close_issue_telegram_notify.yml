@@ -1,0 +1,22 @@
+name: Close Issue Telegram Notify
+
+on:
+  issues:
+    types:
+      - close
+
+jobs:
+  notify:
+    name: Notify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify closed issue on telegram group
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_KEY }}
+          disable_web_page_preview: true
+          message: |
+            ${{ github.actor }} ha chiuso una issue (${{ github.event.issue.html_url }}).
+            Tramite il repository open source, puoi amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo.
+            Partecipa, vota e decidi: https://github.com/${{ github.repository }}
