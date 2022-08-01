@@ -1,4 +1,4 @@
-name: Issue Telegram Notify
+name: Open Issue Telegram Notify
 
 on:
   issues:
@@ -18,6 +18,6 @@ jobs:
           token: ${{ secrets.TELEGRAM_BOT_KEY }}
           disable_web_page_preview: true
           message: |
-            ${{ github.actor }} ha creato una ${{ github.event_name }}.
+            ${{ github.actor }} ha creato una issue.
             Tramite il repository open source, puoi amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo.
             Partecipa, vota e decidi: ${{ github.event.issue.html_url }}
