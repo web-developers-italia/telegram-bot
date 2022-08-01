@@ -16,5 +16,5 @@ module.exports = {
   ],
   rules: {
   },
-  ignorePatterns: ['**/lib/*'],
+  ignorePatterns: ['lib/*'],
 };
