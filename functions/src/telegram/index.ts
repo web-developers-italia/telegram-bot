@@ -1,1 +1,1 @@
-export * as webdevitalia from "./webdevitalia";
+export { bot } from "./bot";

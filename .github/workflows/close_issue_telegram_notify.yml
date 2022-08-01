@@ -3,7 +3,7 @@ name: Close Issue Telegram Notify
 on:
   issues:
     types:
-      - close
+      - closed
 
 jobs:
   notify:

@@ -15,25 +15,25 @@ declare global {
   }
 }
 
-const insiemeBot: Telegraf<Context> = new Telegraf(
+const telegramBot: Telegraf<Context> = new Telegraf(
   process.env.TELEGRAM_BOT_KEY
 );
 
-insiemeBot.hears(["@admin", "/admin"], admin);
+telegramBot.hears(["@admin", "/admin"], admin);
 
-insiemeBot.hears(["/regolamento", "/regole", "/rules"], rules);
+telegramBot.hears(["/regolamento", "/regole", "/rules"], rules);
 
-insiemeBot.hears(["/contribute", "/contribuisci"], contribute);
+telegramBot.hears(["/contribute", "/contribuisci"], contribute);
 
-insiemeBot.hears(["/dontasktoask", "/nonchiederedichiedere"], dontasktoask);
+telegramBot.hears(["/dontasktoask", "/nonchiederedichiedere"], dontasktoask);
 
-insiemeBot.hears(["/rielabora"], rielabora);
+telegramBot.hears(["/rielabora"], rielabora);
 
-insiemeBot.hears(["/learn"], learn);
+telegramBot.hears(["/learn"], learn);
 
 export const bot = functions
   .region("europe-west1")
   .https.onRequest((req, res) => {
-    insiemeBot.handleUpdate(req.body, res);
+    telegramBot.handleUpdate(req.body, res);
     res.sendStatus(200);
   });

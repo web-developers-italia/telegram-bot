@@ -35,7 +35,7 @@ export function rules(
 Gli utenti sono tenuti a evitare comportamenti inadeguati, al fine di mantenere stabile e non tossica la situazione nella chat\\.
 Gli amministratori possono bandire qualunque membro dalla chat qualora possa venir identificato come potenziale problema\\. Nessuno deve spiegazioni a nessuno\\.
 
-[Contribuisci al gruppo su Github](https://github\\.com/insieme\\-dev/community)
+[Contribuisci al gruppo su Github](https://github\\.com/${process.env.REPOSITORY_NAME?.replaceAll('-', '\\-')})
 `,
     {
       reply_to_message_id: replyTo || undefined,
