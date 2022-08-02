@@ -30,6 +30,6 @@ jobs:
       - name: Deploy functions
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --project=default --only functions -f
+          args: deploy --project=default --only functions,firestore -f
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
