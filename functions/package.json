@@ -2,7 +2,8 @@
   "name": "functions",
   "scripts": {
     "lint": "npx eslint .",
-    "build": "npx tsc",
+    "build": "rm -rf lib && npx tsc && npm run build:copy:bot:rules",
+    "build:copy:bot:rules": "cp src/telegram/commands/rules.txt lib/telegram/commands/rules.txt",
     "serve": "npm run build && npx firebase emulators:start --only functions",
     "shell": "npm run build && npx firebase functions:shell",
     "start": "npm run shell",
