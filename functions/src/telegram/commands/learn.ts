@@ -14,7 +14,7 @@ Sei nuovo nel mondo del Web development?
 \\- http://jsforcats\\.com/
 \\- https://developer\\.mozilla\\.org/en\\-US/docs/Web/JavaScript/Guide
 \\- https://github\\.com/getify/You\\-Dont\\-Know\\-JS
-\\- https://github\\.com/EbookFoundation/free\\-programming\\\-books
+\\- https://github\\.com/EbookFoundation/free\\-programming\\-books
 
 Piattaforme di e\\-learning:
 \\- https://www\\.freecodecamp\\.org/
