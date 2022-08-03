@@ -7,6 +7,7 @@ import { admin } from "./commands/admin";
 import { dontasktoask } from "./commands/dontasktoask";
 import { learn } from "./commands/learn";
 import { setLastMemberActivity } from "./setLastMemberActivity";
+import { pong } from "./commands/pong";
 
 declare global {
   namespace NodeJS {
@@ -31,6 +32,8 @@ telegramBot.hears(["/dontasktoask", "/nonchiederedichiedere"], dontasktoask);
 telegramBot.hears(["/rielabora"], rielabora);
 
 telegramBot.hears(["/learn"], learn);
+
+telegramBot.hears(["/ping"], pong);
 
 telegramBot.on("message", setLastMemberActivity);
 
