@@ -5,7 +5,7 @@ import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 export const setLastMemberActivity = (
   context: Context<Update.MessageUpdate>
 ) => {
-  return getFirestore().collection("member_activities")
+  return getFirestore().collection("members_activity")
     .doc(context.update.message.from.id.toString())
     .set(
       {
