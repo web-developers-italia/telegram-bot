@@ -9,7 +9,7 @@ export const setLastMemberActivity = (
     .doc(context.update.message.from.id.toString())
     .set(
       {
-        username: context.message.from.username,
+        username: context.message.from.username || null,
         lastActivity: Timestamp.now(),
       },
       { merge: true }
