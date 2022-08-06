@@ -16,6 +16,8 @@ export function rules(
 
 ✅ Discussioni su news, lavoro e lifestyle del web developer e affini\\.
 
+❌ Abuso dei messaggi vocali\\. Ascoltare messaggi vocali può essere fastidioso, impossibile e una perdita di tempo per molte persone\\. Perciò ti chiediamo di non abusarne e di non pretendere risposte quando li utilizzi\\. Tutti dovrebbero essere in grado di comprenderti, soprattutto se hai bisogno di aiuto\\.
+
 ❌ Richieste di aiuto in privato\\. Il gruppo è qui per aiutare e per parlare\\. No, non intasi il flusso di chat con i tuoi problemi se chiedi qui\\. Scrivi /nonchiederedichiedere per il motivo\\.
 
 ❌ Richieste di supporto per esercizi scolastici\\. Va bene richiedere risorse per risolvere autonomamente il problema\\.
