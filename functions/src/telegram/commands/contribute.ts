@@ -1,6 +1,6 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
-import { getListGithub } from "../utils";
+import { getIssues, getPullRequests } from "../utils";
 
 export async function contribute(context: Context): Promise<Message> {
   return context.reply(
@@ -10,10 +10,10 @@ export async function contribute(context: Context): Promise<Message> {
 ✍️ https://github\\.com/${process.env.REPOSITORY_NAME?.replaceAll('-', '\\-')}
 
 Pull Request attive:
-${(await getListGithub(`https://api.github.com/repos/${process.env.REPOSITORY_NAME}/pulls?state=open`)).join('\n')}
+${(await getPullRequests()).join('\n')}
 
 Issue attive:
-${(await getListGithub(`https://api.github.com/repos/${process.env.REPOSITORY_NAME}/issues?state=open`)).join('\n')}
+${(await getIssues()).join('\n')}
 `,
     {
       parse_mode: "MarkdownV2",
