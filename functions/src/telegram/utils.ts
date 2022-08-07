@@ -5,15 +5,15 @@ export const addUsernameCommand = (command: string) => [
   `${command}@${process.env.TELEGRAM_BOT_USERNAME}`,
 ];
 
-export const getRequest = async (url: string) => {
-  const res = await fetch(url)
+export const getDataFromGithub = async (type: string) => {
+  const res = await fetch(`https://api.github.com/repos/${process.env.REPOSITORY_NAME}${type}`)
   const json = await res.json() 
 
   return JSON.stringify(json);
 };
 
-export const getListGithub = async (url: string) => {
-  const json = JSON.parse(await getRequest(url));
+export const parseGithubResponse = async (response: string | PromiseLike<string>) => {
+  const json = JSON.parse(await response);
   let list: string[] = [];
   for(let key in json) {
     let link: string = json[key].html_url;
@@ -23,3 +23,13 @@ export const getListGithub = async (url: string) => {
 
  return list;
 };
+
+export const getPullRequests = async () => {
+  const response = await getDataFromGithub("/pulls?state=open");
+  return parseGithubResponse(response);
+}
+
+export const getIssues = async () => {
+  const response = await getDataFromGithub("/issues?state=open");
+  return parseGithubResponse(response);
+}
