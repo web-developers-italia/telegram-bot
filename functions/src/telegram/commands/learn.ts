@@ -3,13 +3,13 @@ import type { Message } from "telegraf/typings/core/types/typegram";
 import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram } from "../utils";
 
-export const learn: CommandsProtocol<Message> = function(context: Context) {
-  const messageReplyTarget =
-    // @ts-ignore - reply_to_message exists but telegraf typings are flawed
-    context.message?.reply_to_message?.message_id ??
-    context.message?.message_id;
+export function learn(context: Context): Promise<Message> {
+	const messageReplyTarget =
+		// @ts-ignore - reply_to_message exists but telegraf typings are flawed
+		context.message?.reply_to_message?.message_id ??
+		context.message?.message_id;
 
-  const reply: string = `
+	const reply: string = `
 Sei nuovo nel mondo del Web development?
 - https://roadmap.sh/
 - http://jsforcats.com/
@@ -23,11 +23,11 @@ Piattaforme di e-learning:
 - https://www.codewars.com/
 `;
 
-  return context.reply(escapeForTelegram(reply), {
-    reply_to_message_id: messageReplyTarget,
-    parse_mode: "MarkdownV2",
-    disable_web_page_preview: true,
-  });
+	return context.reply(escapeForTelegram(reply), {
+		reply_to_message_id: messageReplyTarget,
+		parse_mode: "MarkdownV2",
+		disable_web_page_preview: true,
+	});
 }
 
 learn.triggers = ["/learn"];
