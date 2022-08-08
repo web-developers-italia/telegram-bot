@@ -24,7 +24,7 @@ export function rules(
 
 ❌ Richieste di aiuto in privato\\.
 
-❌ Richieste di supporto per esercizi scolastici\\.
+✅ Richieste di supporto per riuscire a risolvere autonomamente esercizi scolastici\\.
 
 ❌ Spam di qualsiasi forma nel flusso di chat\\.
 
