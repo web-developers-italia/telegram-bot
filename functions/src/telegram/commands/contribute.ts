@@ -1,8 +1,9 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
+import type { CommandsProtocol } from "../CommandsProtocol";
 import { getIssues, getPullRequests } from "../utils";
 
-export async function contribute(context: Context): Promise<Message> {
+export const contribute: CommandsProtocol<Message> = async function(context: Context) {
   return context.reply(
     `
 *Tramite il repository open source, puoi amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo\\.*
@@ -22,3 +23,5 @@ ${(await getIssues()).join('\n')}
     }
   );
 }
+
+contribute.triggers = ["/contribute", "/contribuisci"];

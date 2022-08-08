@@ -1,7 +1,8 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
+import type { CommandsProtocol } from "../CommandsProtocol";
 
-export function pong(context: Context): Promise<Message> {
+export const pong: CommandsProtocol<Message> = function(context: Context) {
   return context.reply(
     `/pong 🏓`,
     {
@@ -11,3 +12,5 @@ export function pong(context: Context): Promise<Message> {
     }
   );
 }
+
+pong.triggers = ["/ping"];

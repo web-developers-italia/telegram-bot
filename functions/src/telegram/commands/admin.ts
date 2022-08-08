@@ -1,7 +1,8 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
+import type { CommandsProtocol } from "../CommandsProtocol";
 
-export async function admin(context: Context): Promise<Message> {
+export const admin: CommandsProtocol<Message> = async function (context: Context) {
   const admins = await context.getChatAdministrators();
 
   const nicks = admins.map((a) => `@${a.user.username}`).join(" ");
@@ -13,3 +14,5 @@ export async function admin(context: Context): Promise<Message> {
       : undefined,
   });
 }
+
+admin.triggers = ["@admin", "/admin"];
