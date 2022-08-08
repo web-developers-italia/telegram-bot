@@ -1,5 +1,6 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
+import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram } from "../utils";
 
 export function dontasktoask(context: Context): Promise<Message> {
@@ -20,3 +21,5 @@ Leggi questo per favore e poi rielabora la tua domanda:
 		disable_web_page_preview: true,
 	});
 }
+
+dontasktoask.triggers = ["/dontasktoask", "/nonchiederedichiedere"];
