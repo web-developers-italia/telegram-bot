@@ -16,7 +16,7 @@ Il bot è costruito su Telegraf e Firebase. Utilizza un avvio tramite Webhook ma
 
 4. Assicurati di essere loggato in Firebase CLI eseguendo `npx firebase login`
 
-5. Apporta le tue modifiche che vuoi suggerire
+5. Apporta le tue modifiche che vuoi suggerire. I comandi del bot sono FS-based. Ogni file in `functions/src/telegram/commands` deve contenere le funzioni (collegate tra di loro). Ogni funzione deve rispettare il `CommandsProtocol` disponibile in `functions/src/telegram`.
 
 6. Testa le modifiche seguendo le istruzioni qui sotto, pusha e poi invia una Pull Request.
 

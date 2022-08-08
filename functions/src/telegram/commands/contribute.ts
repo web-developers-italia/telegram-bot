@@ -1,8 +1,11 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
+import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram, getIssues, getPullRequests } from "../utils";
 
-export async function contribute(context: Context): Promise<Message> {
+export const contribute: CommandsProtocol<Message> = async function (
+	context: Context,
+) {
 	const pullRequests = await getPullRequests();
 	const issues = await getIssues();
 
@@ -33,7 +36,7 @@ ${issues.map(toReadableText).join("\n")}`
 		disable_web_page_preview: true,
 		reply_to_message_id: context.message?.message_id ?? undefined,
 	});
-}
+};
 
 const toReadableText = ({
 	number,
@@ -46,3 +49,5 @@ const toReadableText = ({
 }) => {
 	return `[#${number} - ${title}](${html_url})`;
 };
+
+contribute.triggers = ["/contribute", "/contribuisci"];

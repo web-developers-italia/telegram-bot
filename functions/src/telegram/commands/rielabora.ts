@@ -1,5 +1,6 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
+import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram } from "../utils";
 import { rules } from "./rules";
 
@@ -30,3 +31,5 @@ export async function rielabora(context: Context): Promise<Message | Context> {
 
 	return context;
 }
+
+rielabora.triggers = ["/rielabora"];
