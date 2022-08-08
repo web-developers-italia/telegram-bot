@@ -4,7 +4,9 @@ import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram } from "../utils";
 import { rules } from "./rules";
 
-export async function rielabora(context: Context): Promise<Message | Context> {
+export const rielabora: CommandsProtocol<Message | Context> = async function (
+	context: Context,
+) {
 	const { message_id, from } =
 		// @ts-ignore - reply_to_message exists but telegraf typings are flawed
 		(context.message?.reply_to_message ?? context.message ?? {}) as Message;
@@ -30,6 +32,6 @@ export async function rielabora(context: Context): Promise<Message | Context> {
 	}
 
 	return context;
-}
+};
 
 rielabora.triggers = ["/rielabora"];
