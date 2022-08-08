@@ -1,0 +1,31 @@
+name: Rules changes approval
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  notify:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    name: Notify Rules changes
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Read rules
+        id: rules_read
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./functions/src/telegram/commands/rules.txt
+      - name: Notify rules change on the group
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_KEY }}
+          disable_web_page_preview: true
+          format: markdownV2
+          message: |
+            \[*COMUNICAZIONE DI SERVIZIO*\] Le regole del gruppo sono state aggiornate\!
+
+            ${{ steps.rules_read.outputs.content }}
