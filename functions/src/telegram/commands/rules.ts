@@ -26,7 +26,7 @@ export function rules(
 
 ❌ Abuso di sticker e messaggi vocali\\.
 
-✅ Codice condiviso tramite strumenti specifici (Pastebin, Codepen, Stackblitz) e screenshot nitidi\\.
+✅ Codice condiviso tramite strumenti specifici \\(Pastebin, Codepen, Stackblitz\\) e screenshot nitidi\\.
 
 ❌ Mandare messaggi con canali invece del proprio profilo personale\\.
 
