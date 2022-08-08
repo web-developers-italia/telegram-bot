@@ -1,6 +1,7 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
 import type { CommandsProtocol } from "../CommandsProtocol";
+import { escapeForTelegram } from "../utils";
 import { rules } from "./rules";
 
 export const rielabora: CommandsProtocol<Message | Context> = async function(context: Context) {
@@ -17,7 +18,9 @@ export const rielabora: CommandsProtocol<Message | Context> = async function(con
       : `[${from.first_name}](tg://user?id=${from.id})`;
 
     return context.reply(
-      `${mention} leggi le regole e poi rielabora la tua domanda per favore`,
+      escapeForTelegram(
+        `${mention} leggi le regole e poi rielabora la tua domanda per favore`
+      ),
       {
         disable_web_page_preview: true,
         parse_mode: "MarkdownV2",
