@@ -1,35 +1,76 @@
-import { fetch } from 'undici'
+import { Octokit } from "octokit";
 
 export const addUsernameCommand = (command: string) => [
-  command,
-  `${command}@${process.env.TELEGRAM_BOT_USERNAME}`,
+	command,
+	`${command}@${process.env.TELEGRAM_BOT_USERNAME}`,
 ];
 
-export const getDataFromGithub = async (type: string) => {
-  const res = await fetch(`https://api.github.com/repos/${process.env.REPOSITORY_NAME}${type}`)
-  const json = await res.json() 
+export const escapeForTelegram = (text: string) => {
+	const toEscape: string[] = [".", "-", "#"];
 
-  return JSON.stringify(json);
+	return toEscape.reduce((finalString: string, char: string) => {
+		return finalString.replaceAll(char, `\\${char}`);
+	}, text);
 };
 
-export const parseGithubResponse = async (response: string | PromiseLike<string>) => {
-  const json = JSON.parse(await response);
-  let list: string[] = [];
-  for(let key in json) {
-    let link: string = json[key].html_url;
-    let title: string = json[key].title;
-    list.push(`[${title}](${link})`.replaceAll('.', '\\.').replaceAll('-', '\\-'));
- }
+const octokit = new Octokit();
 
- return list;
+export const getPullRequests: () => Promise<
+	{
+		number: number;
+		title: string;
+		html_url: string;
+	}[]
+> = async () => {
+	const prs = await octokit.request(
+		`GET /repos/${process.env.ORG_NAME}/${process.env.REPOSITORY_NAME}/pulls`,
+		{
+			owner: process.env.ORG_NAME || "web-developers-italia",
+			repo: process.env.REPOSITORY_NAME || "telegram-bot",
+		},
+	);
+
+	return prs.data.map(
+		({
+			number,
+			title,
+			html_url,
+		}: {
+			number: number;
+			title: string;
+			html_url: string;
+		}) => ({ number, title, html_url }),
+	);
 };
 
-export const getPullRequests = async () => {
-  const response = await getDataFromGithub("/pulls?state=open");
-  return parseGithubResponse(response);
-}
+export const getIssues: () => Promise<
+	{
+		number: number;
+		title: string;
+		html_url: string;
+	}[]
+> = async () => {
+	const issues = await octokit.request(
+		`GET /repos/${process.env.ORG_NAME}/${process.env.REPOSITORY_NAME}/issues`,
+		{
+			owner: process.env.ORG_NAME || "web-developers-italia",
+			repo: process.env.REPOSITORY_NAME || "telegram-bot",
+		},
+	);
 
-export const getIssues = async () => {
-  const response = await getDataFromGithub("/issues?state=open");
-  return parseGithubResponse(response);
-}
+	return issues.data.map(
+		({
+			number,
+			title,
+			html_url,
+		}: {
+			number: number;
+			title: string;
+			html_url: string;
+		}) => ({
+			number,
+			title,
+			html_url,
+		}),
+	);
+};
