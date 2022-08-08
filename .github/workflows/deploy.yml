@@ -28,7 +28,7 @@ jobs:
           envkey_TELEGRAM_BOT_KEY: ${{ secrets.TELEGRAM_BOT_KEY }}
           envkey_TELEGRAM_BOT_USERNAME: ${{ secrets.TELEGRAM_BOT_USERNAME }}
           envkey_REPOSITORY_NAME: ${{ secrets.REPOSITORY_NAME }}
-          envkey_ORG_NAME: ${{ github.ORG_NAME }}
+          envkey_ORG_NAME: ${{ secrets.ORG_NAME }}
       - name: Deploy functions
         uses: w9jds/firebase-action@master
         with:
