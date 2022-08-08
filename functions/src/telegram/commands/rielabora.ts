@@ -1,5 +1,6 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
+import { escapeForTelegram } from "../utils";
 import { rules } from "./rules";
 
 export async function rielabora(context: Context): Promise<Message | Context> {
@@ -16,7 +17,9 @@ export async function rielabora(context: Context): Promise<Message | Context> {
       : `[${from.first_name}](tg://user?id=${from.id})`;
 
     return context.reply(
-      `${mention} leggi le regole e poi rielabora la tua domanda per favore`,
+      escapeForTelegram(
+        `${mention} leggi le regole e poi rielabora la tua domanda per favore`
+      ),
       {
         disable_web_page_preview: true,
         parse_mode: "MarkdownV2",
