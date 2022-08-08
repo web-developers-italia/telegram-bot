@@ -20,6 +20,8 @@ export function rules(
 
 ✅ Codice condiviso tramite strumenti specifici (Pastebin, Codepen, Stackblitz) e screenshot nitidi\\.
 
+❌ Abuso di sticker e messaggi vocali\\.
+
 ❌ Richieste di aiuto in privato\\.
 
 ❌ Richieste di supporto per esercizi scolastici\\.

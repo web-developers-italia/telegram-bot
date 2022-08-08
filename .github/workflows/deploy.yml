@@ -26,10 +26,11 @@ jobs:
         with:
           directory: functions
           envkey_TELEGRAM_BOT_KEY: ${{ secrets.TELEGRAM_BOT_KEY }}
+          envkey_TELEGRAM_BOT_USERNAME: ${{ secrets.TELEGRAM_BOT_USERNAME }}
           envkey_REPOSITORY_NAME: ${{ github.repository }}
       - name: Deploy functions
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --project=default --only functions -f
+          args: deploy --project=default --only functions,firestore -f
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
