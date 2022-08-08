@@ -1,14 +1,10 @@
 import * as functions from "firebase-functions";
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
 import { Telegraf, Context } from "telegraf";
-import { rules } from "./commands/rules";
-import { rielabora } from "./commands/rielabora";
-import { contribute } from "./commands/contribute";
-import { admin } from "./commands/admin";
-import { dontasktoask } from "./commands/dontasktoask";
-import { learn } from "./commands/learn";
-import { setLastMemberActivity } from "./setLastMemberActivity";
-import { pong } from "./commands/pong";
 import { addUsernameCommand } from "./utils";
+import { setLastMemberActivity } from "./setLastMemberActivity";
+import type { CommandsProtocol } from "./CommandsProtocol";
 
 declare global {
   namespace NodeJS {
@@ -20,30 +16,33 @@ declare global {
 
 const telegramBot: Telegraf<Context> = new Telegraf(
   process.env.TELEGRAM_BOT_KEY
-);
+  );
+  
+fs.readdir(path.resolve(__dirname, "./commands")).then((list) => {
+  const promises = list.reduce<Array<Promise<{ [fn: string]: CommandsProtocol<unknown> }>>>((
+    acc,
+    current
+  ) => {
+    if (current.endsWith(".map")) {
+      return acc;
+    }
 
-telegramBot.hears(["@admin", "/admin"].map(addUsernameCommand).flat(), admin);
+    return [
+      ...acc,
+      import(`./commands/${current}`)
+    ];
+  }, []);
 
-telegramBot.hears(
-  ["/regolamento", "/regole", "/rules"].map(addUsernameCommand).flat(),
-  rules
-);
+  Promise.all(promises)
+    .then((commands) => {
+      const allCommands = Object.assign({}, ...commands);
 
-telegramBot.hears(
-  ["/contribute", "/contribuisci"].map(addUsernameCommand).flat(),
-  contribute
-);
-
-telegramBot.hears(
-  ["/dontasktoask", "/nonchiederedichiedere"].map(addUsernameCommand).flat(),
-  dontasktoask
-);
-
-telegramBot.hears(["/rielabora"].map(addUsernameCommand).flat(), rielabora);
-
-telegramBot.hears(["/learn"].map(addUsernameCommand).flat(), learn);
-
-telegramBot.hears(["/ping"].map(addUsernameCommand).flat(), pong);
+      for (const entry of Object.entries(allCommands) as [string, CommandsProtocol][]) {
+        const [, command] = entry;
+        telegramBot.hears(command.triggers.map(addUsernameCommand).flat(), command);
+      } 
+    });
+});
 
 telegramBot.on("message", setLastMemberActivity);
 

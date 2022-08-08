@@ -1,7 +1,8 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
+import type { CommandsProtocol } from "../CommandsProtocol";
 
-export function dontasktoask(context: Context): Promise<Message> {
+export const dontasktoask: CommandsProtocol<Message> = function (context: Context) {
   const messageReplyTarget =
     // @ts-ignore - reply_to_message exists but telegraf typings are flawed
     context.message?.reply_to_message?.message_id ??
@@ -20,3 +21,5 @@ Leggi questo per favore e poi rielabora la tua domanda:
     }
   );
 }
+
+dontasktoask.triggers = ["/dontasktoask", "/nonchiederedichiedere"];
