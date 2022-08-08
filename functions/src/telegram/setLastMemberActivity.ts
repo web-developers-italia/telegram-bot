@@ -1,11 +1,12 @@
 import { Context } from "telegraf";
-import { Update } from "telegraf/typings/core/types/typegram";
-import { getFirestore, Timestamp } from 'firebase-admin/firestore'
+import { getFirestore, Timestamp } from "firebase-admin/firestore";
+import type { Update } from "telegraf/types";
 
 export const setLastMemberActivity = (
   context: Context<Update.MessageUpdate>
 ) => {
-  return getFirestore().collection("members_activity")
+  return getFirestore()
+    .collection("members_activity")
     .doc(context.update.message.from.id.toString())
     .set(
       {

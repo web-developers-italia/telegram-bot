@@ -1,5 +1,5 @@
 import type { Context } from "telegraf";
-import type { Message } from "telegraf/typings/core/types/typegram";
+import type { Message } from "telegraf/types";
 import { getIssues, getPullRequests } from "../utils";
 
 export async function contribute(context: Context): Promise<Message> {
@@ -7,13 +7,13 @@ export async function contribute(context: Context): Promise<Message> {
     `
 *Tramite il repository open source, puoi amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo\\.*
 
-✍️ https://github\\.com/${process.env.REPOSITORY_NAME?.replaceAll('-', '\\-')}
+✍️ https://github\\.com/${process.env.REPOSITORY_NAME?.replaceAll("-", "\\-")}
 
 Pull Request attive:
-${(await getPullRequests()).join('\n')}
+${(await getPullRequests()).join("\n")}
 
 Issue attive:
-${(await getIssues()).join('\n')}
+${(await getIssues()).join("\n")}
 `,
     {
       parse_mode: "MarkdownV2",

@@ -1,5 +1,5 @@
 import type { Context } from "telegraf";
-import type { Message } from "telegraf/typings/core/types/typegram";
+import type { Message } from "telegraf/types";
 
 export function dontasktoask(context: Context): Promise<Message> {
   const messageReplyTarget =

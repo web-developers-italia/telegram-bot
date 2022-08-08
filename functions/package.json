@@ -16,7 +16,8 @@
   "dependencies": {
     "firebase-admin": "^11.0.1",
     "firebase-functions": "^3.22.0",
-    "telegraf": "^4.8.5"
+    "telegraf": "^4.8.5",
+    "undici": "^5.8.1"
   },
   "devDependencies": {
     "@types/node": "^16.11.45",
