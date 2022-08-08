@@ -3,9 +3,9 @@ import type { Message } from "telegraf/typings/core/types/typegram";
 import { escapeForTelegram } from "../utils";
 
 export function rules(context: Context): Promise<Message> {
-  const replyTo: number | undefined = context.message?.message_id;
+	const replyTo: number | undefined = context.message?.message_id;
 
-  const reply: string = `
+	const reply: string = `
 *Regolamento*:
 
 ✅ Richieste di supporto *solo se specifiche, chiare, concise e accompagnate dalle soluzioni già provate*.
@@ -35,9 +35,9 @@ Gli utenti sono tenuti a evitare comportamenti socialmente inadeguati, al fine d
 [Contribuisci al gruppo su Github](https://github.com/${process.env.ORG_NAME}/${process.env.REPOSITORY_NAME})
 `;
 
-  return context.reply(escapeForTelegram(reply), {
-    reply_to_message_id: replyTo || undefined,
-    parse_mode: "MarkdownV2",
-    disable_web_page_preview: true,
-  });
+	return context.reply(escapeForTelegram(reply), {
+		reply_to_message_id: replyTo || undefined,
+		parse_mode: "MarkdownV2",
+		disable_web_page_preview: true,
+	});
 }
