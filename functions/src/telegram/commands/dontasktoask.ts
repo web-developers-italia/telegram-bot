@@ -3,7 +3,9 @@ import type { Message } from "telegraf/typings/core/types/typegram";
 import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram } from "../utils";
 
-export function dontasktoask(context: Context): Promise<Message> {
+export const dontasktoask: CommandsProtocol<Message> = function (
+	context: Context,
+) {
 	const messageReplyTarget =
 		// @ts-ignore - reply_to_message exists but telegraf typings are flawed
 		context.message?.reply_to_message?.message_id ??
@@ -20,6 +22,6 @@ Leggi questo per favore e poi rielabora la tua domanda:
 		parse_mode: "MarkdownV2",
 		disable_web_page_preview: true,
 	});
-}
+};
 
 dontasktoask.triggers = ["/dontasktoask", "/nonchiederedichiedere"];
