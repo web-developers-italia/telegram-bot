@@ -1,12 +1,9 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
-import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram } from "../utils";
-import { rules } from "./rules";
+import { middleware as rules } from "./rules";
 
-export const rielabora: CommandsProtocol<Message | Context> = async function (
-	context: Context,
-) {
+export const middleware = async (context: Context) => {
 	const { message_id, from } =
 		// @ts-ignore - reply_to_message exists but telegraf typings are flawed
 		(context.message?.reply_to_message ?? context.message ?? {}) as Message;
@@ -34,4 +31,4 @@ export const rielabora: CommandsProtocol<Message | Context> = async function (
 	return context;
 };
 
-rielabora.triggers = ["/rielabora"];
+export const triggers = ["/rielabora"];

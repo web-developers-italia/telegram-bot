@@ -1,9 +1,7 @@
 import type { Context } from "telegraf";
-import type { Message } from "telegraf/typings/core/types/typegram";
-import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram } from "../utils";
 
-export const learn: CommandsProtocol<Message> = function (context: Context) {
+export const middleware = (context: Context) => {
 	const messageReplyTarget =
 		// @ts-ignore - reply_to_message exists but telegraf typings are flawed
 		context.message?.reply_to_message?.message_id ??
@@ -30,4 +28,4 @@ Piattaforme di e-learning:
 	});
 };
 
-learn.triggers = ["/learn"];
+export const triggers = ["/learn"];

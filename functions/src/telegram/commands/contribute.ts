@@ -1,11 +1,7 @@
 import type { Context } from "telegraf";
-import type { Message } from "telegraf/typings/core/types/typegram";
-import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram, getIssues, getPullRequests } from "../utils";
 
-export const contribute: CommandsProtocol<Message> = async function (
-	context: Context,
-) {
+export const middleware = async (context: Context) => {
 	const pullRequests = await getPullRequests();
 	const issues = await getIssues();
 
@@ -50,4 +46,4 @@ const toReadableText = ({
 	return `[#${number} - ${title}](${html_url})`;
 };
 
-contribute.triggers = ["/contribute", "/contribuisci"];
+export const triggers = ["/contribute", "/contribuisci"];

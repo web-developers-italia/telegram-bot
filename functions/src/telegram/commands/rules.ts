@@ -1,11 +1,8 @@
 import type { Context } from "telegraf";
 import type { Message } from "telegraf/typings/core/types/typegram";
-import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram } from "../utils";
 
-export const rules: CommandsProtocol<Message> = function (
-	context: Context,
-): Promise<Message> {
+export const middleware = (context: Context): Promise<Message> => {
 	const replyTo: number | undefined = context.message?.message_id;
 
 	const reply: string = `
@@ -45,4 +42,4 @@ Gli utenti sono tenuti a evitare comportamenti socialmente inadeguati, al fine d
 	});
 };
 
-rules.triggers = ["/regolamento", "/regole", "/rules"];
+export const triggers = ["/regolamento", "/regole", "/rules"];
