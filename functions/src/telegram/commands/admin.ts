@@ -1,11 +1,7 @@
 import type { Context } from "telegraf";
-import type { Message } from "telegraf/typings/core/types/typegram";
-import type { CommandsProtocol } from "../CommandsProtocol";
 import { escapeForTelegram } from "../utils";
 
-export const admin: CommandsProtocol<Message> = async function (
-	context: Context,
-) {
+export const middleware = async (context: Context) => {
 	const admins = await context.getChatAdministrators();
 
 	const tags = admins.reduce<string[]>((acc, current) => {
@@ -33,4 +29,4 @@ export const admin: CommandsProtocol<Message> = async function (
 	);
 };
 
-admin.triggers = ["@admin", "/admin"];
+export const triggers = ["@admin", "/admin"];
