@@ -21,4 +21,4 @@ jobs:
           message: |
             ${{ github.actor }} ha creato una nuova issue: [${{github.event.issue.title}}](${{ github.event.issue.html_url }}).
             Tramite il repository open source, puoi partecipare ad amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo\\.
-            Partecipa, vota e decidi: ${{ github.event.issue.html_url }}
+            Partecipa, vota e decidi: https://github\\.com/${{ github.repository }}
