@@ -17,7 +17,8 @@ jobs:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_KEY }}
           disable_web_page_preview: true
+          format: markdown
           message: |
-            ${{ github.actor }} ha creato una issue.
-            Tramite il repository open source, puoi amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo.
+            ${{ github.actor }} ha creato una nuova issue: [${{github.event.issue.title}}](${{ github.event.issue.html_url }}).
+            Tramite il repository open source, puoi partecipare ad amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo\\.
             Partecipa, vota e decidi: ${{ github.event.issue.html_url }}
