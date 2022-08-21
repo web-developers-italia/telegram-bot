@@ -6,7 +6,7 @@ on:
       - closed
 
 jobs:
-  notify:
+  notify_issue_close:
     name: Notify
     runs-on: ubuntu-latest
     steps:
