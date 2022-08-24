@@ -24,7 +24,11 @@ export const middleware = (context: Context): Promise<Message> => {
 
 ❌ Abuso di sticker e messaggi vocali.
 
-✅ Codice condiviso tramite strumenti specifici \\(Pastebin, Codepen, Stackblitz\\) e screenshot nitidi.
+✅ Screenshot con strumenti del computer.
+
+❌ Foto agli schermi con strumenti esterni al computer.
+
+✅ Codice condiviso tramite strumenti specifici \\(Pastebin, Codepen, Stackblitz\\).
 
 ❌ Mandare messaggi con canali invece del proprio profilo personale.
 
