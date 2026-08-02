@@ -16,9 +16,16 @@ locals {
     "firebaserules.googleapis.com",
     "firestore.googleapis.com",
     "firebase.googleapis.com",
+    "firebaseextensions.googleapis.com",
     "compute.googleapis.com",
+    "pubsub.googleapis.com",
+    "storage.googleapis.com",
+    "logging.googleapis.com",
+    "cloudscheduler.googleapis.com",
+    "cloudbilling.googleapis.com",
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
+    "serviceusage.googleapis.com",
     "cloudresourcemanager.googleapis.com",
   ]
 
@@ -37,7 +44,7 @@ locals {
     "roles/eventarc.admin",
     "roles/firebaserules.admin",
     "roles/iam.serviceAccountUser",
-    "roles/serviceusage.serviceUsageConsumer",
+    "roles/serviceusage.serviceUsageAdmin",
     "roles/secretmanager.admin",
     "roles/firebase.admin",
   ]
