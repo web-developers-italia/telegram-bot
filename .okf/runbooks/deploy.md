@@ -15,7 +15,7 @@ stale_after: "2027-08-01"
 
 Push su `main` → [deploy.yml](/.github/workflows/deploy.yml): checkout → npm ci →
 auth Google via **Workload Identity Federation** → `firebase-tools deploy
---only functions,firestore --force --project insieme-dev-4450f`.
+--only functions,firestore --force --project wdi-telegram-bot`.
 La CI ([ci.yml](/.github/workflows/ci.yml)) fa lint+build+test su ogni PR.
 
 # Setup one-shot (nuovo ambiente o primo rollout)
@@ -31,14 +31,17 @@ La CI ([ci.yml](/.github/workflows/ci.yml)) fa lint+build+test su ogni PR.
 
 # Cutover gen1 → v2 (eseguito una volta, ordine obbligato)
 
-La gen1 si chiamava `telegram-bot`; Firebase non fa upgrade in-place dello stesso nome.
+La vecchia gen1 (`telegram-bot`) vive nel **vecchio progetto** `insieme-dev-4450f`,
+non accessibile con l'account attuale: il nuovo deploy va sul progetto
+`wdi-telegram-bot` (decisione del 2026-08-02).
 
-1. Deploy della v2 (`telegram-webhook`, nome nuovo → URL nuovo).
+1. Deploy della v2 (`telegram-webhook` su `wdi-telegram-bot`).
 2. `npm run webhook:set` con `WEBHOOK_URL` = URL della v2 — imposta anche
    `secret_token` e **`allowed_updates` completo** (senza, gli update `chat_member`
    del welcome non arrivano; una lista parziale disattiva i tipi non elencati).
 3. Verifica `getWebhookInfo`: `pending_update_count` ≈ 0, nessun `last_error_message`.
-4. `firebase functions:delete telegram-bot --region europe-west1`.
+4. La gen1 nel vecchio progetto resta inerte (nessun update le arriva più):
+   chiedere al proprietario storico di `insieme-dev-4450f` la dismissione.
 
 # Post-rollout
 

@@ -30,6 +30,7 @@ sources:
 | 8 | **Effect solo dove paga** | 5 comandi su 7 sono reply statiche: `staticCommand` senza Tag/Layer per non alzare la barriera ai contributor | Effect ovunque (ergonomia contributor peggiore) |
 | 9 | **Dev in long polling** | Zero tunnel/ngrok, zero setWebhook in dev; il webhook si esercita solo in prod | ngrok/cloudflared (attrito per i contributor) |
 | 10 | **TTL 90gg su members_activity** | Dato personale raccolto e mai usato prima; ora usato (/stats, linkGuard) con retention e informativa | Tenere i dati per sempre (rischio GDPR) |
+| 11 | **Nuovo progetto GCP `wdi-telegram-bot`** | Il progetto storico `insieme-dev-4450f` non è accessibile con l'account del maintainer attuale; i dati `members_activity` vecchi si rigenerano con l'uso | Recuperare l'accesso al vecchio progetto (bloccante, dipende da terzi) |
 
 # Contesto
 

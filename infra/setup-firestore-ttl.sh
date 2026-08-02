@@ -16,7 +16,7 @@
 
 set -euo pipefail
 
-PROJECT_ID="insieme-dev-4450f"
+PROJECT_ID="wdi-telegram-bot"
 
 gcloud firestore fields ttls update expiresAt \
   --collection-group=members_activity \

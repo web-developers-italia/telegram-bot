@@ -3,12 +3,12 @@
 ## setup-deploy-wif.sh
 
 Configura, in modo idempotente, l'accesso di GitHub Actions a Google Cloud
-(progetto `insieme-dev-4450f`) via Workload Identity Federation, al posto di
+(progetto `wdi-telegram-bot`) via Workload Identity Federation, al posto di
 credenziali statiche (`FIREBASE_TOKEN`, chiavi JSON di service account).
 
 Crea:
 
-- il service account di deploy `github-deploy@insieme-dev-4450f.iam.gserviceaccount.com`
+- il service account di deploy `github-deploy@wdi-telegram-bot.iam.gserviceaccount.com`
   con i ruoli minimi per deployare Functions/Firestore e impersonare il
   runtime SA;
 - l'accesso in lettura ai secret `TELEGRAM_BOT_KEY` e `TELEGRAM_WEBHOOK_SECRET`

@@ -36,4 +36,4 @@ jobs:
           service_account: ${{ secrets.GCP_DEPLOY_SA }}
       - name: Deploy to Firebase
         working-directory: functions
-        run: npx firebase-tools deploy --only functions,firestore --force --project insieme-dev-4450f
+        run: npx firebase-tools deploy --only functions,firestore --force --project wdi-telegram-bot

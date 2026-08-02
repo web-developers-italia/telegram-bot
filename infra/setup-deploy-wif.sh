@@ -14,7 +14,7 @@ set -euo pipefail
 
 # --- Variabili di configurazione ---------------------------------------
 
-PROJECT_ID="insieme-dev-4450f"
+PROJECT_ID="wdi-telegram-bot"
 GITHUB_REPO="web-developers-italia/telegram-bot"
 SA_NAME="github-deploy"
 POOL="github"
