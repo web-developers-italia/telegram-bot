@@ -1,32 +1,27 @@
-import type { Context } from "telegraf";
-import { escapeForTelegram } from "../utils";
+import { fmt, FormattedString } from "@grammyjs/parse-mode";
+import { Effect } from "effect";
+import { defineCommand, type Command } from "../CommandsProtocol.js";
+import { NotAGroup } from "../errors.js";
+import { TelegramCtx } from "../TelegramCtx.js";
 
-export const middleware = async (context: Context) => {
-	const admins = await context.getChatAdministrators();
+const isGroupChat = (chatType: string | undefined): boolean =>
+	chatType === "group" || chatType === "supergroup";
 
-	const tags = admins.reduce<string[]>((acc, current) => {
-		if (current.user.is_bot) {
-			return acc;
-		}
+const notifyAdmins = Effect.gen(function* () {
+	const telegram = yield* TelegramCtx;
 
-		return [
-			...acc,
-			// Invisible character on purpose
-			`[ ](tg://user?id=${current.user.id})`,
-		];
-	}, []);
+	if (!isGroupChat(telegram.chatType))
+		return yield* Effect.fail(new NotAGroup());
 
-	return context.reply(
-		escapeForTelegram(
-			`Gli amministratori sono stati notificati. ${tags.join("")}`,
-		),
-		{
-			parse_mode: "MarkdownV2",
-			reply_to_message_id: context.message
-				? context.message.message_id
-				: undefined,
-		},
+	const admins = yield* telegram.getChatAdministrators();
+	const mentions = admins
+		.filter((admin) => !admin.user.is_bot)
+		.map((admin) => FormattedString.mentionUser(" ", admin.user.id));
+
+	yield* telegram.reply(
+		fmt`Gli amministratori sono stati notificati.${FormattedString.join(mentions)}`,
+		{ replyTo: telegram.message?.message_id },
 	);
-};
+});
 
-export const triggers = ["@admin", "/admin"];
+export const admin: Command = defineCommand(["@admin", "/admin"], notifyAdmins);

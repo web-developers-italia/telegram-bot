@@ -3,3 +3,8 @@ lib
 
 ## Deps
 node_modules/
+
+## Local secrets (Firebase emulator / dev bot)
+.secret.local
+.env
+.env.*

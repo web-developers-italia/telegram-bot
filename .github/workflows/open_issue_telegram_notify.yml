@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify new issue on telegram group
-        uses: appleboy/telegram-action@master
+        uses: appleboy/telegram-action@221e6b684967abe813051ee4a37dd61770a83ad3 # v1.0.1
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_KEY }}
           disable_web_page_preview: true
           format: markdown
           message: |
-            ${{ github.actor }} ha creato una nuova issue: [${{github.event.issue.title}}](${{ github.event.issue.html_url }})\\.
-            Tramite il repository open source, puoi partecipare ad amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo\\.
-            Partecipa, vota e decidi: https://github\\.com/${{ github.repository }}\\.
+            ${{ github.actor }} ha creato una nuova issue: [${{github.event.issue.title}}](${{ github.event.issue.html_url }}).
+            Tramite il repository open source, puoi partecipare ad amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo.
+            Partecipa, vota e decidi: https://github.com/${{ github.repository }}.

@@ -1,18 +1,19 @@
-import type { Context } from "telegraf";
-import type { Message } from "telegraf/typings/core/types/typegram";
-import { escapeForTelegram } from "../utils";
+import { fmt, FormattedString } from "@grammyjs/parse-mode";
+import { Effect } from "effect";
+import type { Message } from "grammy/types";
+import { BotConfig } from "../../services/BotConfig.js";
+import { defineCommand, type Command } from "../CommandsProtocol.js";
+import type { TelegramApiError } from "../errors.js";
+import { TelegramCtx } from "../TelegramCtx.js";
 
-export const middleware = (context: Context): Promise<Message> => {
-	const replyTo: number | undefined = context.message?.message_id;
+export const rulesText = (repoUrl: string): FormattedString =>
+	fmt`${FormattedString.bold("Regolamento")}:
 
-	const reply: string = `
-*Regolamento*:
-
-✅ Richieste di supporto *solo se specifiche, chiare, concise e accompagnate dalle soluzioni già provate*.
+✅ Richieste di supporto ${FormattedString.bold("solo se specifiche, chiare, concise e accompagnate dalle soluzioni già provate")}.
 
 ❌ Richieste di aiuto in privato.
 
-✅ Offerte di lavoro *solo se accompagnate da tipo di contratto e range di retribuzione* \\(o budget\\).
+✅ Offerte di lavoro ${FormattedString.bold("solo se accompagnate da tipo di contratto e range di retribuzione")} (o budget).
 
 ❌ Spam di qualsiasi forma nel flusso di chat.
 
@@ -28,7 +29,7 @@ export const middleware = (context: Context): Promise<Message> => {
 
 ❌ Foto agli schermi con strumenti esterni al computer.
 
-✅ Codice condiviso tramite strumenti specifici \\(Pastebin, Codepen, Stackblitz\\).
+✅ Codice condiviso tramite strumenti specifici (Pastebin, Codepen, Stackblitz).
 
 ❌ Mandare messaggi con canali invece del proprio profilo personale.
 
@@ -36,14 +37,23 @@ export const middleware = (context: Context): Promise<Message> => {
 
 Gli utenti sono tenuti a evitare comportamenti socialmente inadeguati, al fine di mantenere stabile e positiva la comunicazione nella chat.
 
-[Contribuisci al gruppo su Github](https://github.com/${process.env.ORG_NAME}/${process.env.REPOSITORY_NAME})
-`;
+${FormattedString.link("Contribuisci al gruppo su Github", repoUrl)}`;
 
-	return context.reply(escapeForTelegram(reply), {
-		reply_to_message_id: replyTo || undefined,
-		parse_mode: "MarkdownV2",
-		disable_web_page_preview: true,
+export const sendRules: Effect.Effect<
+	Message,
+	TelegramApiError,
+	TelegramCtx | BotConfig
+> = Effect.gen(function* () {
+	const telegram = yield* TelegramCtx;
+	const config = yield* BotConfig;
+
+	return yield* telegram.reply(rulesText(config.repoUrl), {
+		replyTo: telegram.message?.message_id,
+		disablePreview: true,
 	});
-};
+});
 
-export const triggers = ["/regolamento", "/regole", "/rules"];
+export const rules: Command = defineCommand(
+	["/regolamento", "/regole", "/rules"],
+	sendRules.pipe(Effect.asVoid),
+);
