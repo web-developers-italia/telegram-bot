@@ -1,5 +1,8 @@
+rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Firestore è usato solo dal backend (Admin SDK): nessun accesso client.
     match /{document=**} {
       allow read, write: if false;
     }

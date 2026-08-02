@@ -1,13 +1,18 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"target": "ES2023",
+		"lib": ["ES2023"],
+		"strict": true,
 		"noImplicitReturns": true,
 		"noUnusedLocals": true,
-		"outDir": "lib",
+		"esModuleInterop": true,
+		"skipLibCheck": true,
 		"sourceMap": true,
-		"strict": true,
-		"target": "ES2021"
+		"outDir": "lib",
+		"rootDir": "src"
 	},
-	"compileOnSave": true,
-	"include": ["src"]
+	"include": ["src"],
+	"exclude": ["src/**/*.test.ts", "src/test"]
 }

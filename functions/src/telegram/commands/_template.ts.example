@@ -1,0 +1,51 @@
+// Esempio per chi vuole aggiungere un nuovo comando al bot.
+// Questo file NON viene compilato (estensione .ts.example): copialo, rinominalo
+// in `<nomecomando>.ts` e aggiungilo all'array `commands` in `index.ts`.
+
+// ---------------------------------------------------------------------------
+// Caso 1: comando "statico", cioè che risponde sempre con lo stesso testo
+// (eventualmente formattato). È il caso più comune, non richiede di conoscere
+// Effect.
+// ---------------------------------------------------------------------------
+
+// import { staticCommand } from "../CommandsProtocol.js";
+//
+// export const esempio = staticCommand(["/esempio"], "Testo di risposta fisso.");
+//
+// // Con formattazione (grassetti, link, ...) tramite @grammyjs/parse-mode:
+// import { FormattedString } from "@grammyjs/parse-mode";
+//
+// export const esempioFormattato = staticCommand(
+// 	["/esempio2"],
+// 	FormattedString.bold("Testo in grassetto"),
+// );
+//
+// // { preferRepliedMessage: true } fa sì che, se il comando viene usato in
+// // reply a un messaggio, la risposta punti al messaggio quotato invece che
+// // al comando stesso (utile per /learn, /dontasktoask, ecc.).
+// export const esempioInReply = staticCommand(["/esempio3"], "Testo...", {
+// 	preferRepliedMessage: true,
+// });
+
+// ---------------------------------------------------------------------------
+// Caso 2: comando "dinamico", che ha bisogno di leggere dati (Github, config,
+// ecc.) o di eseguire più passaggi. Si usa `defineCommand` con un programma
+// Effect.
+// ---------------------------------------------------------------------------
+
+// import { Effect } from "effect";
+// import { defineCommand, type Command } from "../CommandsProtocol.js";
+// import { TelegramCtx } from "../TelegramCtx.js";
+//
+// const sendEsempio = Effect.gen(function* () {
+// 	const telegram = yield* TelegramCtx;
+//
+// 	yield* telegram.reply("Risposta calcolata a runtime", {
+// 		replyTo: telegram.message?.message_id,
+// 	});
+// });
+//
+// export const esempioDinamico: Command = defineCommand(
+// 	["/esempiodinamico"],
+// 	sendEsempio,
+// );

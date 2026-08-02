@@ -1,34 +1,34 @@
-import type { Context } from "telegraf";
-import type { Message } from "telegraf/typings/core/types/typegram";
-import { escapeForTelegram } from "../utils";
-import { middleware as rules } from "./rules";
+import { fmt, FormattedString } from "@grammyjs/parse-mode";
+import { Effect } from "effect";
+import type { Message } from "grammy/types";
+import { defineCommand, type Command } from "../CommandsProtocol.js";
+import { MissingReply } from "../errors.js";
+import { TelegramCtx } from "../TelegramCtx.js";
+import { sendRules } from "./rules.js";
 
-export const middleware = async (context: Context) => {
-	const { message_id, from } =
-		// @ts-ignore - reply_to_message exists but telegraf typings are flawed
-		(context.message?.reply_to_message ?? context.message ?? {}) as Message;
+const mentionAuthor = (target: Message) => {
+	const author = target.from;
+	if (author?.username) return `@${author.username}`;
 
-	if (from && message_id) {
-		const rulesMessage = await rules(context);
-		await context.deleteMessage(message_id);
-
-		const mention = from.username
-			? `@${from.username}`
-			: `[${from.first_name}](tg://user?id=${from.id})`;
-
-		return context.reply(
-			escapeForTelegram(
-				`${mention} leggi le regole e poi rielabora la tua domanda per favore`,
-			),
-			{
-				disable_web_page_preview: true,
-				parse_mode: "MarkdownV2",
-				reply_to_message_id: rulesMessage.message_id,
-			},
-		);
-	}
-
-	return context;
+	return FormattedString.mentionUser(
+		author?.first_name ?? target.sender_chat?.title ?? "utente",
+		author?.id ?? target.sender_chat?.id ?? 0,
+	);
 };
 
-export const triggers = ["/rielabora"];
+const sendRielabora = Effect.gen(function* () {
+	const telegram = yield* TelegramCtx;
+	const target = telegram.message?.reply_to_message;
+	if (!target) return yield* Effect.fail(new MissingReply());
+
+	const rulesMessage = yield* sendRules;
+	yield* telegram.deleteMessage(target.message_id);
+
+	const mention = mentionAuthor(target);
+	yield* telegram.reply(
+		fmt`${mention} leggi le regole e poi rielabora la tua domanda per favore`,
+		{ replyTo: rulesMessage.message_id, disablePreview: true },
+	);
+});
+
+export const rielabora: Command = defineCommand(["/rielabora"], sendRielabora);
