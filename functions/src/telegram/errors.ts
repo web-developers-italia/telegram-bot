@@ -17,9 +17,17 @@ export class MissingReply extends Data.TaggedError("MissingReply")<object> {}
 
 export class NotAGroup extends Data.TaggedError("NotAGroup")<object> {}
 
+export class NotAdmin extends Data.TaggedError("NotAdmin")<object> {}
+
+export class StorageError extends Data.TaggedError("StorageError")<{
+	readonly cause: unknown;
+}> {}
+
 export type CommandError =
 	| TelegramApiError
 	| GithubRateLimited
 	| GithubUnavailable
 	| MissingReply
-	| NotAGroup;
+	| NotAGroup
+	| NotAdmin
+	| StorageError;

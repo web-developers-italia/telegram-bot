@@ -1,10 +1,14 @@
 import { Cause, Effect, Exit, Layer, Option } from "effect";
-import type { ChatMember, Message } from "grammy/types";
+import type { ChatMember, ChatMemberUpdated, Message } from "grammy/types";
 import { BotConfig, make as makeBotConfig } from "../services/BotConfig.js";
 import { Github, type OpenItems } from "../services/Github.js";
-import { Members } from "../services/Members.js";
+import { Members, type WelcomeState } from "../services/Members.js";
 import type { Command } from "../telegram/CommandsProtocol.js";
-import { GithubUnavailable, TelegramApiError } from "../telegram/errors.js";
+import {
+	GithubUnavailable,
+	StorageError,
+	TelegramApiError,
+} from "../telegram/errors.js";
 import {
 	TelegramCtx,
 	type TelegramCtxService,
@@ -36,6 +40,7 @@ type FakeOptions = {
 	readonly chatType?: string;
 	readonly admins?: readonly ChatMember[];
 	readonly nextMessageId?: number;
+	readonly chatMemberUpdate?: ChatMemberUpdated;
 };
 
 export const makeFakeTelegram = (options: FakeOptions = {}) => {
@@ -44,6 +49,7 @@ export const makeFakeTelegram = (options: FakeOptions = {}) => {
 	const service: TelegramCtxService = {
 		message: options.message,
 		chatType: options.chatType ?? options.message?.chat.type,
+		chatMemberUpdate: options.chatMemberUpdate,
 		reply: (text, replyOptions) =>
 			Effect.sync(() => {
 				calls.replies.push({
@@ -81,27 +87,64 @@ export const githubStub = (items?: OpenItems) =>
 				: Effect.fail(new GithubUnavailable({ cause: "stub" })),
 	});
 
-export const membersStub = () => {
+type MembersStubOptions = {
+	readonly isRecentJoiner?: boolean;
+	readonly isRecentJoinerFails?: boolean;
+	readonly activeCounts?: { readonly last7: number; readonly last30: number };
+	readonly activeCountsFails?: boolean;
+	readonly welcomeState?: WelcomeState;
+	readonly welcomeStateFails?: boolean;
+};
+
+export const membersStub = (options: MembersStubOptions = {}) => {
 	const touched: Array<{ userId: number; username: string | undefined }> = [];
+	const joined: number[] = [];
+	const isRecentJoinerCalls: number[] = [];
+	const welcomeStatesSet: Array<{ chatId: number; state: WelcomeState }> = [];
+	const storageError = new StorageError({ cause: "stub" });
+
 	const layer = Layer.succeed(Members, {
 		touch: (userId, username) =>
 			Effect.sync(() => void touched.push({ userId, username })),
+		recordJoin: (userId) => Effect.sync(() => void joined.push(userId)),
+		isRecentJoiner: (userId) =>
+			Effect.sync(() => void isRecentJoinerCalls.push(userId)).pipe(
+				Effect.flatMap(() =>
+					options.isRecentJoinerFails
+						? Effect.fail(storageError)
+						: Effect.succeed(options.isRecentJoiner ?? false),
+				),
+			),
+		activeCounts: () =>
+			options.activeCountsFails
+				? Effect.fail(storageError)
+				: Effect.succeed(options.activeCounts ?? { last7: 0, last30: 0 }),
+		welcomeState: () =>
+			options.welcomeStateFails
+				? Effect.fail(storageError)
+				: Effect.succeed(options.welcomeState),
+		setWelcomeState: (chatId, state) =>
+			Effect.sync(() => void welcomeStatesSet.push({ chatId, state })),
 	});
-	return { layer, touched };
+	return { layer, touched, joined, isRecentJoinerCalls, welcomeStatesSet };
 };
 
 export const testLayers = (items?: OpenItems) =>
 	Layer.mergeAll(Layer.succeed(BotConfig, testConfig), githubStub(items));
 
+/** Layer Members di default per i comandi che non testano esplicitamente Members. */
+const defaultMembersLayer = () => membersStub().layer;
+
 export const runCommandWith = (
 	command: Command,
 	service: TelegramCtxService,
 	items?: OpenItems,
+	membersLayer: Layer.Layer<Members, never, never> = defaultMembersLayer(),
 ) =>
 	Effect.runPromise(
 		command.run.pipe(
 			Effect.provideService(TelegramCtx, service),
-			Effect.provide(testLayers(items)),
+			Effect.provide(Layer.mergeAll(testLayers(items), membersLayer)),
 		),
 	);
 
@@ -110,11 +153,12 @@ export const runCommandExit = (
 	command: Command,
 	service: TelegramCtxService,
 	items?: OpenItems,
+	membersLayer: Layer.Layer<Members, never, never> = defaultMembersLayer(),
 ) =>
 	Effect.runPromiseExit(
 		command.run.pipe(
 			Effect.provideService(TelegramCtx, service),
-			Effect.provide(testLayers(items)),
+			Effect.provide(Layer.mergeAll(testLayers(items), membersLayer)),
 		),
 	);
 

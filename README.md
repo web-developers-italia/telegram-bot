@@ -4,103 +4,76 @@ Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/web
 
 ## Dettagli tecnici
 
-Il bot è costruito su Telegraf e Firebase. Utilizza un avvio tramite Webhook manuale.
+- **Framework bot**: [grammY](https://grammy.dev/) (TypeScript, ESM)
+- **Effect system**: [Effect](https://effect.website/) — comandi e middleware sono programmi Effect con errori tipizzati e servizi iniettabili (testabili senza rete)
+- **Hosting**: Firebase Cloud Functions v2 (Node 22, region `europe-west1`), webhook protetto da secret token
+- **Dati**: Firestore (`members_activity` con TTL a 90 giorni, stato welcome)
+- **Secrets**: Google Secret Manager via `defineSecret` (niente `.env` in produzione)
 
-## Sviluppo e test
+## Comandi
 
-1. Installa e configura [ngrok](https://ngrok.com/) o un altro strumento di local tunneling equivalente
+| Trigger | Cosa fa |
+|---|---|
+| `/regolamento` `/regole` `/rules` | Mostra il regolamento |
+| `/ping` | Risponde `/pong 🏓` |
+| `/learn` | Risorse per iniziare col web development |
+| `/dontasktoask` `/nonchiederedichiedere` | Invita a fare domande dirette |
+| `/rielabora` (in reply) | Cancella il messaggio quotato e invita a rileggere le regole |
+| `/contribute` `/contribuisci` | Link alla repo + PR e issue aperte |
+| `@admin` `/admin` | Notifica gli amministratori (mention invisibili) |
+| `/stats` (solo admin) | Membri attivi negli ultimi 7/30 giorni |
 
-2. Clona la repository
+Automatismi: benvenuto ai nuovi membri (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, tracking attività con retention 90 giorni.
 
-3. Installa le dipendenze con `npm install`
+## Sviluppo locale (senza ngrok!)
 
-4. Assicurati di essere loggato in Firebase CLI eseguendo `npx firebase login`
+Lo sviluppo usa il **long polling**: niente tunnel, niente webhook.
 
-5. Apporta le tue modifiche che vuoi suggerire. I comandi del bot sono FS-based. Ogni file in `functions/src/telegram/commands` deve contenere le funzioni (collegate tra di loro). Ogni funzione deve rispettare il `CommandsProtocol` disponibile in `functions/src/telegram`.
-
-6. Testa le modifiche seguendo le istruzioni qui sotto, pusha e poi invia una Pull Request.
-
-Assicurati di aver creato un bot di test attraverso l'uso del [BotFather](https://t.me/BotFather) e di averne copiato il token.
-
-Crea un file `.env` dentro la cartella `functions/` e inserisci il seguente contenuto, rimpiazzando il token di esempio con quello ottenuto dal BotFather.
-
-```env
-TELEGRAM_BOT_KEY="123456789:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
-```
-
----
-
-Esegui le functions in locale. Eseguendo il comando qui sotto, lo strumento CLI di Firebase ti mostrerà l'indirizzo, la porta e l'indirizzo delle cloud functions esposte.
-
-```sh
-$ npm run serve
-```
-
-**Esempio di output**
-
-```
-✔  functions[europe-west1-telegram-webdevitalia-bot]: http function initialized (http://localhost:5001/insieme-dev-4450f/europe-west1/telegram-webdevitalia-bot).
-```
-
-Al momento della scrittura ne è presente solo una, chiamata come segue. La composizione del nome è dettata da come vengono esportate le variabili.
-
-```
-telegram-webdevitalia-bot
-```
-
----
-
-In un altra finestra terminale, aprire ngrok o un programma alternativo ed eseguire il seguente comando:
+1. Crea un bot di test con [BotFather](https://t.me/BotFather) e copia il token.
+2. **Disabilita la privacy mode** del bot di test (`/setprivacy` → Disable su BotFather): senza, il bot non vede i messaggi normali del gruppo e `@admin`, anti-spam e tracking non funzionano.
+3. Per testare welcome/ban aggiungi il bot a un gruppo di prova come **admin** con permessi *Delete messages* e *Ban users*.
 
 ```sh
-$ ngrok http 5001
+cd functions
+npm install
+echo 'TELEGRAM_BOT_KEY="123456789:il-tuo-token-di-test"' > .env
+npm run dev
 ```
 
-Dove **5001** è la porta che `npm run serve` ha aperto per voi nell'altra cli.
+`npm run dev` avvia il bot in polling con reload automatico (`tsx watch`). Per la parte Firestore in locale puoi puntare l'emulatore: `FIRESTORE_EMULATOR_HOST=localhost:8080 npm run dev` (con `firebase emulators:start --only firestore` in un altro terminale).
 
-**Esempio output**:
+### Test
 
 ```sh
-Forwarding    https://c4b8-93-34-146-64.ngrok.io -> http://localhost:5001
+npm test          # vitest, una volta
+npm run test:watch
+npm run lint      # eslint + prettier check
+npm run build     # tsc
 ```
 
----
+Il progetto è sviluppato in TDD: ogni comando/middleware ha i suoi test. La CI (`.github/workflows/ci.yml`) esegue lint+build+test su ogni PR.
 
-Apri quindi una nuova tab del browser ed recati al seguente indirizzo, prestando attenzione a rimpiazzare i placeholder, descritti sotto:
+## Contribuire un comando
 
-```
-https://api.telegram.org/bot<bot-token>/setWebhook?url=<url-webhook>
-```
+I comandi vivono in `functions/src/telegram/commands/`, uno per file, registrati in `commands/index.ts`. Per una risposta statica bastano poche righe e **zero conoscenza di Effect**:
 
-- \<bot-boken\> => il token del bot ottenuto da BotFather
-- <\url-webhook\> => È l'url restiuito da `npm run serve` con l'URL _forwarded_ da ngrok al posto del dominio.
+```ts
+import { staticCommand } from "../CommandsProtocol.js";
 
-Quindi se `npm run serve` ha restituito:
-
-```
-http://localhost:5001/insieme-dev-4450f/europe-west1/telegram-webdevitalia-bot
+export const salve = staticCommand(["/salve"], "Salve a te! 👋");
 ```
 
-E `ngrok` ha restituito
+Poi aggiungi il comando all'array in `commands/index.ts` e un test in `commands.test.ts`. Vedi `_template.ts.example` per l'esempio completo (incluso un comando con servizi e errori tipizzati via `defineCommand`).
 
-```
-https://c4b8-93-34-146-64.ngrok.io
-```
+## Deploy e operazioni
 
-L'url del webhook sarà
+- **Deploy automatico**: push su `main` → `.github/workflows/deploy.yml` (auth Google via Workload Identity Federation, setup one-shot con `infra/setup-deploy-wif.sh`).
+- **Secrets runtime**: `TELEGRAM_BOT_KEY` e `TELEGRAM_WEBHOOK_SECRET` in Secret Manager (`firebase functions:secrets:set`). Per l'emulatore functions: `functions/.secret.local` (gitignorato).
+- **Webhook**: dopo il primo deploy, registra il webhook con `TELEGRAM_BOT_KEY=… WEBHOOK_URL=… TELEGRAM_WEBHOOK_SECRET=… npm run webhook:set` (imposta anche `allowed_updates`, necessario per gli eventi di join).
+- **TTL Firestore**: `infra/setup-firestore-ttl.sh` abilita l'eliminazione automatica dei dati di attività (~90 giorni dall'ultima attività).
 
-```
-https://c4b8-93-34-146-64.ngrok.io/insieme-dev-4450f/europe-west1/telegram-webdevitalia-bot
-```
+Il runbook completo (rotazione token, cutover, ruoli IAM) è nel bundle di conoscenza [`.okf/`](.okf/index.md).
 
-Quindi l'url, ad esempio, verso cui fare la richiesta sarà:
+## Privacy
 
-```
-https://api.telegram.org/bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11/setWebhook?url=https://c4b8-93-34-146-64.ngrok.io/insieme-dev-4450f/europe-west1/telegram-webdevitalia-bot
-```
-
-La richiesta verso questo URL va eseguita ogni volta che riavvierete ngrok o cambiate token del bot. Ngrok, a meno di necessità particolari, non necessità di venir riavviato.
-
----
-
-Invia quindi un comando sul tuo bot per verificare che risponda correttamente. Verifica eventuali errori nella console dove hai eseguito `npm run serve`.
+Il bot salva per ogni membro solo: user id, username, timestamp di ultima attività e di ingresso nel gruppo. I dati scadono automaticamente 90 giorni dopo l'ultima attività e non sono accessibili a client esterni (Firestore rules deny-all).

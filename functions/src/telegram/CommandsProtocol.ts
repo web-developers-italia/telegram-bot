@@ -2,11 +2,12 @@ import type { FormattedString } from "@grammyjs/parse-mode";
 import { Effect } from "effect";
 import type { BotConfig } from "../services/BotConfig.js";
 import type { Github } from "../services/Github.js";
+import type { Members } from "../services/Members.js";
 import type { CommandError } from "./errors.js";
 import { TelegramCtx } from "./TelegramCtx.js";
 
 /** Dipendenze massime disponibili a un comando. */
-export type CommandDeps = TelegramCtx | BotConfig | Github;
+export type CommandDeps = TelegramCtx | BotConfig | Github | Members;
 
 export type Command = {
 	/** Trigger: "/comando" (registrato via bot.command) o testo esatto tipo "@admin" (via bot.hears). */

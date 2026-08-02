@@ -1,6 +1,6 @@
 import type { FormattedString } from "@grammyjs/parse-mode";
 import { Context as EffectContext, Effect } from "effect";
-import type { ChatMember, Message } from "grammy/types";
+import type { ChatMember, ChatMemberUpdated, Message } from "grammy/types";
 import type { Context } from "grammy";
 import { TelegramApiError } from "./errors.js";
 
@@ -16,6 +16,8 @@ export type ReplyOptions = {
 export type TelegramCtxService = {
 	readonly message: Message | undefined;
 	readonly chatType: string | undefined;
+	/** Update chat_member (join/left/kick/promote): assente per gli update normali (message). */
+	readonly chatMemberUpdate: ChatMemberUpdated | undefined;
 	readonly reply: (
 		text: string | FormattedString,
 		options?: ReplyOptions,
@@ -50,6 +52,7 @@ const isFormatted = (text: string | FormattedString): text is FormattedString =>
 export const makeTelegramCtx = (ctx: Context): TelegramCtxService => ({
 	message: ctx.message,
 	chatType: ctx.chat?.type,
+	chatMemberUpdate: ctx.chatMember,
 	reply: (text, options) =>
 		call("sendMessage", () =>
 			ctx.reply(isFormatted(text) ? text.text : text, {

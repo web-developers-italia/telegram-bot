@@ -8,7 +8,9 @@ import { Members } from "../services/Members.js";
 import { MembersLive } from "../services/MembersLive.js";
 import { commands } from "./commands/index.js";
 import { channelBan } from "./middleware/channelBan.js";
+import { linkGuard } from "./middleware/linkGuard.js";
 import { trackActivity } from "./middleware/trackActivity.js";
+import { welcome } from "./middleware/welcome.js";
 import { makeCommandRunner } from "./runCommand.js";
 
 export type CreateBotOptions = {
@@ -28,7 +30,7 @@ export const createBot = (
 
 	bot.catch((error) => logger.error("unhandled bot error", error));
 
-	// I due middleware girano su ogni messaggio, comandi compresi: registrati
+	// I tre middleware girano su ogni messaggio, comandi compresi: registrati
 	// come pass-through prima dei comandi, chiamano sempre `next()`.
 	bot.use(async (ctx, next) => {
 		if (ctx.message) {
@@ -38,9 +40,14 @@ export const createBot = (
 			await run(channelBan)(ctx).catch((error) =>
 				logger.error("channelBan pass-through failed", error),
 			);
+			await run(linkGuard)(ctx).catch((error) =>
+				logger.error("linkGuard pass-through failed", error),
+			);
 		}
 		await next();
 	});
+
+	bot.on("chat_member", run(welcome));
 
 	for (const command of commands) {
 		const commandNames = command.triggers

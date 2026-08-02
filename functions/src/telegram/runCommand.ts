@@ -39,6 +39,10 @@ export const makeCommandRunner =
 					courtesyReply("Usa questo comando in risposta a un messaggio."),
 				NotAGroup: () =>
 					courtesyReply("Questo comando funziona solo nel gruppo."),
+				NotAdmin: () =>
+					courtesyReply("Questo comando è riservato agli amministratori."),
+				StorageError: () =>
+					courtesyReply("Dati non disponibili al momento, riprova più tardi."),
 				GithubRateLimited: () =>
 					courtesyReply("GitHub non risponde al momento, riprova più tardi."),
 				GithubUnavailable: () =>
