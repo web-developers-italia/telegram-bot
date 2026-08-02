@@ -20,14 +20,20 @@ La CI ([ci.yml](/.github/workflows/ci.yml)) fa lint+build+test su ogni PR.
 
 # Setup one-shot (nuovo ambiente o primo rollout)
 
-1. `infra/setup-deploy-wif.sh` — API, service account `github-deploy`, ruoli minimi
-   (`cloudfunctions.developer`, `firebaserules.admin`, `iam.serviceAccountUser` sul
-   runtime SA, `secretmanager.secretAccessor` al runtime SA sui due secret), pool/provider
-   OIDC GitHub. Stampa i `gh secret set` per `GCP_WIF_PROVIDER` e `GCP_DEPLOY_SA`.
-2. Secrets runtime: `firebase functions:secrets:set TELEGRAM_BOT_KEY` e
-   `firebase functions:secrets:set TELEGRAM_WEBHOOK_SECRET` (genera il secret con
-   `openssl rand -hex 32`).
-3. `infra/setup-firestore-ttl.sh` — TTL policy su `members_activity.expiresAt`.
+L'infrastruttura è **codice** ([infra/terraform](/infra/terraform), OpenTofu):
+API, service account `github-deploy` + ruoli, WIF pool/provider OIDC, Firestore
++ TTL, contenitori dei secret + accesso runtime.
+
+1. Prerequisiti fuori Terraform (permessi org/billing): creare il progetto e
+   collegare il billing account.
+2. `cd infra/terraform && export GOOGLE_OAUTH_ACCESS_TOKEN=$(gcloud auth print-access-token) && tofu init && tofu apply`.
+3. GitHub secrets: `gh secret set GCP_WIF_PROVIDER --body "$(tofu output -raw wif_provider)"` e
+   `gh secret set GCP_DEPLOY_SA --body "$(tofu output -raw deploy_sa_email)"`.
+4. Valori dei secret (fuori dallo stato): `gcloud secrets versions add TELEGRAM_BOT_KEY --data-file=-`
+   col token del BotFather, e `openssl rand -hex 32 | gcloud secrets versions add TELEGRAM_WEBHOOK_SECRET --data-file=-`.
+
+Vedi [infra/README](/infra/README.md) per i dettagli. La TTL su
+`members_activity.expiresAt` è gestita da Terraform (`google_firestore_field`).
 
 # Cutover gen1 → v2 (eseguito una volta, ordine obbligato)
 

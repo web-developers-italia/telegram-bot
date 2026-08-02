@@ -1,43 +1,61 @@
 # infra
 
-## setup-deploy-wif.sh
+Bootstrap dell'infrastruttura GCP del bot come **codice** (OpenTofu), in
+`terraform/`. Sostituisce i vecchi script `gcloud` imperativi.
 
-Configura, in modo idempotente, l'accesso di GitHub Actions a Google Cloud
-(progetto `wdi-telegram-bot`) via Workload Identity Federation, al posto di
-credenziali statiche (`FIREBASE_TOKEN`, chiavi JSON di service account).
+## Cosa gestisce `terraform/`
 
-Crea:
+Progetto `wdi-telegram-bot`, region `europe-west1`:
 
-- il service account di deploy `github-deploy@wdi-telegram-bot.iam.gserviceaccount.com`
-  con i ruoli minimi per deployare Functions/Firestore e impersonare il
-  runtime SA;
-- l'accesso in lettura ai secret `TELEGRAM_BOT_KEY` e `TELEGRAM_WEBHOOK_SECRET`
-  per il runtime SA delle Functions;
-- il Workload Identity Pool + Provider OIDC limitato al repository
-  `web-developers-italia/telegram-bot`.
+- **API** abilitate (Cloud Run/Functions, Artifact Registry, Eventarc, Cloud
+  Build, Secret Manager, Firestore, Firebase, IAM, …).
+- **Service account di deploy** `github-deploy@…` con i ruoli minimi
+  (`cloudfunctions.developer`, `firebaserules.admin`, `iam.serviceAccountUser`).
+- **Workload Identity Federation**: pool + provider OIDC limitati al repository
+  `web-developers-italia/telegram-bot`, così GitHub Actions deploya senza chiavi
+  statiche.
+- **Firestore** (database `(default)` + **TTL** su `members_activity.expiresAt`,
+  ~90gg).
+- **Secret Manager**: i contenitori `TELEGRAM_BOT_KEY` e `TELEGRAM_WEBHOOK_SECRET`
+  + accesso in lettura per il runtime SA. **I valori NON stanno in Terraform**
+  (vedi sotto).
 
-### Quando rilanciarlo
+## Uso (bootstrap una tantum, da un admin del progetto)
 
-- Prima del primo deploy con il nuovo workflow (`.github/workflows/deploy.yml`).
-- Se il progetto GCP, il nome del repository, o i secret usati a runtime
-  cambiano.
-- Dopo aver creato/rinominato i secret `TELEGRAM_BOT_KEY` o
-  `TELEGRAM_WEBHOOK_SECRET` in Secret Manager, per applicare il binding IAM
-  che lo script salta con un warning se il secret non esiste ancora.
-- Non ha effetti collaterali distruttivi se rilanciato: puoi eseguirlo ogni
-  volta che hai un dubbio sullo stato dei permessi.
+Prerequisiti fuori da Terraform (richiedono permessi org/billing): creazione del
+progetto e collegamento del billing account.
 
-### Dopo l'esecuzione
+```sh
+cd infra/terraform
+export GOOGLE_OAUTH_ACCESS_TOKEN=$(gcloud auth print-access-token)  # niente ADC separate
+tofu init
+tofu apply
+```
 
-Lo script stampa i due valori da salvare come GitHub secrets del repository
-(e i comandi `gh secret set` pronti all'uso):
+Lo stato è **locale e non committato** (`.gitignore`): il bootstrap è un'azione
+rara fatta da un admin. Per un uso a più mani, spostare lo stato su un backend
+GCS. `<!-- ponytail: stato locale per un bootstrap solo; backend GCS se serve condivisione -->`
 
-- `GCP_WIF_PROVIDER`: resource name del provider OIDC.
-- `GCP_DEPLOY_SA`: email del service account di deploy.
+Gli `output` danno i due valori da mettere nei GitHub secrets:
 
-### Nota su TELEGRAM_BOT_KEY
+```sh
+tofu output -raw wif_provider   # -> gh secret set GCP_WIF_PROVIDER
+tofu output -raw deploy_sa_email # -> gh secret set GCP_DEPLOY_SA
+```
 
-`TELEGRAM_BOT_KEY` deve restare configurato anche come **GitHub secret**
-(non solo in Secret Manager): i workflow di notifica Telegram
-(`open_issue_telegram_notify.yml`, `close_issue_telegram_notify.yml`,
-`open_pr_telegram_notify.yml`) lo leggono da li' e non passano da GCP.
+## Valori dei secret (fuori da Terraform)
+
+I contenitori sono creati da Terraform; le **versioni** (i valori) si aggiungono
+a parte, così non finiscono nello stato:
+
+```sh
+printf '%s' "$BOT_TOKEN"      | gcloud secrets versions add TELEGRAM_BOT_KEY --data-file=- --project wdi-telegram-bot
+openssl rand -hex 32 | tr -d '\n' | gcloud secrets versions add TELEGRAM_WEBHOOK_SECRET --data-file=- --project wdi-telegram-bot
+```
+
+## Nota su TELEGRAM_BOT_KEY
+
+`TELEGRAM_BOT_KEY` vive in **due** posti: Secret Manager (runtime del bot) **e**
+GitHub secret, perché i workflow di notifica Telegram
+(`open_issue_telegram_notify.yml`, ecc.) lo leggono da lì e non passano da GCP.
+Non cancellare il GitHub secret. Vedi la [rotazione del token](../.okf/runbooks/token-rotation.md).
