@@ -26,11 +26,20 @@ locals {
   # con `firebase functions:secrets:set` / gcloud — vedi README).
   secrets = ["TELEGRAM_BOT_KEY", "TELEGRAM_WEBHOOK_SECRET"]
 
-  # Ruoli minimi del SA di deploy (gen2 + secrets + rules).
+  # Ruoli del SA di deploy: sufficienti per il primo deploy gen2 (che orchestra
+  # Cloud Run + Artifact Registry + Cloud Build) via firebase-tools, oltre a
+  # Firestore rules e ai secret. SA dedicato e vincolato via WIF a un solo repo.
   deploy_roles = [
-    "roles/cloudfunctions.developer",
+    "roles/cloudfunctions.admin",
+    "roles/run.admin",
+    "roles/artifactregistry.admin",
+    "roles/cloudbuild.builds.editor",
+    "roles/eventarc.admin",
     "roles/firebaserules.admin",
     "roles/iam.serviceAccountUser",
+    "roles/serviceusage.serviceUsageConsumer",
+    "roles/secretmanager.admin",
+    "roles/firebase.admin",
   ]
 }
 

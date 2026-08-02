@@ -5,3 +5,4 @@
 
 ## 2026-08-02 (rollout)
 * **Cambio progetto GCP**: creato `wdi-telegram-bot` (il vecchio `insieme-dev-4450f` non è accessibile); aggiornati [.firebaserc](../.firebaserc), deploy.yml, script infra e [runbook deploy](runbooks/deploy.md); decisione n.11 in [modernizzazione-2026](decisions/modernizzazione-2026.md).
+* **Ruoli deploy SA**: [infra/terraform](../infra/terraform) — set ruoli del SA `github-deploy` ampliato per il primo deploy gen2 (Cloud Run/Artifact Registry/Cloud Build/Eventarc + secrets + firebase.admin), oltre a Firestore rules e `iam.serviceAccountUser`. Vedi [runbook deploy](runbooks/deploy.md).
