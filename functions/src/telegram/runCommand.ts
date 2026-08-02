@@ -24,11 +24,14 @@ export const makeCommandRunner =
 		const telegram = makeTelegramCtx(ctx);
 		const replyTo = telegram.message?.message_id;
 
-		const courtesyReply = (text: string) =>
-			telegram.reply(text, { replyTo }).pipe(
+		const courtesyReply = (text: string, error?: CommandError) =>
+			Effect.sync(() => {
+				if (error) logger.warn("command failed", error);
+			}).pipe(
+				Effect.andThen(telegram.reply(text, { replyTo })),
 				Effect.asVoid,
-				Effect.catchAll((error) =>
-					Effect.sync(() => logger.error("courtesy reply failed", error)),
+				Effect.catchAll((replyError) =>
+					Effect.sync(() => logger.error("courtesy reply failed", replyError)),
 				),
 			);
 
@@ -41,12 +44,21 @@ export const makeCommandRunner =
 					courtesyReply("Questo comando funziona solo nel gruppo."),
 				NotAdmin: () =>
 					courtesyReply("Questo comando è riservato agli amministratori."),
-				StorageError: () =>
-					courtesyReply("Dati non disponibili al momento, riprova più tardi."),
-				GithubRateLimited: () =>
-					courtesyReply("GitHub non risponde al momento, riprova più tardi."),
-				GithubUnavailable: () =>
-					courtesyReply("GitHub non risponde al momento, riprova più tardi."),
+				StorageError: (error) =>
+					courtesyReply(
+						"Dati non disponibili al momento, riprova più tardi.",
+						error,
+					),
+				GithubRateLimited: (error) =>
+					courtesyReply(
+						"GitHub non risponde al momento, riprova più tardi.",
+						error,
+					),
+				GithubUnavailable: (error) =>
+					courtesyReply(
+						"GitHub non risponde al momento, riprova più tardi.",
+						error,
+					),
 				TelegramApiError: (error) =>
 					Effect.sync(() => logger.error("telegram api error", error)),
 			}),
