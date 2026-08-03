@@ -6,9 +6,11 @@ import { learn } from "./learn.js";
 import { pong } from "./pong.js";
 import { rielabora } from "./rielabora.js";
 import { rules } from "./rules.js";
+import { start } from "./start.js";
 import { stats } from "./stats.js";
 
 export const commands: readonly Command[] = [
+	start,
 	pong,
 	rules,
 	learn,

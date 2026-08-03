@@ -1,4 +1,5 @@
 import { Cause, Effect, Exit, Layer, Option } from "effect";
+import type { InlineKeyboard } from "grammy";
 import type { ChatMember, ChatMemberUpdated, Message } from "grammy/types";
 import { BotConfig, make as makeBotConfig } from "../services/BotConfig.js";
 import { Github, type OpenItems } from "../services/Github.js";
@@ -18,6 +19,7 @@ export type RecordedReply = {
 	readonly text: string;
 	readonly replyTo?: number;
 	readonly disablePreview?: boolean;
+	readonly replyMarkup?: InlineKeyboard;
 };
 
 export type Recorded = {
@@ -41,6 +43,7 @@ type FakeOptions = {
 	readonly admins?: readonly ChatMember[];
 	readonly nextMessageId?: number;
 	readonly chatMemberUpdate?: ChatMemberUpdated;
+	readonly commandPayload?: string;
 };
 
 export const makeFakeTelegram = (options: FakeOptions = {}) => {
@@ -49,6 +52,7 @@ export const makeFakeTelegram = (options: FakeOptions = {}) => {
 	const service: TelegramCtxService = {
 		message: options.message,
 		chatType: options.chatType ?? options.message?.chat.type,
+		commandPayload: options.commandPayload,
 		chatMemberUpdate: options.chatMemberUpdate,
 		reply: (text, replyOptions) =>
 			Effect.sync(() => {
@@ -56,6 +60,7 @@ export const makeFakeTelegram = (options: FakeOptions = {}) => {
 					text: typeof text === "string" ? text : text.text,
 					replyTo: replyOptions?.replyTo,
 					disablePreview: replyOptions?.disablePreview,
+					replyMarkup: replyOptions?.replyMarkup,
 				});
 				return message({
 					message_id: options.nextMessageId ?? 100,

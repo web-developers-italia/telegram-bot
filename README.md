@@ -14,6 +14,7 @@ Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/web
 
 | Trigger | Cosa fa |
 |---|---|
+| `/start` | In DM: benvenuto con pulsanti per entrare nel gruppo e leggere il regolamento |
 | `/regolamento` `/regole` `/rules` | Mostra il regolamento |
 | `/ping` | Risponde `/pong 🏓` |
 | `/learn` | Risorse per iniziare col web development |

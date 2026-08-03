@@ -14,6 +14,7 @@ status: stable
 
 | Trigger | File | Comportamento | Errori tipizzati |
 |---|---|---|---|
+| `/start` | `start.ts` | DM: benvenuto + InlineKeyboard (Entra nel gruppo, Regolamento via deep-link `?start=regole`) | — |
 | `/regolamento` `/regole` `/rules` | `rules.ts` | Regolamento + link repo | — |
 | `/ping` | `pong.ts` | `/pong 🏓` | — |
 | `/learn` | `learn.ts` | Risorse per iniziare (reply al quotato se presente) | — |
