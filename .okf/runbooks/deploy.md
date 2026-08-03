@@ -39,6 +39,12 @@ API, service account `github-deploy` + ruoli, WIF pool/provider OIDC, Firestore
 Vedi [infra/README](/infra/README.md) per i dettagli. La TTL su
 `members_activity.expiresAt` è gestita da Terraform (`google_firestore_field`).
 
+**Infra in CI/CD**: dopo il seed, l'infra è gestita dai workflow
+[infra-plan.yml](/.github/workflows/infra-plan.yml) (plan su PR che toccano
+`infra/terraform/**`) e [infra-apply.yml](/.github/workflows/infra-apply.yml)
+(apply sul merge in `main`), autenticati via WIF come SA dedicato `github-infra`.
+Stato remoto su GCS. `tofu apply` locale resta possibile per admin (debug).
+
 # Cutover gen1 → v2 (eseguito una volta, ordine obbligato)
 
 La vecchia gen1 (`telegram-bot`) vive nel **vecchio progetto** `insieme-dev-4450f`,

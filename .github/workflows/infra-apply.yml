@@ -1,0 +1,44 @@
+name: Infra Apply
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - infra/terraform/**
+      - .github/workflows/infra-apply.yml
+
+concurrency:
+  group: infra-apply
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  apply:
+    name: OpenTofu apply
+    runs-on: ubuntu-latest
+    # Per aggiungere un gate umano: creare un Environment "infra" con required
+    # reviewers e scommentare la riga sotto.
+    # environment: infra
+    defaults:
+      run:
+        working-directory: infra/terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4 # v2.0.2
+        with:
+          tofu_version: 1.12.5
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_INFRA_SA }}
+      - name: Init
+        run: tofu init -input=false
+      - name: Apply
+        run: tofu apply -input=false -auto-approve -lock-timeout=120s
