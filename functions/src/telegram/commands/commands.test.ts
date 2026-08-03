@@ -5,6 +5,7 @@ import {
 	message,
 	runCommandExit,
 	runCommandWith,
+	testConfig,
 } from "../../test/helpers.js";
 import { admin } from "./admin.js";
 import { contribute } from "./contribute.js";
@@ -13,6 +14,34 @@ import { learn } from "./learn.js";
 import { pong } from "./pong.js";
 import { rielabora } from "./rielabora.js";
 import { rules } from "./rules.js";
+import { start } from "./start.js";
+
+describe("/start", () => {
+	it("manda il benvenuto con i pulsanti Entra nel gruppo e Regolamento", async () => {
+		const { service, calls } = makeFakeTelegram({
+			message: message({ chat: { id: 7, type: "private" } } as never),
+		});
+		await runCommandWith(start, service);
+
+		expect(calls.replies).toHaveLength(1);
+		expect(calls.replies[0].text).toContain("Benvenuto");
+		const buttons = calls.replies[0].replyMarkup?.inline_keyboard.flat() ?? [];
+		const urls = buttons.map((b) => (b as { url?: string }).url);
+		expect(urls).toContain(testConfig.groupUrl);
+		expect(urls.some((u) => u?.includes("start=regole"))).toBe(true);
+	});
+
+	it("/start regole (deep-link) mostra il regolamento", async () => {
+		const { service, calls } = makeFakeTelegram({
+			message: message(),
+			commandPayload: "regole",
+		});
+		await runCommandWith(start, service);
+
+		expect(calls.replies[0].text).toContain("Regolamento");
+		expect(calls.replies[0].replyMarkup).toBeUndefined();
+	});
+});
 
 describe("/ping", () => {
 	it("risponde /pong 🏓 in reply al comando", async () => {
