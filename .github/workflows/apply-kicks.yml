@@ -1,0 +1,49 @@
+name: Apply Kicks
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - moderation/pending-kicks.json
+
+concurrency:
+  group: apply-kicks
+
+permissions:
+  contents: write
+  id-token: read
+
+jobs:
+  apply:
+    name: Kick inactive members
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: functions/.nvmrc
+          cache: npm
+          cache-dependency-path: functions/package-lock.json
+      - name: Install dependencies
+        working-directory: functions
+        run: npm ci
+      - name: Apply kicks
+        working-directory: functions
+        env:
+          TELEGRAM_BOT_KEY: ${{ secrets.TELEGRAM_BOT_KEY }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: npx tsx scripts/apply-kicks.ts
+      - name: Commit reset pending-kicks.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- moderation/pending-kicks.json; then
+            echo "Nessuna modifica da committare."
+            exit 0
+          fi
+          git add moderation/pending-kicks.json
+          git commit -m "chore: reset pending-kicks.json dopo il kick"
+          git push
