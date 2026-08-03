@@ -25,21 +25,34 @@ if (pending.candidates.length === 0) {
 	process.exit(0);
 }
 
-const callBotApi = (method: string, body: Record<string, unknown>) =>
+type TelegramApiResponse = { ok: boolean; description?: string };
+
+const callBotApi = (
+	method: string,
+	body: Record<string, unknown>,
+): Promise<TelegramApiResponse> =>
 	fetch(`https://api.telegram.org/bot${token}/${method}`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(body),
 	}).then((res) => res.json());
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 let kicked = 0;
 
 for (const candidate of pending.candidates) {
 	try {
-		await callBotApi("banChatMember", {
+		const banRes = await callBotApi("banChatMember", {
 			chat_id: chatId,
 			user_id: candidate.userId,
 		});
+		if (!banRes.ok) {
+			console.error(
+				`Ban fallito per userId=${candidate.userId}: ${banRes.description}`,
+			);
+			continue;
+		}
 		await callBotApi("unbanChatMember", {
 			chat_id: chatId,
 			user_id: candidate.userId,
@@ -48,6 +61,8 @@ for (const candidate of pending.candidates) {
 		kicked += 1;
 	} catch (error) {
 		console.error(`Kick fallito per userId=${candidate.userId}:`, error);
+	} finally {
+		await sleep(50);
 	}
 }
 
