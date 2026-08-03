@@ -20,9 +20,9 @@ jobs:
   apply:
     name: OpenTofu apply
     runs-on: ubuntu-latest
-    # Per aggiungere un gate umano: creare un Environment "infra" con required
-    # reviewers e scommentare la riga sotto.
-    # environment: infra
+    # Gate umano: l'apply attende l'approvazione di un reviewer dell'Environment
+    # "infra" (required reviewers) prima di partire.
+    environment: infra
     defaults:
       run:
         working-directory: infra/terraform

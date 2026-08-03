@@ -26,9 +26,9 @@ admin locali condividono lo stesso stato con locking.
 - **`infra-plan.yml`** gira su ogni PR che tocca `infra/terraform/**`: `fmt`,
   `validate`, `plan` (il piano finisce nello step summary della PR). Non applica
   nulla.
-- **`infra-apply.yml`** gira sul merge in `main`: `tofu apply -auto-approve`.
-  Per aggiungere un gate umano, creare un Environment `infra` con required
-  reviewers e scommentare `environment: infra` nel workflow.
+- **`infra-apply.yml`** gira sul merge in `main`: `tofu apply -auto-approve`,
+  ma **gated** dall'Environment GitHub `infra` (required reviewers): l'apply
+  attende un'approvazione umana prima di partire.
 
 Entrambi si autenticano via WIF come **`github-infra@…`**, un SA dedicato con i
 ruoli IAM-admin necessari (separato da `github-deploy`, così il deploy dell'app
