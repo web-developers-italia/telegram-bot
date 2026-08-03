@@ -1,6 +1,14 @@
 terraform {
   required_version = ">= 1.6"
 
+  # Stato remoto condiviso (CI + admin locali). Il bucket è un seed di bootstrap
+  # creato fuori da questa config (vedi infra/README), così Terraform non gestisce
+  # lo storage del proprio stato.
+  backend "gcs" {
+    bucket = "wdi-telegram-bot-tfstate"
+    prefix = "telegram-bot"
+  }
+
   required_providers {
     google = {
       source  = "hashicorp/google"

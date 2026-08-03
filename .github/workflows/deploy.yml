@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+    paths:
+      - functions/**
+      - firestore.rules
+      - firestore.indexes.json
+      - firebase.json
+      - .github/workflows/deploy.yml
 
 concurrency:
   group: deploy
