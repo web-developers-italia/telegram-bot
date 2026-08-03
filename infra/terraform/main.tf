@@ -113,6 +113,28 @@ resource "google_service_account_iam_member" "wif_binding" {
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github.name}/attribute.repository/${var.github_repo}"
 }
 
+# --- Service account di moderazione (GitHub Actions, sola lettura) -------------
+
+resource "google_service_account" "moderation" {
+  project      = var.project_id
+  account_id   = "github-moderation"
+  display_name = "GitHub Actions Moderation (read-only)"
+
+  depends_on = [google_project_service.enabled]
+}
+
+resource "google_project_iam_member" "moderation_viewer" {
+  project = var.project_id
+  role    = "roles/datastore.viewer"
+  member  = "serviceAccount:${google_service_account.moderation.email}"
+}
+
+resource "google_service_account_iam_member" "moderation_wif" {
+  service_account_id = google_service_account.moderation.name
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github.name}/attribute.repository/${var.github_repo}"
+}
+
 # --- Firestore -----------------------------------------------------------------
 
 resource "google_firestore_database" "default" {

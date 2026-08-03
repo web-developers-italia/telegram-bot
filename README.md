@@ -24,7 +24,7 @@ Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/web
 | `@admin` `/admin` | Notifica gli amministratori (mention invisibili) |
 | `/stats` (solo admin) | Membri attivi negli ultimi 7/30 giorni |
 
-Automatismi: benvenuto ai nuovi membri (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, tracking attività con retention 90 giorni.
+Automatismi: benvenuto ai nuovi membri (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, tracking attività con retention 90 giorni, pulizia mensile degli inattivi review-gated via PR (vedi [`moderation/`](moderation/README.md)).
 
 ## Sviluppo locale (senza ngrok!)
 

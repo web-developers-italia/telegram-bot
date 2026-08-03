@@ -32,6 +32,7 @@ status: stable
 | messaggio "come canale" | `middleware/channelBan.ts` | Ban del sender_chat + delete + avviso (esclusi auto-forward) |
 | messaggio con link | `middleware/linkGuard.ts` | Se l'autore è entrato da <24h: delete + avviso (niente ban) |
 | join (`chat_member`) | `middleware/welcome.ts` | Benvenuto; un solo welcome vivo per chat; cap 60s anti mass-join |
+| schedulato (mensile) | `inactive-cleanup.yml` → `apply-kicks.yml` | Rileva inattivi >60gg, apre PR di review, kick rejoinabile al merge — vedi [pulizia inattivi](runbooks/inactive-cleanup.md) |
 
 # Come si aggiunge un comando
 

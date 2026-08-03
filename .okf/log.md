@@ -1,5 +1,19 @@
 # Update Log
 
+## 2026-08-03
+* **Pulizia inattivi review-gated (#71)**: nuova logica pura
+  [`functions/src/moderation/inactive.ts`](../functions/src/moderation/inactive.ts)
+  (`selectInactive`, soglia 60gg < TTL 90gg) + script
+  `functions/scripts/detect-inactive.ts` / `apply-kicks.ts` (tsx, non compilati).
+  Due workflow: [`inactive-cleanup.yml`](../.github/workflows/inactive-cleanup.yml)
+  (mensile, apre PR con i candidati) e
+  [`apply-kicks.yml`](../.github/workflows/apply-kicks.yml) (al merge, kick
+  rejoinabile + avviso gruppo + reset del file). Nuovo SA read-only
+  `github-moderation` (`roles/datastore.viewer`, WIF) in
+  [infra/terraform/main.tf](../infra/terraform/main.tf). Dettagli e caveat nel
+  nuovo [runbook](runbooks/inactive-cleanup.md) e in
+  [`moderation/README.md`](../moderation/README.md).
+
 ## 2026-08-02
 * **Creation**: bundle iniziale con la modernizzazione 2026 — [architettura](architecture.md), [comandi](commands.md), [dati](data/members-activity.md), [runbook deploy](runbooks/deploy.md), [rotazione token](runbooks/token-rotation.md), [decisioni](decisions/modernizzazione-2026.md).
 
