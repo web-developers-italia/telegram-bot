@@ -18,6 +18,10 @@ jobs:
           token: ${{ secrets.TELEGRAM_BOT_KEY }}
           disable_web_page_preview: true
           message: |
-            ${{ github.actor }} ha creato una pull request per migliorare il gruppo.
-            Tramite il repository open source, puoi amministrare il gruppo democraticamente, decidere le regole, gli amministratori e il futuro del gruppo.
-            Partecipa, vota e decidi: ${{ github.event.pull_request.html_url }}
+            🔀 Nuova pull request in ${{ github.repository }}
+            ${{ github.event.pull_request.title }}
+            aperta da ${{ github.actor }}
+
+            ${{ github.event.pull_request.html_url }}
+
+            Contribuisci al gruppo open source: https://github.com/${{ github.repository }}
