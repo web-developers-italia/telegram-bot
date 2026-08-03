@@ -31,10 +31,20 @@ const rows = snapshot.docs.map((doc) => {
 	};
 });
 
+const candidates = selectInactive(rows, nowMs);
+
+// Se non ci sono candidati, NON riscrivere il file: così non cambia nulla e
+// create-pull-request non apre una PR "vuota" (il solo bump del timestamp
+// altrimenti basterebbe a generare una PR che non kicka nessuno).
+if (candidates.length === 0) {
+	console.log("Nessun candidato inattivo: nessuna PR da aprire.");
+	process.exit(0);
+}
+
 const pending = {
 	generatedAt: new Date(nowMs).toISOString(),
 	thresholdDays: THRESHOLD_DAYS,
-	candidates: selectInactive(rows, nowMs),
+	candidates,
 };
 
 const outPath = path.resolve("..", "moderation", "pending-kicks.json");
