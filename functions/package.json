@@ -1,42 +1,45 @@
 {
-	"name": "functions",
-	"type": "module",
-	"scripts": {
-		"lint": "eslint . && prettier --check src",
-		"format": "prettier --write src",
-		"build": "rm -rf lib && tsc",
-		"test": "vitest run",
-		"test:watch": "vitest",
-		"dev": "tsx watch --env-file-if-exists=.env src/dev.ts",
-		"serve": "npm run build && firebase emulators:start --only functions",
-		"deploy": "firebase deploy --only functions,firestore",
-		"logs": "firebase functions:log",
-		"webhook:set": "tsx scripts/set-webhook.ts"
-	},
-	"engines": {
-		"node": "22"
-	},
-	"main": "lib/index.js",
-	"dependencies": {
-		"@grammyjs/parse-mode": "^2.3.0",
-		"effect": "^3.22.1",
-		"firebase-admin": "^14.2.0",
-		"firebase-functions": "^7.3.2",
-		"grammy": "^1.45.1",
-		"octokit": "^5.0.5"
-	},
-	"devDependencies": {
-		"@effect/vitest": "^0.30.0",
-		"@eslint/js": "^10.0.0",
-		"@types/node": "^22.15.0",
-		"eslint": "^10.8.0",
-		"eslint-config-prettier": "^10.1.8",
-		"firebase-tools": "^15.25.1",
-		"prettier": "^3.6.0",
-		"tsx": "^4.20.0",
-		"typescript": "~6.0.3",
-		"typescript-eslint": "^8.65.0",
-		"vitest": "~3.2.7"
-	},
-	"private": true
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . && prettier --check src",
+    "format": "prettier --write src",
+    "build": "rm -rf lib && tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "tsx watch --env-file-if-exists=.env src/dev.ts",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions,firestore",
+    "logs": "firebase functions:log",
+    "webhook:set": "tsx scripts/set-webhook.ts"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@grammyjs/parse-mode": "^2.3.0",
+    "effect": "^3.22.1",
+    "firebase-admin": "^14.2.0",
+    "firebase-functions": "^7.3.2",
+    "grammy": "^1.45.1",
+    "octokit": "^5.0.5"
+  },
+  "devDependencies": {
+    "@effect/vitest": "^0.30.0",
+    "@eslint/js": "^10.0.0",
+    "@types/node": "^22.15.0",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "firebase-tools": "^15.25.1",
+    "prettier": "^3.6.0",
+    "tsx": "^4.20.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.65.0",
+    "vitest": "~3.2.7"
+  },
+  "private": true,
+  "overrides": {
+    "uuid": "^11.1.1"
+  }
 }
