@@ -6,6 +6,8 @@ on:
       - reopened
       - opened
 
+permissions: {}
+
 jobs:
   notify_pr_open:
     name: Notify

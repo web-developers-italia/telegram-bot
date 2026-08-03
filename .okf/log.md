@@ -1,6 +1,15 @@
 # Update Log
 
 ## 2026-08-03
+* **Hardening permessi workflow (code-scanning `actions/missing-workflow-permissions`)**:
+  aggiunto blocco `permissions` esplicito a
+  [`ci.yml`](../.github/workflows/ci.yml) (`contents: read`) e ai tre workflow di
+  notifica Telegram [`open_pr`](../.github/workflows/open_pr_telegram_notify.yml),
+  [`open_issue`](../.github/workflows/open_issue_telegram_notify.yml),
+  [`close_issue`](../.github/workflows/close_issue_telegram_notify.yml) (`{}`,
+  nessun accesso al repo). Solo hardening del `GITHUB_TOKEN`, comportamento invariato.
+
+## 2026-08-03
 * **Pulizia inattivi review-gated (#71)**: nuova logica pura
   [`functions/src/moderation/inactive.ts`](../functions/src/moderation/inactive.ts)
   (`selectInactive`, soglia 60gg < TTL 90gg) + script
