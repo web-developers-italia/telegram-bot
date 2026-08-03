@@ -11,6 +11,10 @@ status: stable
 stale_after: "2027-08-01"
 ---
 
+> **Stato**: rollout completato il 2026-08-02. Il bot di produzione
+> `@web_dev_italia_bot` gira su `wdi-telegram-bot` (funzione gen2
+> `telegram-webhook`, europe-west1); il webhook punta al nuovo URL.
+
 # Deploy ordinario
 
 Push su `main` → [deploy.yml](/.github/workflows/deploy.yml): checkout → npm ci →
