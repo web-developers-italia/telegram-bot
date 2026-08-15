@@ -4,12 +4,13 @@ import type { BotConfig } from "../services/BotConfig.js";
 import type { Github } from "../services/Github.js";
 import type { Members } from "../services/Members.js";
 import type { Reactions } from "../services/Reactions.js";
+import type { Referrals } from "../services/Referrals.js";
 import type { CommandError } from "./errors.js";
 import { TelegramCtx } from "./TelegramCtx.js";
 
 /** Dipendenze massime disponibili a un comando. */
 export type CommandDeps =
-	TelegramCtx | BotConfig | Github | Members | Reactions;
+	TelegramCtx | BotConfig | Github | Members | Reactions | Referrals;
 
 export type Command = {
 	/** Trigger: "/comando" (registrato via bot.command) o testo esatto tipo "@admin" (via bot.hears). */

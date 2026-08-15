@@ -5,12 +5,13 @@ import type { BotConfig } from "../services/BotConfig.js";
 import type { Github } from "../services/Github.js";
 import type { Members } from "../services/Members.js";
 import type { Reactions } from "../services/Reactions.js";
+import type { Referrals } from "../services/Referrals.js";
 import type { CommandDeps } from "./CommandsProtocol.js";
 import type { CommandError } from "./errors.js";
 import { makeTelegramCtx, TelegramCtx } from "./TelegramCtx.js";
 
 /** Dipendenze fornite dal ManagedRuntime del bot: tutto tranne TelegramCtx, che viene creato per update. */
-type RunnerDeps = BotConfig | Github | Members | Reactions;
+type RunnerDeps = BotConfig | Github | Members | Reactions | Referrals;
 
 /**
  * Costruisce l'adattatore da programma Effect a middleware grammY:

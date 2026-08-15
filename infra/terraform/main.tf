@@ -175,6 +175,22 @@ resource "google_firestore_field" "message_reactions_ttl" {
   index_config {}
 }
 
+# TTL: elimina i documenti referrals ~90gg dopo l'ultimo aggiornamento (il
+# campo expiresAt è scritto dal codice come updatedAt + 90gg). Fa sì che la
+# classifica referral sia di fatto trimestrale: i contatori inattivi decadono.
+resource "google_firestore_field" "referrals_ttl" {
+  project    = var.project_id
+  database   = google_firestore_database.default.name
+  collection = "referrals"
+  field      = "expiresAt"
+
+  ttl_config {}
+
+  # Non gestiamo indici su questo campo (non ci interroghiamo sopra;
+  # referral-ranking.ts interroga invites, che resta sull'indicizzazione di default).
+  index_config {}
+}
+
 # --- Secret Manager (contenitori; i valori si aggiungono a parte) --------------
 
 resource "google_secret_manager_secret" "runtime" {

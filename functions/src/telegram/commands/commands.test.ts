@@ -3,6 +3,7 @@ import {
 	failureTag,
 	makeFakeTelegram,
 	message,
+	referralsStub,
 	runCommandExit,
 	runCommandWith,
 	testConfig,
@@ -10,6 +11,7 @@ import {
 import { admin } from "./admin.js";
 import { contribute } from "./contribute.js";
 import { dontasktoask } from "./dontasktoask.js";
+import { invito } from "./invito.js";
 import { learn } from "./learn.js";
 import { pong } from "./pong.js";
 import { rielabora } from "./rielabora.js";
@@ -174,5 +176,57 @@ describe("/rielabora", () => {
 		expect(mention?.text).toContain("@anna");
 		expect(mention?.text).toContain("rielabora la tua domanda");
 		expect(mention?.replyTo).toBe(77);
+	});
+});
+
+describe("/invito", () => {
+	it("crea il link quando l'utente non ne ha ancora uno", async () => {
+		const { service, calls } = makeFakeTelegram({ message: message() });
+		const { layer, savedLinks } = referralsStub();
+
+		await runCommandWith(
+			invito,
+			service,
+			undefined,
+			undefined,
+			undefined,
+			layer,
+		);
+
+		expect(calls.createdInviteLinks).toEqual(["ref:7"]);
+		expect(calls.replies[0].text).toContain("https://t.me/+fake-invite");
+		expect(calls.replies[0].text).toContain("Mario");
+		expect(savedLinks).toEqual([
+			{ userId: 7, username: "mario", url: "https://t.me/+fake-invite" },
+		]);
+	});
+
+	it("riusa il link salvato senza chiamare createChatInviteLink", async () => {
+		const { service, calls } = makeFakeTelegram({ message: message() });
+		const { layer, savedLinks } = referralsStub({
+			linkFor: "https://t.me/+already-there",
+		});
+
+		await runCommandWith(
+			invito,
+			service,
+			undefined,
+			undefined,
+			undefined,
+			layer,
+		);
+
+		expect(calls.createdInviteLinks).toHaveLength(0);
+		expect(calls.replies[0].text).toContain("https://t.me/+already-there");
+		expect(savedLinks).toHaveLength(0);
+	});
+
+	it("fallisce con NotAGroup in chat privata", async () => {
+		const { service } = makeFakeTelegram({
+			message: message({ chat: { id: 5, type: "private" } } as never),
+		});
+
+		const exit = await runCommandExit(invito, service);
+		expect(failureTag(exit)).toBe("NotAGroup");
 	});
 });

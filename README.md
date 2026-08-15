@@ -25,8 +25,11 @@ Sito della community: [web-developers-italia.github.io/telegram-bot](https://web
 | `/contribute` `/contribuisci` | Link alla repo + PR e issue aperte |
 | `@admin` `/admin` | Notifica gli amministratori (mention invisibili) |
 | `/stats` (solo admin) | Membri attivi negli ultimi 7/30 giorni |
+| `/invito` `/invite` | Il tuo link d'invito personale: chi entra dal gruppo tramite quel link viene attribuito a te |
 
-Automatismi: benvenuto ai nuovi membri (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, tracking attività con retention 90 giorni, pulizia mensile degli inattivi review-gated via PR (vedi [`moderation/`](moderation/README.md)), digest settimanale dei messaggi più apprezzati per reazioni con link diretti nel gruppo (e versione testo per LinkedIn nel log del workflow).
+Automatismi: benvenuto ai nuovi membri (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, tracking attività con retention 90 giorni, pulizia mensile degli inattivi review-gated via PR (vedi [`moderation/`](moderation/README.md)), digest settimanale dei messaggi più apprezzati per reazioni con link diretti nel gruppo (e versione testo per LinkedIn nel log del workflow), attribuzione degli ingressi al link d'invito personale (`/invito`) con classifica trimestrale di chi ha portato più dev nel gruppo.
+
+Il bot deve avere il permesso amministratore "Invite users via link" per poter creare i link d'invito personali di `/invito`.
 
 ## Sviluppo locale (senza ngrok!)
 
@@ -79,4 +82,4 @@ Il runbook completo (rotazione token, cutover, ruoli IAM) è nel bundle di conos
 
 ## Privacy
 
-Il bot salva per ogni membro solo: user id, username, timestamp di ultima attività e di ingresso nel gruppo. Per i messaggi del gruppo salva inoltre solo: chat id, message id e conteggio delle reazioni ricevute (mai il testo del messaggio). In entrambi i casi i dati scadono automaticamente 90 giorni dopo l'ultimo aggiornamento e non sono accessibili a client esterni (Firestore rules deny-all).
+Il bot salva per ogni membro solo: user id, username, timestamp di ultima attività e di ingresso nel gruppo. Per i messaggi del gruppo salva inoltre solo: chat id, message id e conteggio delle reazioni ricevute (mai il testo del messaggio). Per i referral salva solo: user id, username, link d'invito personale e conteggio inviti. In tutti i casi i dati scadono automaticamente 90 giorni dopo l'ultimo aggiornamento e non sono accessibili a client esterni (Firestore rules deny-all).

@@ -1,6 +1,7 @@
 import type { FormattedString } from "@grammyjs/parse-mode";
 import { Context as EffectContext, Effect } from "effect";
 import type {
+	ChatInviteLink,
 	ChatMember,
 	ChatMemberUpdated,
 	Message,
@@ -45,6 +46,10 @@ export type TelegramCtxService = {
 		readonly ChatMember[],
 		TelegramApiError
 	>;
+	/** Crea un nuovo invite link per la chat corrente (richiede il bot admin con diritto d'invito). */
+	readonly createChatInviteLink: (
+		name: string,
+	) => Effect.Effect<ChatInviteLink, TelegramApiError>;
 };
 
 export class TelegramCtx extends EffectContext.Tag("TelegramCtx")<
@@ -93,4 +98,6 @@ export const makeTelegramCtx = (ctx: Context): TelegramCtxService => ({
 		),
 	getChatAdministrators: () =>
 		call("getChatAdministrators", () => ctx.getChatAdministrators()),
+	createChatInviteLink: (name) =>
+		call("createChatInviteLink", () => ctx.createChatInviteLink({ name })),
 });
