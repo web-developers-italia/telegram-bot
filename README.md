@@ -2,6 +2,8 @@
 
 Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/webdevitalia), mettendo a disposizione una serie di strumenti.
 
+Sito della community: [web-developers-italia.github.io/telegram-bot](https://web-developers-italia.github.io/telegram-bot/) (sorgente in `site/`, deploy automatico su GitHub Pages).
+
 ## Dettagli tecnici
 
 - **Framework bot**: [grammY](https://grammy.dev/) (TypeScript, ESM)

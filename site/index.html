@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web Developers Italia - il gruppo Telegram degli sviluppatori web italiani</title>
+  <meta name="description" content="Web Developers Italia è la community Telegram degli sviluppatori web italiani: domande tecniche, carriera, lavoro e moderazione attiva. Entra gratis.">
+  <link rel="canonical" href="https://web-developers-italia.github.io/telegram-bot/">
+  <meta property="og:title" content="Web Developers Italia - il gruppo Telegram degli sviluppatori web italiani">
+  <meta property="og:description" content="Web Developers Italia è la community Telegram degli sviluppatori web italiani: domande tecniche, carriera, lavoro e moderazione attiva. Entra gratis.">
+  <meta property="og:url" content="https://web-developers-italia.github.io/telegram-bot/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#0067a6">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --surface: #f4f6f8;
+      --text: #1a2233;
+      --text-muted: #4b5568;
+      --accent: #0067a6;
+      --accent-contrast: #ffffff;
+      --border: #dde3ea;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --surface: #1a2740;
+        --text: #e6edf5;
+        --text-muted: #a7b4c6;
+        --accent: #4db8ff;
+        --accent-contrast: #06263b;
+        --border: #2b3a54;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.1em 0.4em;
+      font-size: 0.92em;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3.5rem 1.25rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero h1 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(2rem, 5vw + 1rem, 2.75rem);
+      letter-spacing: -0.02em;
+    }
+
+    .hero .tagline {
+      margin: 0 auto 1rem;
+      max-width: 40rem;
+      font-size: 1.25rem;
+      color: var(--text-muted);
+    }
+
+    .hero p.lead {
+      margin: 0 auto 2rem;
+      max-width: 38rem;
+      color: var(--text-muted);
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+      padding: 0.85rem 1.75rem;
+      border-radius: 999px;
+      transition: opacity 0.15s ease;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      opacity: 0.85;
+    }
+
+    a:focus-visible,
+    .btn:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    main section {
+      padding: 2.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    main section:last-child {
+      border-bottom: none;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin: 0 0 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    p {
+      margin: 0 0 1rem;
+    }
+
+    ul {
+      margin: 0 0 1rem;
+      padding-left: 1.25rem;
+    }
+
+    li {
+      margin-bottom: 0.6rem;
+    }
+
+    ul.rules {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.rules li {
+      padding-left: 1.75rem;
+      position: relative;
+    }
+
+    footer {
+      padding: 2.5rem 1.25rem 3rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    footer a {
+      color: var(--text);
+    }
+
+    footer .privacy {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>Web Developers Italia</h1>
+    <p class="tagline">La community Telegram degli sviluppatori web italiani</p>
+    <p class="lead">Domande tecniche su frontend, backend e DevOps, confronto sulla carriera e opportunità di lavoro, in un gruppo italiano attivo e moderato ogni giorno.</p>
+    <a class="btn" href="https://t.me/webdevitalia" target="_blank" rel="noopener noreferrer">🚀 Entra nel gruppo</a>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="s-community">
+      <h2 id="s-community">Il gruppo Telegram degli sviluppatori web italiani</h2>
+      <p>Web Developers Italia è una community italiana nata per chi lavora, studia o si affaccia allo sviluppo web: sviluppatori frontend e backend, DevOps engineer, designer e chiunque voglia crescere professionalmente confrontandosi con altri sviluppatori web. Il gruppo Telegram è il punto d'incontro quotidiano per fare domande, condividere esperienze e restare aggiornati sul mondo della programmazione.</p>
+    </section>
+
+    <section aria-labelledby="s-cosa-trovi">
+      <h2 id="s-cosa-trovi">Cosa trovi nel gruppo</h2>
+      <ul>
+        <li>Domande tecniche tra professionisti su frontend, backend, DevOps e non solo</li>
+        <li>Discussioni su carriera e lavoro nel mondo dello sviluppo web</li>
+        <li>Offerte di lavoro pubblicate solo con RAL o range retributivo indicato</li>
+        <li>Moderazione attiva, supportata da un bot open source</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="s-come-entrare">
+      <h2 id="s-come-entrare">Come entrare</h2>
+      <p>L'iscrizione è gratuita e richiede solo un account Telegram: clicca il pulsante, unisciti al gruppo e presentati agli altri membri della community.</p>
+      <a class="btn" href="https://t.me/webdevitalia" target="_blank" rel="noopener noreferrer">🚀 Entra nel gruppo</a>
+    </section>
+
+    <section aria-labelledby="s-regole">
+      <h2 id="s-regole">Regolamento in breve</h2>
+      <!-- Da tenere in sync con functions/src/telegram/commands/rules.ts -->
+      <ul class="rules">
+        <li>✅ Richieste di supporto specifiche, chiare e concise, con le soluzioni già provate</li>
+        <li>❌ Richieste di aiuto in privato</li>
+        <li>✅ Offerte di lavoro solo con tipo di contratto e range di retribuzione</li>
+        <li>❌ Spam di qualsiasi forma nel flusso di chat</li>
+        <li>✅ Discussioni su news, lavoro e lifestyle del web developer</li>
+        <li>❌ Contenuti che urtano la sensibilità dei membri (gore, porno, nudità)</li>
+        <li>✅ Codice condiviso con strumenti dedicati (Pastebin, Codepen, Stackblitz)</li>
+        <li>❌ Messaggi inviati come canale invece che dal proprio profilo personale</li>
+      </ul>
+      <p>Il regolamento completo è disponibile nel gruppo con il comando <code>/regole</code>.</p>
+    </section>
+
+    <section aria-labelledby="s-risorse">
+      <h2 id="s-risorse">Risorse per iniziare</h2>
+      <p>Sei nuovo nel mondo del web development? Nel gruppo si consigliano spesso queste risorse:</p>
+      <h3>Per iniziare</h3>
+      <ul>
+        <li><a href="https://roadmap.sh/" target="_blank" rel="noopener noreferrer">roadmap.sh</a> — percorsi guidati per ogni ruolo tech</li>
+        <li><a href="http://jsforcats.com/" target="_blank" rel="noopener noreferrer">JS for Cats</a> — introduzione a JavaScript</li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide" target="_blank" rel="noopener noreferrer">MDN JavaScript Guide</a> — la guida di riferimento a JavaScript</li>
+        <li><a href="https://github.com/getify/You-Dont-Know-JS" target="_blank" rel="noopener noreferrer">You Don't Know JS</a> — serie di libri gratuiti su JavaScript</li>
+        <li><a href="https://github.com/EbookFoundation/free-programming-books" target="_blank" rel="noopener noreferrer">Free Programming Books</a> — raccolta di libri di programmazione gratuiti</li>
+      </ul>
+      <h3>Piattaforme di e-learning</h3>
+      <ul>
+        <li><a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">freeCodeCamp</a></li>
+        <li><a href="https://www.codecademy.com/" target="_blank" rel="noopener noreferrer">Codecademy</a></li>
+        <li><a href="https://www.codewars.com/" target="_blank" rel="noopener noreferrer">Codewars</a></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="s-bot">
+      <h2 id="s-bot">Il bot del gruppo</h2>
+      <p>Il gruppo è gestito da un bot open source scritto in TypeScript: chiunque può leggerne il codice o contribuire con una pull request sulla <a href="https://github.com/web-developers-italia/telegram-bot" target="_blank" rel="noopener noreferrer">repository GitHub</a>.</p>
+      <p>Tra i comandi principali: <code>/regole</code> mostra il regolamento, <code>/learn</code> suggerisce risorse per iniziare, <code>/contribute</code> porta alla repo e alle issue aperte, <code>/start</code> in chat privata mostra il messaggio di benvenuto.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      <a href="https://t.me/webdevitalia" target="_blank" rel="noopener noreferrer">Entra nel gruppo Telegram</a>
+      ·
+      <a href="https://github.com/web-developers-italia/telegram-bot" target="_blank" rel="noopener noreferrer">Codice del bot su GitHub</a>
+    </p>
+    <p class="privacy">Il bot salva solo id utente, username e timestamp di attività, con retention di 90 giorni.</p>
+  </footer>
+</body>
+</html>
