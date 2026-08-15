@@ -17,7 +17,7 @@ status: stable
 | `/start` | `start.ts` | DM: benvenuto + InlineKeyboard (Entra nel gruppo, Regolamento via deep-link `?start=regole`) | — |
 | `/regolamento` `/regole` `/rules` | `rules.ts` | Regolamento + link repo | — |
 | `/ping` | `pong.ts` | `/pong 🏓` | — |
-| `/learn` | `learn.ts` | Risorse per iniziare (reply al quotato se presente) | — |
+| `/learn` | `learn.ts` | Risorse 2026: percorsi web dev (roadmap.sh, MDN Learn, Odin, freeCodeCamp), project-based learning, sezione agenti AI (HF Agents Course, guide Anthropic, LangGraph) (reply al quotato se presente) | — |
 | `/dontasktoask` `/nonchiederedichiedere` | `dontasktoask.ts` | Invito a domande dirette | — |
 | `/rielabora` | `rielabora.ts` | Solo in reply: manda regole, cancella il quotato, menziona l'autore | `MissingReply` |
 | `/contribute` `/contribuisci` | `contribute.ts` | Repo + PR/issue aperte (cache 5 min, split `pull_request`) | `GithubRateLimited`, `GithubUnavailable` |
