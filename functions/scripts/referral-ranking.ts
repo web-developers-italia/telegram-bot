@@ -7,27 +7,23 @@
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { rankingText, type ReferralRow } from "../src/community/referrals.js";
+import { makeCallBotApi, requireTelegramEnv } from "./lib/telegram-api.js";
 
 const TOP_LIMIT = 10;
 
-const token = process.env.TELEGRAM_BOT_KEY;
-const chatId = process.env.TELEGRAM_CHAT_ID;
-
-if (!token || !chatId) {
-	console.error(
-		"Variabili mancanti: servono TELEGRAM_BOT_KEY e TELEGRAM_CHAT_ID.",
-	);
-	process.exit(1);
-}
+const { token, chatId } = requireTelegramEnv();
+const callBotApi = makeCallBotApi(token);
 
 initializeApp();
 
 const snapshot = await getFirestore()
 	.collection("referrals")
 	.where("invites", ">", 0)
+	.orderBy("invites", "desc")
+	.limit(TOP_LIMIT)
 	.get();
 
-const rows: ReferralRow[] = snapshot.docs.map((doc) => {
+const top: ReferralRow[] = snapshot.docs.map((doc) => {
 	const data = doc.data();
 	return {
 		userId: Number(doc.id),
@@ -36,33 +32,24 @@ const rows: ReferralRow[] = snapshot.docs.map((doc) => {
 	};
 });
 
-const top = rows.toSorted((a, b) => b.invites - a.invites).slice(0, TOP_LIMIT);
-
 if (top.length === 0) {
 	console.log("Nessun invito registrato.");
 	process.exit(0);
 }
 
-type TelegramApiResponse = { ok: boolean; description?: string };
+try {
+	const sendResult = await callBotApi("sendMessage", {
+		chat_id: chatId,
+		text: rankingText(top),
+	});
 
-const callBotApi = (
-	method: string,
-	body: Record<string, unknown>,
-): Promise<TelegramApiResponse> =>
-	fetch(`https://api.telegram.org/bot${token}/${method}`, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(body),
-	}).then((res) => res.json());
+	if (!sendResult.ok) {
+		console.error(`Classifica referral fallita: ${sendResult.description}`);
+		process.exit(1);
+	}
 
-const sendResult = await callBotApi("sendMessage", {
-	chat_id: chatId,
-	text: rankingText(top),
-});
-
-if (!sendResult.ok) {
-	console.error(`Classifica referral fallita: ${sendResult.description}`);
+	console.log(`Classifica referral inviata: ${top.length} referrer.`);
+} catch (error) {
+	console.error("Classifica referral fallita:", error);
 	process.exit(1);
 }
-
-console.log(`Classifica referral inviata: ${top.length} referrer.`);

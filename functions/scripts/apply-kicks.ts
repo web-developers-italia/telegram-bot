@@ -6,16 +6,10 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { emptyPending, type PendingKicks } from "../src/moderation/inactive.js";
+import { makeCallBotApi, requireTelegramEnv } from "./lib/telegram-api.js";
 
-const token = process.env.TELEGRAM_BOT_KEY;
-const chatId = process.env.TELEGRAM_CHAT_ID;
-
-if (!token || !chatId) {
-	console.error(
-		"Variabili mancanti: servono TELEGRAM_BOT_KEY e TELEGRAM_CHAT_ID.",
-	);
-	process.exit(1);
-}
+const { token, chatId } = requireTelegramEnv();
+const callBotApi = makeCallBotApi(token);
 
 const pendingPath = path.resolve("..", "moderation", "pending-kicks.json");
 const pending = JSON.parse(await readFile(pendingPath, "utf8")) as PendingKicks;
@@ -24,18 +18,6 @@ if (pending.candidates.length === 0) {
 	console.log("Nessun candidato al kick, nulla da fare.");
 	process.exit(0);
 }
-
-type TelegramApiResponse = { ok: boolean; description?: string };
-
-const callBotApi = (
-	method: string,
-	body: Record<string, unknown>,
-): Promise<TelegramApiResponse> =>
-	fetch(`https://api.telegram.org/bot${token}/${method}`, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(body),
-	}).then((res) => res.json());
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 

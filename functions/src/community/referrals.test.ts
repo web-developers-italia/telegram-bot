@@ -19,6 +19,15 @@ describe("inviteLinkName / referrerFromLinkName", () => {
 		expect(referrerFromLinkName("altro-link")).toBeUndefined();
 		expect(referrerFromLinkName("ref:non-numerico")).toBeUndefined();
 	});
+
+	it("accetta solo interi positivi, senza spazi né notazioni alternative", () => {
+		expect(referrerFromLinkName("ref:")).toBeUndefined();
+		expect(referrerFromLinkName("ref:0")).toBeUndefined();
+		expect(referrerFromLinkName("ref:-5")).toBeUndefined();
+		expect(referrerFromLinkName("ref:0x10")).toBeUndefined();
+		expect(referrerFromLinkName(" ref:5")).toBeUndefined();
+		expect(referrerFromLinkName("ref:42")).toBe(42);
+	});
 });
 
 describe("rankingText", () => {
@@ -34,7 +43,7 @@ describe("rankingText", () => {
 		];
 
 		const text = rankingText(rows);
-		const lines = text.split("\n").slice(2);
+		const lines = text.split("\n").slice(2, 5);
 
 		expect(lines).toEqual([
 			"1. @anna - 10 inviti",
@@ -49,5 +58,15 @@ describe("rankingText", () => {
 		];
 
 		expect(rankingText(rows)).toContain("1. utente 99 - 1 inviti");
+	});
+
+	it("include la nota sulla scadenza a 90 giorni", () => {
+		const rows: readonly ReferralRow[] = [
+			{ userId: 1, username: "mario", invites: 2 },
+		];
+
+		expect(rankingText(rows)).toContain(
+			"(contano gli inviti recenti: i contatori scadono dopo 90 giorni senza nuovi inviti)",
+		);
 	});
 });

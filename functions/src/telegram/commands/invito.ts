@@ -2,12 +2,13 @@ import { fmt, FormattedString } from "@grammyjs/parse-mode";
 import { Effect } from "effect";
 import { inviteLinkName } from "../../community/referrals.js";
 import { Referrals } from "../../services/Referrals.js";
+import { isGroupChat } from "../chat.js";
 import { defineCommand, type Command } from "../CommandsProtocol.js";
 import { NotAGroup } from "../errors.js";
 import { TelegramCtx } from "../TelegramCtx.js";
 
-const isGroupChat = (chatType: string | undefined): boolean =>
-	chatType === "group" || chatType === "supergroup";
+const NO_PERMISSION_TEXT =
+	'⚠️ Non riesco a generare il tuo link: al bot manca il permesso admin "Invita utenti tramite link". Segnalalo a un admin del gruppo.';
 
 const sendInvito = Effect.gen(function* () {
 	const telegram = yield* TelegramCtx;
@@ -22,10 +23,24 @@ const sendInvito = Effect.gen(function* () {
 	let url = yield* referrals.linkFor(from.id);
 
 	if (!url) {
-		const link = yield* telegram.createChatInviteLink(inviteLinkName(from.id));
+		const link = yield* telegram
+			.createChatInviteLink(inviteLinkName(from.id))
+			.pipe(
+				Effect.catchTag("TelegramApiError", () =>
+					telegram
+						.reply(NO_PERMISSION_TEXT, {
+							replyTo: telegram.message?.message_id,
+						})
+						.pipe(Effect.as(undefined)),
+				),
+			);
+		if (!link) return;
 		url = link.invite_link;
-		yield* referrals.saveLink(from.id, from.username, url);
 	}
+
+	// ponytail: il link cachato non viene mai rivalidato: se un admin lo revoca
+	// dall'app resta servito; rimedio manuale: cancellare il doc referrals/<userId>.
+	yield* referrals.saveLink(from.id, from.username, url);
 
 	yield* telegram.reply(
 		fmt`🔗 ${FormattedString.mentionUser(from.first_name, from.id)}, questo è il tuo link d'invito personale: ${url}

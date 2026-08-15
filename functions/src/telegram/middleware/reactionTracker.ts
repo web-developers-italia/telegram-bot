@@ -1,10 +1,8 @@
 import { Effect } from "effect";
 import { logger } from "firebase-functions/logger";
 import { Reactions } from "../../services/Reactions.js";
+import { isGroupChat } from "../chat.js";
 import { TelegramCtx } from "../TelegramCtx.js";
-
-const isGroupChat = (chatType: string | undefined): boolean =>
-	chatType === "group" || chatType === "supergroup";
 
 /**
  * Gira sugli update message_reaction / message_reaction_count: aggiorna il
@@ -20,6 +18,9 @@ export const reactionTracker: Effect.Effect<
 	const telegram = yield* TelegramCtx;
 
 	const reactionCount = telegram.messageReactionCount;
+	// ponytail: message_reaction_count arriva aggregato e ritardato: un setCount
+	// stantio può temporaneamente sovrascrivere delta più freschi; deriva
+	// transitoria, si riallinea al prossimo aggregato.
 	if (reactionCount) {
 		if (!isGroupChat(reactionCount.chat.type)) return;
 

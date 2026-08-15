@@ -1,17 +1,16 @@
 const LINK_NAME_PREFIX = "ref:";
+const REFERRAL_LINK_NAME = /^ref:([1-9]\d*)$/;
 
 /** Nome dell'invite link personale di un utente: codifica il referrer. */
 export const inviteLinkName = (userId: number): string =>
 	`${LINK_NAME_PREFIX}${userId}`;
 
-/** Referrer da un nome di invite link, undefined se assente o non nel formato "ref:<id>". */
+/** Referrer da un nome di invite link, undefined se assente o non nel formato "ref:<intero positivo>". */
 export const referrerFromLinkName = (
 	name: string | undefined,
 ): number | undefined => {
-	if (!name?.startsWith(LINK_NAME_PREFIX)) return undefined;
-
-	const id = Number(name.slice(LINK_NAME_PREFIX.length));
-	return Number.isInteger(id) ? id : undefined;
+	const match = name?.match(REFERRAL_LINK_NAME);
+	return match ? Number(match[1]) : undefined;
 };
 
 export type ReferralRow = {
@@ -30,5 +29,11 @@ export const rankingText = (rows: readonly ReferralRow[]): string => {
 		return `${index + 1}. ${who} - ${row.invites} inviti`;
 	});
 
-	return ["🏆 Chi ha portato più dev nel gruppo", "", ...lines].join("\n");
+	return [
+		"🏆 Chi ha portato più dev nel gruppo",
+		"",
+		...lines,
+		"",
+		"(contano gli inviti recenti: i contatori scadono dopo 90 giorni senza nuovi inviti)",
+	].join("\n");
 };

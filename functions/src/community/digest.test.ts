@@ -8,10 +8,8 @@ import {
 } from "./digest.js";
 
 describe("messageLink", () => {
-	it("rimuove il prefisso -100 dell'id supergruppo", () => {
-		expect(messageLink(-1001234567890, 55)).toBe(
-			"https://t.me/c/1234567890/55",
-		);
+	it("genera un link diretto al gruppo pubblico", () => {
+		expect(messageLink(55)).toBe("https://t.me/webdevitalia/55");
 	});
 });
 
@@ -49,8 +47,9 @@ describe("digestText", () => {
 
 		const text = digestText(top);
 
-		expect(text).toContain("1. 12 reazioni - https://t.me/c/1234567890/55");
-		expect(text).toContain("2. 8 reazioni - https://t.me/c/1234567890/56");
+		expect(text).toContain("1. 12 reazioni - https://t.me/webdevitalia/55");
+		expect(text).toContain("2. 8 reazioni - https://t.me/webdevitalia/56");
+		expect(text).toContain("🔥 I messaggi più reagiti del gruppo");
 	});
 
 	it("stringa vuota se non ci sono messaggi sopra soglia", () => {
@@ -65,6 +64,16 @@ describe("linkedinText", () => {
 		];
 
 		expect(linkedinText(top)).toContain("https://t.me/webdevitalia");
+	});
+
+	it("non implica un conteggio settimanale", () => {
+		const top: readonly TopMessage[] = [
+			{ chatId: -1001234567890, messageId: 55, reactions: 12 },
+		];
+
+		expect(linkedinText(top)).toContain(
+			"Le conversazioni più apprezzate di recente in Web Developers Italia:",
+		);
 	});
 
 	it("stringa vuota se non ci sono messaggi sopra soglia", () => {

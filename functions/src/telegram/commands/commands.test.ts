@@ -218,6 +218,31 @@ describe("/invito", () => {
 
 		expect(calls.createdInviteLinks).toHaveLength(0);
 		expect(calls.replies[0].text).toContain("https://t.me/+already-there");
+		expect(savedLinks).toEqual([
+			{ userId: 7, username: "mario", url: "https://t.me/+already-there" },
+		]);
+	});
+
+	it("senza permesso: risponde con l'avviso sul permesso admin", async () => {
+		const { service, calls } = makeFakeTelegram({
+			message: message(),
+			inviteLinkFails: true,
+		});
+		const { layer, savedLinks } = referralsStub();
+
+		await runCommandWith(
+			invito,
+			service,
+			undefined,
+			undefined,
+			undefined,
+			layer,
+		);
+
+		expect(calls.replies).toHaveLength(1);
+		expect(calls.replies[0].text).toContain(
+			'al bot manca il permesso admin "Invita utenti tramite link"',
+		);
 		expect(savedLinks).toHaveLength(0);
 	});
 

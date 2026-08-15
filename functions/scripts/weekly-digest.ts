@@ -13,20 +13,14 @@ import {
 	selectTop,
 	type TopMessage,
 } from "../src/community/digest.js";
+import { makeCallBotApi, requireTelegramEnv } from "./lib/telegram-api.js";
 
 const TOP_LIMIT = 5;
 const MIN_REACTIONS = 3;
 const WINDOW_DAYS = 7;
 
-const token = process.env.TELEGRAM_BOT_KEY;
-const chatId = process.env.TELEGRAM_CHAT_ID;
-
-if (!token || !chatId) {
-	console.error(
-		"Variabili mancanti: servono TELEGRAM_BOT_KEY e TELEGRAM_CHAT_ID.",
-	);
-	process.exit(1);
-}
+const { token, chatId } = requireTelegramEnv();
+const callBotApi = makeCallBotApi(token);
 
 initializeApp();
 
@@ -55,29 +49,22 @@ if (top.length === 0) {
 	process.exit(0);
 }
 
-type TelegramApiResponse = { ok: boolean; description?: string };
+try {
+	const sendResult = await callBotApi("sendMessage", {
+		chat_id: chatId,
+		text: digestText(top),
+		disable_web_page_preview: true,
+	});
 
-const callBotApi = (
-	method: string,
-	body: Record<string, unknown>,
-): Promise<TelegramApiResponse> =>
-	fetch(`https://api.telegram.org/bot${token}/${method}`, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(body),
-	}).then((res) => res.json());
+	if (!sendResult.ok) {
+		console.error(`Digest fallito: ${sendResult.description}`);
+		process.exit(1);
+	}
 
-const sendResult = await callBotApi("sendMessage", {
-	chat_id: chatId,
-	text: digestText(top),
-	disable_web_page_preview: true,
-});
-
-if (!sendResult.ok) {
-	console.error(`Digest fallito: ${sendResult.description}`);
+	console.log(`Digest inviato: ${top.length} messaggi.`);
+	console.log("--- Versione LinkedIn (copia da qui) ---");
+	console.log(linkedinText(top));
+} catch (error) {
+	console.error("Digest fallito:", error);
 	process.exit(1);
 }
-
-console.log(`Digest inviato: ${top.length} messaggi.`);
-console.log("--- Versione LinkedIn (copia da qui) ---");
-console.log(linkedinText(top));

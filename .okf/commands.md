@@ -37,8 +37,8 @@ status: stable
 | reazioni (`message_reaction`/`_count`) | `middleware/reactionTracker.ts` | Conteggio reazioni per messaggio su `message_reactions` (solo id e conteggi, mai il testo; TTL 90gg) |
 | schedulato (mensile) | `inactive-cleanup.yml` → `apply-kicks.yml` | Rileva inattivi >60gg, apre PR di review, kick rejoinabile al merge — vedi [pulizia inattivi](runbooks/inactive-cleanup.md) |
 | schedulato (mercoledì) | `job-day.yml` | Post settimanale "💼 Job day: chi assume / chi cerca" (formato con RAL da regolamento) |
-| schedulato (venerdì) | `weekly-digest.yml` | Digest dei top messaggi per reazioni (ultimi 7gg, min 3, top 5) con link diretti + versione LinkedIn nel log del workflow |
-| schedulato (trimestrale) | `referral-ranking.yml` | Classifica inviti (top 10) postata nel gruppo; finestra ~trimestrale via TTL 90gg |
+| schedulato (venerdì) | `weekly-digest.yml` | Digest dei messaggi più reagiti (selezione ultimi 7gg, min 3, top 5; conteggio reazioni cumulativo, non settimanale) con link diretti + versione LinkedIn nel log del workflow |
+| schedulato (trimestrale) | `referral-ranking.yml` | Classifica inviti (top 10) postata nel gruppo; i contatori scadono dopo 90gg senza nuovi inviti |
 
 # Come si aggiunge un comando
 

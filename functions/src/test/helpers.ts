@@ -58,6 +58,8 @@ type FakeOptions = {
 	readonly messageReactionCount?: MessageReactionCountUpdated;
 	/** URL restituita da createChatInviteLink; default un link fittizio stabile. */
 	readonly inviteLinkUrl?: string;
+	/** Se true, createChatInviteLink fallisce con TelegramApiError (es. permesso admin mancante). */
+	readonly inviteLinkFails?: boolean;
 };
 
 export const makeFakeTelegram = (options: FakeOptions = {}) => {
@@ -99,17 +101,24 @@ export const makeFakeTelegram = (options: FakeOptions = {}) => {
 						}),
 					),
 		createChatInviteLink: (name) =>
-			Effect.sync(() => {
-				calls.createdInviteLinks.push(name);
-				return {
-					invite_link: options.inviteLinkUrl ?? "https://t.me/+fake-invite",
-					name,
-					creator: message().from,
-					creates_join_request: false,
-					is_primary: false,
-					is_revoked: false,
-				} as ChatInviteLink;
-			}),
+			options.inviteLinkFails
+				? Effect.fail(
+						new TelegramApiError({
+							method: "createChatInviteLink",
+							cause: "not enough rights",
+						}),
+					)
+				: Effect.sync(() => {
+						calls.createdInviteLinks.push(name);
+						return {
+							invite_link: options.inviteLinkUrl ?? "https://t.me/+fake-invite",
+							name,
+							creator: message().from,
+							creates_join_request: false,
+							is_primary: false,
+							is_revoked: false,
+						} as ChatInviteLink;
+					}),
 	};
 
 	return { service, calls };

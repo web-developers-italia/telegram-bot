@@ -4,9 +4,9 @@ export type TopMessage = {
 	readonly reactions: number;
 };
 
-/** Link diretto a un messaggio di supergruppo (id con prefisso "-100"). */
-export const messageLink = (chatId: number, messageId: number): string =>
-	`https://t.me/c/${String(chatId).slice(4)}/${messageId}`;
+/** Link diretto a un messaggio: gruppo pubblico con username, il link funziona per chiunque. */
+export const messageLink = (messageId: number): string =>
+	`https://t.me/webdevitalia/${messageId}`;
 
 /** Righe sopra soglia, dalla più reagita, tagliate a `limit`. */
 export const selectTop = (
@@ -25,20 +25,20 @@ export const digestText = (top: readonly TopMessage[]): string => {
 
 	const lines = top.map(
 		(row, index) =>
-			`${index + 1}. ${row.reactions} reazioni - ${messageLink(row.chatId, row.messageId)}`,
+			`${index + 1}. ${row.reactions} reazioni - ${messageLink(row.messageId)}`,
 	);
 
-	return ["🔥 I messaggi della settimana", "", ...lines].join("\n");
+	return ["🔥 I messaggi più reagiti del gruppo", "", ...lines].join("\n");
 };
 
 /** Versione discorsiva per un post LinkedIn. Stringa vuota se non c'è nulla sopra soglia. */
 export const linkedinText = (top: readonly TopMessage[]): string => {
 	if (top.length === 0) return "";
 
-	const lines = top.map((row) => `- ${messageLink(row.chatId, row.messageId)}`);
+	const lines = top.map((row) => `- ${messageLink(row.messageId)}`);
 
 	return [
-		"Le conversazioni più apprezzate questa settimana in Web Developers Italia:",
+		"Le conversazioni più apprezzate di recente in Web Developers Italia:",
 		"",
 		...lines,
 		"",
