@@ -21,7 +21,7 @@ sotto, da riusare identico ovunque (coerenza = riconoscibilità).
 
 | Directory | URL submission | Stato | Note |
 |---|---|---|---|
-| TGStat | https://tgstat.com/add/chat | [~] | submission inviata via form pubblico (15/08/2026); verifica indicizzazione su tgstat.com/en/chat/@webdevitalia |
+| TGStat | https://tgstat.com/add/chat | [~] | form precompilato nel browser (15/08/2026): restano solo checkbox reCAPTCHA + Send (manuali); poi verifica su tgstat.com/en/chat/@webdevitalia |
 | Metricgram (dir. "Sviluppatori Italiani") | https://metricgram.com/it/directory/sviluppatori-italiani | [ ] | richiede account Metricgram (prova gratuita): passo manuale admin |
 | telegram-group.com | https://telegram-group.com/en/publish/ | [x] | inviato il 15/08/2026 ("Thank you for your message. It has been sent.") |
 | itgruppi.com | https://www.itgruppi.com | [x] | gia presente nella directory (il form rifiuta il duplicato) |
