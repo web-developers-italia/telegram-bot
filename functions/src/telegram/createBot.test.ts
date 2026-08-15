@@ -1,7 +1,7 @@
 import type { Update, UserFromGetMe } from "grammy/types";
 import { beforeEach, describe, expect, it } from "vitest";
 import { testLayers } from "../test/helpers.js";
-import { membersStub } from "../test/helpers.js";
+import { membersStub, reactionsStub, referralsStub } from "../test/helpers.js";
 import { Layer } from "effect";
 import { createBot } from "./createBot.js";
 
@@ -46,9 +46,16 @@ describe("createBot routing", () => {
 	beforeEach(() => {
 		apiCalls = [];
 		const { layer } = membersStub();
+		const { layer: reactionsLayer } = reactionsStub();
+		const { layer: referralsLayer } = referralsStub();
 		bot = createBot("dummy-token", {
 			botInfo,
-			layer: Layer.mergeAll(testLayers(), layer),
+			layer: Layer.mergeAll(
+				testLayers(),
+				layer,
+				reactionsLayer,
+				referralsLayer,
+			),
 		});
 		bot.api.config.use(async (_prev, method, payload) => {
 			apiCalls.push({ method, payload: payload as Record<string, unknown> });

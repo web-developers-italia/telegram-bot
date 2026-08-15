@@ -26,6 +26,8 @@ const setResponse = await fetch(
 				"chat_member",
 				"my_chat_member",
 				"callback_query",
+				"message_reaction",
+				"message_reaction_count",
 			],
 		}),
 	},

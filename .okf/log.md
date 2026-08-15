@@ -1,5 +1,41 @@
 # Update Log
 
+## 2026-08-15
+* **Redesign landing "Millennium" (#79)**: [`site/index.html`](../site/index.html) riscritta come
+  forum italiano anni 2000 ricostruito (subSilver azzurrino in light, board notturna in dark,
+  Verdana, logotipo a doppio contorno, icone SVG disegnate). Sistema documentato in
+  [DESIGN.md](../DESIGN.md) (+ sidecar `.impeccable/design.json`), fatti di prodotto in
+  [PRODUCT.md](../PRODUCT.md). Review di finitura: PASS (contrasti AA su entrambi i temi,
+  CTA mobile a etichetta corta, niente metriche inventate).
+* **Fix dalla review della PR #83**: /invito risponde quando manca il permesso admin
+  "Invita utenti tramite link" (prima falliva in silenzio) e riaggiorna username a ogni uso;
+  `referrerFromLinkName` accetta solo `ref:<intero positivo>`; i link del digest ora sono
+  pubblici (`t.me/webdevitalia/<id>`, prima `t.me/c/...` inutilizzabile dai non membri) e i
+  titoli non spacciano più conteggi cumulativi per settimanali; classifica referral: query
+  Firestore con orderBy+limit e wording onesto sui 90 giorni; helper condiviso
+  [`scripts/lib/telegram-api.ts`](../functions/scripts/lib/telegram-api.ts) (env check +
+  controllo HTTP) adottato dai 4 script; `isGroupChat` unificato in
+  [`telegram/chat.ts`](../functions/src/telegram/chat.ts); README/runbook deploy: esplicitato
+  il `webhook:set` obbligatorio dopo ogni modifica agli allowed_updates.
+* **Piano crescita community (#76-#82)**: implementati i 7 punti del piano, un commit per issue.
+  Kit operativi in `community/` ([vetrina](../community/vetrina.md) #76,
+  [directory](../community/directory-listing.md) #77, [cross-promo](../community/cross-promo.md) #78).
+  Landing SEO statica in [`site/`](../site/index.html) con deploy Pages
+  ([deploy-pages.yml](../.github/workflows/deploy-pages.yml), Pages già abilitato
+  `build_type=workflow`, URL https://web-developers-italia.github.io/telegram-bot/) #79.
+  Job day settimanale ([jobday.ts](../functions/src/community/jobday.ts) +
+  [job-day.yml](../.github/workflows/job-day.yml), mercoledì) #80.
+  Digest reazioni: nuovo servizio `Reactions` (collection `message_reactions`, solo id+conteggi,
+  TTL 90gg in Terraform), middleware [reactionTracker](../functions/src/telegram/middleware/reactionTracker.ts),
+  `allowed_updates` estesi in set-webhook.ts, script `weekly-digest.ts` +
+  [weekly-digest.yml](../.github/workflows/weekly-digest.yml) (venerdì, anche testo LinkedIn nel log) #81.
+  Referral: nuovo servizio `Referrals` (collection `referrals`, TTL 90gg ≈ finestra trimestrale),
+  comando [`/invito`](../functions/src/telegram/commands/invito.ts) (porta estesa con
+  `createChatInviteLink`, link con name `ref:<userId>`),
+  [referralTracker](../functions/src/telegram/middleware/referralTracker.ts) su chat_member,
+  script `referral-ranking.ts` + [referral-ranking.yml](../.github/workflows/referral-ranking.yml)
+  (trimestrale) #82. Richiede al bot il permesso admin "Invite users via link".
+
 ## 2026-08-03
 * **Hardening permessi workflow (code-scanning `actions/missing-workflow-permissions`)**:
   aggiunto blocco `permissions` esplicito a

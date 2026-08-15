@@ -21,10 +21,10 @@ Telegram ──webhook(secret token)──▶ Cloud Function v2 `telegram-webhoo
                                        │  runCommand: Effect boundary
                                        ▼
                      programmi Effect (comandi + middleware)
-                     servizi Layer: BotConfig · Github · Members
+              servizi Layer: BotConfig · Github · Members · Reactions · Referrals
                                        │
                                        ▼
-                                  Firestore (members_activity, bot_state)
+              Firestore (members_activity, bot_state, message_reactions, referrals)
 ```
 
 ## Boundary Effect

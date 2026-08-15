@@ -1,9 +1,18 @@
 import { Cause, Effect, Exit, Layer, Option } from "effect";
 import type { InlineKeyboard } from "grammy";
-import type { ChatMember, ChatMemberUpdated, Message } from "grammy/types";
+import type {
+	ChatInviteLink,
+	ChatMember,
+	ChatMemberUpdated,
+	Message,
+	MessageReactionCountUpdated,
+	MessageReactionUpdated,
+} from "grammy/types";
 import { BotConfig, make as makeBotConfig } from "../services/BotConfig.js";
 import { Github, type OpenItems } from "../services/Github.js";
 import { Members, type WelcomeState } from "../services/Members.js";
+import { Reactions } from "../services/Reactions.js";
+import { Referrals } from "../services/Referrals.js";
 import type { Command } from "../telegram/CommandsProtocol.js";
 import {
 	GithubUnavailable,
@@ -26,6 +35,7 @@ export type Recorded = {
 	replies: RecordedReply[];
 	deleted: number[];
 	banned: number[];
+	createdInviteLinks: string[];
 };
 
 export const message = (overrides: Partial<Message> = {}): Message =>
@@ -44,16 +54,29 @@ type FakeOptions = {
 	readonly nextMessageId?: number;
 	readonly chatMemberUpdate?: ChatMemberUpdated;
 	readonly commandPayload?: string;
+	readonly messageReaction?: MessageReactionUpdated;
+	readonly messageReactionCount?: MessageReactionCountUpdated;
+	/** URL restituita da createChatInviteLink; default un link fittizio stabile. */
+	readonly inviteLinkUrl?: string;
+	/** Se true, createChatInviteLink fallisce con TelegramApiError (es. permesso admin mancante). */
+	readonly inviteLinkFails?: boolean;
 };
 
 export const makeFakeTelegram = (options: FakeOptions = {}) => {
-	const calls: Recorded = { replies: [], deleted: [], banned: [] };
+	const calls: Recorded = {
+		replies: [],
+		deleted: [],
+		banned: [],
+		createdInviteLinks: [],
+	};
 
 	const service: TelegramCtxService = {
 		message: options.message,
 		chatType: options.chatType ?? options.message?.chat.type,
 		commandPayload: options.commandPayload,
 		chatMemberUpdate: options.chatMemberUpdate,
+		messageReaction: options.messageReaction,
+		messageReactionCount: options.messageReactionCount,
 		reply: (text, replyOptions) =>
 			Effect.sync(() => {
 				calls.replies.push({
@@ -77,6 +100,25 @@ export const makeFakeTelegram = (options: FakeOptions = {}) => {
 							cause: "not available",
 						}),
 					),
+		createChatInviteLink: (name) =>
+			options.inviteLinkFails
+				? Effect.fail(
+						new TelegramApiError({
+							method: "createChatInviteLink",
+							cause: "not enough rights",
+						}),
+					)
+				: Effect.sync(() => {
+						calls.createdInviteLinks.push(name);
+						return {
+							invite_link: options.inviteLinkUrl ?? "https://t.me/+fake-invite",
+							name,
+							creator: message().from,
+							creates_join_request: false,
+							is_primary: false,
+							is_revoked: false,
+						} as ChatInviteLink;
+					}),
 	};
 
 	return { service, calls };
@@ -134,22 +176,95 @@ export const membersStub = (options: MembersStubOptions = {}) => {
 	return { layer, touched, joined, isRecentJoinerCalls, welcomeStatesSet };
 };
 
+export const reactionsStub = () => {
+	const applyDeltaCalls: Array<{
+		chatId: number;
+		messageId: number;
+		delta: number;
+	}> = [];
+	const setCountCalls: Array<{
+		chatId: number;
+		messageId: number;
+		count: number;
+	}> = [];
+
+	const layer = Layer.succeed(Reactions, {
+		applyDelta: (chatId, messageId, delta) =>
+			Effect.sync(
+				() => void applyDeltaCalls.push({ chatId, messageId, delta }),
+			),
+		setCount: (chatId, messageId, count) =>
+			Effect.sync(() => void setCountCalls.push({ chatId, messageId, count })),
+	});
+	return { layer, applyDeltaCalls, setCountCalls };
+};
+
+type ReferralsStubOptions = {
+	readonly linkFor?: string;
+	readonly linkForFails?: boolean;
+};
+
+export const referralsStub = (options: ReferralsStubOptions = {}) => {
+	const savedLinks: Array<{
+		userId: number;
+		username: string | undefined;
+		url: string;
+	}> = [];
+	const joinsRecorded: number[] = [];
+	const storageError = new StorageError({ cause: "stub" });
+
+	const layer = Layer.succeed(Referrals, {
+		linkFor: () =>
+			options.linkForFails
+				? Effect.fail(storageError)
+				: Effect.succeed(options.linkFor),
+		saveLink: (userId, username, url) =>
+			Effect.sync(() => void savedLinks.push({ userId, username, url })),
+		recordJoinVia: (referrerId) =>
+			Effect.sync(() => void joinsRecorded.push(referrerId)),
+	});
+	return { layer, savedLinks, joinsRecorded };
+};
+
 export const testLayers = (items?: OpenItems) =>
 	Layer.mergeAll(Layer.succeed(BotConfig, testConfig), githubStub(items));
 
 /** Layer Members di default per i comandi che non testano esplicitamente Members. */
 const defaultMembersLayer = () => membersStub().layer;
 
+/** Layer Reactions di default per i comandi che non testano esplicitamente Reactions. */
+const defaultReactionsLayer = () => reactionsStub().layer;
+
+/** Layer Referrals di default per i comandi che non testano esplicitamente Referrals. */
+const defaultReferralsLayer = () => referralsStub().layer;
+
 export const runCommandWith = (
 	command: Command,
 	service: TelegramCtxService,
 	items?: OpenItems,
 	membersLayer: Layer.Layer<Members, never, never> = defaultMembersLayer(),
+	reactionsLayer: Layer.Layer<
+		Reactions,
+		never,
+		never
+	> = defaultReactionsLayer(),
+	referralsLayer: Layer.Layer<
+		Referrals,
+		never,
+		never
+	> = defaultReferralsLayer(),
 ) =>
 	Effect.runPromise(
 		command.run.pipe(
 			Effect.provideService(TelegramCtx, service),
-			Effect.provide(Layer.mergeAll(testLayers(items), membersLayer)),
+			Effect.provide(
+				Layer.mergeAll(
+					testLayers(items),
+					membersLayer,
+					reactionsLayer,
+					referralsLayer,
+				),
+			),
 		),
 	);
 
@@ -159,11 +274,28 @@ export const runCommandExit = (
 	service: TelegramCtxService,
 	items?: OpenItems,
 	membersLayer: Layer.Layer<Members, never, never> = defaultMembersLayer(),
+	reactionsLayer: Layer.Layer<
+		Reactions,
+		never,
+		never
+	> = defaultReactionsLayer(),
+	referralsLayer: Layer.Layer<
+		Referrals,
+		never,
+		never
+	> = defaultReferralsLayer(),
 ) =>
 	Effect.runPromiseExit(
 		command.run.pipe(
 			Effect.provideService(TelegramCtx, service),
-			Effect.provide(Layer.mergeAll(testLayers(items), membersLayer)),
+			Effect.provide(
+				Layer.mergeAll(
+					testLayers(items),
+					membersLayer,
+					reactionsLayer,
+					referralsLayer,
+				),
+			),
 		),
 	);
 

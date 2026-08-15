@@ -7,7 +7,7 @@ import { TelegramCtx } from "../TelegramCtx.js";
 
 const WELCOME_COOLDOWN_MS = 60_000;
 
-const isNewJoin = (cmu: ChatMemberUpdated): boolean =>
+export const isNewJoin = (cmu: ChatMemberUpdated): boolean =>
 	(cmu.old_chat_member.status === "left" ||
 		cmu.old_chat_member.status === "kicked") &&
 	cmu.new_chat_member.status === "member";
