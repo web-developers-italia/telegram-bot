@@ -103,6 +103,8 @@ describe("/learn e /dontasktoask", () => {
 
 		expect(calls.replies[0].replyTo).toBe(10);
 		expect(calls.replies[0].text).toContain("roadmap.sh");
+		expect(calls.replies[0].text).toContain("theodinproject.com");
+		expect(calls.replies[0].text).toContain("agents-course");
 	});
 
 	it("dontasktoask senza reply punta al comando stesso", async () => {
