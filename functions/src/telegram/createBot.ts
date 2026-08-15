@@ -12,6 +12,7 @@ import { Referrals } from "../services/Referrals.js";
 import { ReferralsLive } from "../services/ReferralsLive.js";
 import { commands } from "./commands/index.js";
 import { channelBan } from "./middleware/channelBan.js";
+import { makeFloodGuard } from "./middleware/floodGuard.js";
 import { linkGuard } from "./middleware/linkGuard.js";
 import { reactionTracker } from "./middleware/reactionTracker.js";
 import { referralTracker } from "./middleware/referralTracker.js";
@@ -44,10 +45,11 @@ export const createBot = (
 			),
 	);
 	const run = makeCommandRunner(runtime);
+	const floodGuard = makeFloodGuard();
 
 	bot.catch((error) => logger.error("unhandled bot error", error));
 
-	// I tre middleware girano su ogni messaggio, comandi compresi: registrati
+	// I quattro middleware girano su ogni messaggio, comandi compresi: registrati
 	// come pass-through prima dei comandi, chiamano sempre `next()`.
 	bot.use(async (ctx, next) => {
 		if (ctx.message) {
@@ -59,6 +61,9 @@ export const createBot = (
 			);
 			await run(linkGuard)(ctx).catch((error) =>
 				logger.error("linkGuard pass-through failed", error),
+			);
+			await run(floodGuard)(ctx).catch((error) =>
+				logger.error("floodGuard pass-through failed", error),
 			);
 		}
 		await next();

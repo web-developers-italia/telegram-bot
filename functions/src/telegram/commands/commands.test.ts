@@ -11,12 +11,23 @@ import {
 import { admin } from "./admin.js";
 import { contribute } from "./contribute.js";
 import { dontasktoask } from "./dontasktoask.js";
+import { eventi, eventiText } from "./eventi.js";
+import { commands } from "./index.js";
 import { invito } from "./invito.js";
 import { learn } from "./learn.js";
 import { pong } from "./pong.js";
 import { rielabora } from "./rielabora.js";
 import { rules } from "./rules.js";
 import { start } from "./start.js";
+
+// `help` si prende dall'array `commands` (non da un import diretto di
+// `./help.js`): help.ts importa a sua volta `commands` da `./index.js`, quindi
+// importare qui `./help.js` per primo farebbe partire il ciclo dal lato
+// sbagliato e "congelerebbe" `commands` con la voce /help non ancora pronta.
+// Passando da `commands` si replica l'ordine di caricamento reale (createBot.ts
+// importa sempre prima `./index.js`).
+const help = commands.find((command) => command.triggers.includes("/help"));
+if (!help) throw new Error("/help non registrato in commands");
 
 describe("/start", () => {
 	it("manda il benvenuto con i pulsanti Entra nel gruppo e Regolamento", async () => {
@@ -70,6 +81,15 @@ describe("/regole", () => {
 
 	it("ha i trigger italiani e inglesi", () => {
 		expect(rules.triggers).toEqual(["/regolamento", "/regole", "/rules"]);
+	});
+
+	it("include le regole su contenuti AI, self-promotion e lingua", async () => {
+		const { service, calls } = makeFakeTelegram({ message: message() });
+		await runCommandWith(rules, service);
+
+		expect(calls.replies[0].text).toContain("dichiarati come tali");
+		expect(calls.replies[0].text).toContain("Self-promotion");
+		expect(calls.replies[0].text).toContain("Italiano di default");
 	});
 });
 
@@ -151,6 +171,34 @@ describe("/contribute", () => {
 	});
 });
 
+describe("/eventi", () => {
+	it("con la lista vuota di default, risponde che non c'è nessun evento in programma", async () => {
+		const { service, calls } = makeFakeTelegram({ message: message() });
+		await runCommandWith(eventi, service);
+
+		expect(calls.replies[0].text).toContain("Nessun evento");
+	});
+
+	it("eventiText mostra solo gli eventi futuri, con titolo e data", () => {
+		const now = Date.parse("2026-06-01T00:00:00+02:00");
+		const list = [
+			{ title: "Passato", startsAtIso: "2026-05-01T20:00:00+02:00" },
+			{ title: "WDI night", startsAtIso: "2026-09-10T21:00:00+02:00" },
+		];
+
+		const text = eventiText(list, now).text;
+
+		expect(text).toContain("Prossimi eventi");
+		expect(text).toContain("WDI night");
+		expect(text).toContain("gio 10 settembre, 21:00");
+		expect(text).not.toContain("Passato");
+	});
+
+	it("ha i trigger /eventi e /events", () => {
+		expect(eventi.triggers).toEqual(["/eventi", "/events"]);
+	});
+});
+
 describe("/rielabora", () => {
 	it("senza reply fallisce con MissingReply e non cancella nulla", async () => {
 		const { service, calls } = makeFakeTelegram({ message: message() });
@@ -176,6 +224,34 @@ describe("/rielabora", () => {
 		expect(mention?.text).toContain("@anna");
 		expect(mention?.text).toContain("rielabora la tua domanda");
 		expect(mention?.replyTo).toBe(77);
+	});
+});
+
+describe("/help", () => {
+	it("risponde con una riga per ogni comando registrato", async () => {
+		const { service, calls } = makeFakeTelegram({ message: message() });
+		await runCommandWith(help, service);
+
+		const text = calls.replies[0].text;
+		// rules.triggers = ["/regolamento", "/regole", "/rules"]: la riga usa il
+		// primo trigger che inizia con "/", quindi è "/regolamento".
+		expect(text).toContain("/regolamento");
+		expect(text).toContain("/learn");
+		expect(text).toContain("/stats");
+		expect(text).toContain("/help");
+	});
+
+	it("elenca anche i comandi arrivati dopo (/invito, /eventi)", async () => {
+		const { service, calls } = makeFakeTelegram({ message: message() });
+		await runCommandWith(help, service);
+
+		const text = calls.replies[0].text;
+		expect(text).toContain("/invito");
+		expect(text).toContain("/eventi");
+	});
+
+	it("ha i trigger /help e /comandi", () => {
+		expect(help.triggers).toEqual(["/help", "/comandi"]);
 	});
 });
 

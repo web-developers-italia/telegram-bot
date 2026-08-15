@@ -52,4 +52,5 @@ Ogni dev che entra da qui è merito tuo. 🏆`,
 export const invito: Command = defineCommand(
 	["/invito", "/invite"],
 	sendInvito,
+	"il tuo link d'invito personale",
 );

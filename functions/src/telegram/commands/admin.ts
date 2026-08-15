@@ -22,4 +22,8 @@ const notifyAdmins = Effect.gen(function* () {
 	);
 });
 
-export const admin: Command = defineCommand(["@admin", "/admin"], notifyAdmins);
+export const admin: Command = defineCommand(
+	["@admin", "/admin"],
+	notifyAdmins,
+	"avvisa gli amministratori",
+);

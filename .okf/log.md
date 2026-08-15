@@ -1,6 +1,14 @@
 # Update Log
 
 ## 2026-08-15
+* **Proposte #72 (merge post-#83)**: nuove regole nel regolamento (contenuti AI dichiarati,
+  self-promotion limitata, lingua), welcome con tre dritte pratiche, comando
+  [`/help`](../functions/src/telegram/commands/help.ts) autogenerato (campo `description`
+  su `Command`), [anti-flood](../functions/src/telegram/middleware/floodGuard.ts) (>7 msg/10s,
+  in-memory per istanza), [`/eventi`](../functions/src/telegram/commands/eventi.ts) +
+  [reminder giornaliero](../.github/workflows/event-reminder.yml) da
+  [`community/events.ts`](../functions/src/community/events.ts). Riconciliato con il piano
+  crescita: descrizioni aggiunte a `/invito`, 103 test.
 * **Redesign landing "Millennium" (#79)**: [`site/index.html`](../site/index.html) riscritta come
   forum italiano anni 2000 ricostruito (subSilver azzurrino in light, board notturna in dark,
   Verdana, logotipo a doppio contorno, icone SVG disegnate). Sistema documentato in

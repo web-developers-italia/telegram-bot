@@ -26,8 +26,10 @@ Sito della community: [web-developers-italia.github.io/telegram-bot](https://web
 | `@admin` `/admin` | Notifica gli amministratori (mention invisibili) |
 | `/stats` (solo admin) | Membri attivi negli ultimi 7/30 giorni |
 | `/invito` `/invite` | Il tuo link d'invito personale: chi entra dal gruppo tramite quel link viene attribuito a te |
+| `/eventi` `/events` | I prossimi eventi della community (fonte: `functions/src/community/events.ts`, aggiornabile via PR) |
+| `/help` `/comandi` | Elenco dei comandi disponibili, generato dai comandi registrati |
 
-Automatismi: benvenuto ai nuovi membri (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, tracking attività con retention 90 giorni, pulizia mensile degli inattivi review-gated via PR (vedi [`moderation/`](moderation/README.md)), digest periodico dei messaggi più reagiti con link diretti nel gruppo (e versione testo per LinkedIn nel log del workflow), attribuzione degli ingressi al link d'invito personale (`/invito`) con classifica inviti periodica (post ogni 3 mesi; i contatori scadono dopo 90 giorni senza nuovi inviti) di chi ha portato più dev nel gruppo.
+Automatismi: benvenuto ai nuovi membri con tre dritte pratiche (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, anti-flood (troppi messaggi in pochi secondi: delete oltre soglia e un avviso con cooldown), reminder automatico degli eventi imminenti (giornaliero, 0-24h prima dell'inizio), tracking attività con retention 90 giorni, pulizia mensile degli inattivi review-gated via PR (vedi [`moderation/`](moderation/README.md)), digest periodico dei messaggi più reagiti con link diretti nel gruppo (e versione testo per LinkedIn nel log del workflow), attribuzione degli ingressi al link d'invito personale (`/invito`) con classifica inviti periodica (post ogni 3 mesi; i contatori scadono dopo 90 giorni senza nuovi inviti) di chi ha portato più dev nel gruppo.
 
 Il bot deve avere il permesso amministratore "Invite users via link" per poter creare i link d'invito personali di `/invito`.
 

@@ -14,4 +14,5 @@ Piattaforme di e-learning:
 
 export const learn = staticCommand(["/learn"], text, {
 	preferRepliedMessage: true,
+	description: "risorse per imparare il web development",
 });

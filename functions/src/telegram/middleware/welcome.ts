@@ -45,7 +45,13 @@ export const welcome: Effect.Effect<void, never, TelegramCtx | Members> =
 
 		const sent = yield* telegram.reply(
 			fmt`Benvenuto/a ${FormattedString.mentionUser(user.first_name, user.id)} in Web Developers Italia! 👋
-Dai un'occhiata al regolamento con /regole e presentati pure.`,
+
+Tre dritte per partire:
+• dai un'occhiata al regolamento con /regole
+• fai subito la tua domanda, con dettagli e cosa hai già provato: /dontasktoask
+• risorse per imparare e crescere: /learn
+
+Presentati pure!`,
 		);
 
 		yield* members.setWelcomeState(chatId, {

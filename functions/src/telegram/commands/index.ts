@@ -2,6 +2,8 @@ import type { Command } from "../CommandsProtocol.js";
 import { admin } from "./admin.js";
 import { contribute } from "./contribute.js";
 import { dontasktoask } from "./dontasktoask.js";
+import { eventi } from "./eventi.js";
+import { help } from "./help.js";
 import { invito } from "./invito.js";
 import { learn } from "./learn.js";
 import { pong } from "./pong.js";
@@ -18,7 +20,9 @@ export const commands: readonly Command[] = [
 	dontasktoask,
 	admin,
 	contribute,
+	eventi,
 	rielabora,
 	stats,
 	invito,
+	help,
 ];

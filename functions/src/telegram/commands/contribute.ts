@@ -68,4 +68,5 @@ const sendContribute = Effect.gen(function* () {
 export const contribute: Command = defineCommand(
 	["/contribute", "/contribuisci"],
 	sendContribute,
+	"contribuisci al bot: repo, issue e PR aperte",
 );
