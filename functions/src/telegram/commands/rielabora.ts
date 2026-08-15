@@ -31,4 +31,8 @@ const sendRielabora = Effect.gen(function* () {
 	);
 });
 
-export const rielabora: Command = defineCommand(["/rielabora"], sendRielabora);
+export const rielabora: Command = defineCommand(
+	["/rielabora"],
+	sendRielabora,
+	"in reply: cancella il messaggio quotato e invita a rileggere le regole",
+);

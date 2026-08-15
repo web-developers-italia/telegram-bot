@@ -13,11 +13,15 @@ export type Command = {
 	/** Trigger: "/comando" (registrato via bot.command) o testo esatto tipo "@admin" (via bot.hears). */
 	readonly triggers: readonly string[];
 	readonly run: Effect.Effect<void, CommandError, CommandDeps>;
+	/** Descrizione breve (una riga, italiano) mostrata da /help. */
+	readonly description?: string;
 };
 
 type StaticOptions = {
 	/** Se true e il comando è usato in reply, la risposta punta al messaggio quotato (es. /learn in reply a una domanda). */
 	readonly preferRepliedMessage?: boolean;
+	/** Descrizione breve (una riga, italiano) mostrata da /help. */
+	readonly description?: string;
 };
 
 /**
@@ -31,6 +35,7 @@ export const staticCommand = (
 	options: StaticOptions = {},
 ): Command => ({
 	triggers,
+	description: options.description,
 	run: Effect.gen(function* () {
 		const telegram = yield* TelegramCtx;
 		const message = telegram.message;
@@ -49,4 +54,5 @@ export const staticCommand = (
 export const defineCommand = (
 	triggers: readonly string[],
 	run: Effect.Effect<void, CommandError, CommandDeps>,
-): Command => ({ triggers, run });
+	description?: string,
+): Command => ({ triggers, run, description });

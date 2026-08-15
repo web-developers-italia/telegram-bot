@@ -32,4 +32,8 @@ const sendStart = Effect.gen(function* () {
 	});
 });
 
-export const start: Command = defineCommand(["/start"], sendStart);
+export const start: Command = defineCommand(
+	["/start"],
+	sendStart,
+	"benvenuto e link per entrare nel gruppo",
+);

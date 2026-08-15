@@ -31,4 +31,8 @@ Membri attivi negli ultimi 30 giorni: ${counts.last30}`,
 	);
 });
 
-export const stats: Command = defineCommand(["/stats"], sendStats);
+export const stats: Command = defineCommand(
+	["/stats"],
+	sendStats,
+	"solo admin: membri attivi negli ultimi 7/30 giorni",
+);

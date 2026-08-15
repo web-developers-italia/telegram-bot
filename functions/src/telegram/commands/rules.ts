@@ -66,4 +66,5 @@ export const sendRules: Effect.Effect<
 export const rules: Command = defineCommand(
 	["/regolamento", "/regole", "/rules"],
 	sendRules.pipe(Effect.asVoid),
+	"il regolamento del gruppo",
 );
