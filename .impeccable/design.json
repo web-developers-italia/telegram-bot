@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-15T11:35:45Z",
+  "title": "Design System: Web Developers Italia",
+  "extensions": {
+    "colorMeta": {
+      "accent": { "role": "primary", "displayName": "Blu forum", "canonical": "#0b5aa5", "darkCounterpart": "accent-dark", "tonalRamp": ["oklch(18% 0.105 253)", "oklch(29% 0.105 253)", "oklch(40% 0.105 253)", "oklch(51% 0.105 253)", "oklch(62% 0.105 253)", "oklch(73% 0.105 253)", "oklch(84% 0.105 253)", "oklch(95% 0.03 253)"] },
+      "cta": { "role": "primary", "displayName": "Blu CTA (top del gradiente bottone)", "canonical": "#0f76c2", "darkCounterpart": "cta-dark", "tonalRamp": ["oklch(18% 0.12 250)", "oklch(29% 0.12 250)", "oklch(40% 0.12 250)", "oklch(51% 0.12 250)", "oklch(62% 0.12 250)", "oklch(73% 0.12 250)", "oklch(84% 0.12 250)", "oklch(95% 0.03 250)"] },
+      "head-band": { "role": "primary", "displayName": "Fascia di testata", "canonical": "#0f2c50", "darkCounterpart": "head-band-dark", "tonalRamp": ["oklch(18% 0.06 255)", "oklch(29% 0.06 255)", "oklch(40% 0.06 255)", "oklch(51% 0.06 255)", "oklch(62% 0.06 255)", "oklch(73% 0.06 255)", "oklch(84% 0.06 255)", "oklch(95% 0.02 255)"] },
+      "sticky-bg": { "role": "secondary", "displayName": "Ambra sticky (fondo)", "canonical": "#fdf3d7", "darkCounterpart": "sticky-bg-dark", "tonalRamp": ["oklch(18% 0.035 90)", "oklch(29% 0.035 90)", "oklch(40% 0.035 90)", "oklch(51% 0.035 90)", "oklch(62% 0.035 90)", "oklch(73% 0.035 90)", "oklch(84% 0.035 90)", "oklch(96% 0.035 90)"] },
+      "sticky-text": { "role": "secondary", "displayName": "Ambra sticky (testo)", "canonical": "#7a5410", "darkCounterpart": "sticky-text-dark", "tonalRamp": ["oklch(18% 0.09 80)", "oklch(29% 0.09 80)", "oklch(40% 0.09 80)", "oklch(51% 0.09 80)", "oklch(62% 0.09 80)", "oklch(73% 0.09 80)", "oklch(84% 0.09 80)", "oklch(95% 0.04 80)"] },
+      "ok": { "role": "tertiary", "displayName": "Verde consentito", "canonical": "#14713d", "darkCounterpart": "ok-dark", "tonalRamp": ["oklch(18% 0.10 155)", "oklch(29% 0.10 155)", "oklch(40% 0.10 155)", "oklch(51% 0.10 155)", "oklch(62% 0.10 155)", "oklch(73% 0.10 155)", "oklch(84% 0.10 155)", "oklch(95% 0.04 155)"] },
+      "no": { "role": "tertiary", "displayName": "Rosso vietato", "canonical": "#a92e3c", "darkCounterpart": "no-dark", "tonalRamp": ["oklch(18% 0.14 18)", "oklch(29% 0.14 18)", "oklch(40% 0.14 18)", "oklch(51% 0.14 18)", "oklch(62% 0.14 18)", "oklch(73% 0.14 18)", "oklch(84% 0.14 18)", "oklch(95% 0.04 18)"] },
+      "online": { "role": "tertiary", "displayName": "Verde online", "canonical": "#1d8a4e", "darkCounterpart": "online-dark", "tonalRamp": ["oklch(18% 0.11 152)", "oklch(29% 0.11 152)", "oklch(40% 0.11 152)", "oklch(51% 0.11 152)", "oklch(62% 0.11 152)", "oklch(73% 0.11 152)", "oklch(84% 0.11 152)", "oklch(95% 0.04 152)"] },
+      "new-badge": { "role": "tertiary", "displayName": "Rosso badge nuovo", "canonical": "#b12f2f", "darkCounterpart": "new-badge-dark", "tonalRamp": ["oklch(18% 0.15 27)", "oklch(29% 0.15 27)", "oklch(40% 0.15 27)", "oklch(51% 0.15 27)", "oklch(62% 0.15 27)", "oklch(73% 0.15 27)", "oklch(84% 0.15 27)", "oklch(95% 0.04 27)"] },
+      "logo-italia": { "role": "tertiary", "displayName": "Verde Italia (solo logo, hardcoded)", "canonical": "#58c26e", "tonalRamp": ["oklch(18% 0.13 150)", "oklch(29% 0.13 150)", "oklch(40% 0.13 150)", "oklch(51% 0.13 150)", "oklch(62% 0.13 150)", "oklch(73% 0.13 150)", "oklch(84% 0.13 150)", "oklch(95% 0.05 150)"] },
+      "page": { "role": "neutral", "displayName": "Fondale subSilver", "canonical": "#dfe8f4", "darkCounterpart": "page-dark", "tonalRamp": ["oklch(18% 0.012 255)", "oklch(29% 0.012 255)", "oklch(40% 0.012 255)", "oklch(51% 0.012 255)", "oklch(62% 0.012 255)", "oklch(73% 0.012 255)", "oklch(84% 0.012 255)", "oklch(95% 0.012 255)"] },
+      "text": { "role": "neutral", "displayName": "Testo board", "canonical": "#1c2c44", "darkCounterpart": "text-dark", "tonalRamp": ["oklch(18% 0.045 260)", "oklch(29% 0.045 260)", "oklch(40% 0.045 260)", "oklch(51% 0.045 260)", "oklch(62% 0.045 260)", "oklch(73% 0.045 260)", "oklch(84% 0.045 260)", "oklch(95% 0.015 260)"] },
+      "muted": { "role": "neutral", "displayName": "Meta-testo", "canonical": "#4e6584", "darkCounterpart": "muted-dark", "tonalRamp": ["oklch(18% 0.045 255)", "oklch(29% 0.045 255)", "oklch(40% 0.045 255)", "oklch(51% 0.045 255)", "oklch(62% 0.045 255)", "oklch(73% 0.045 255)", "oklch(84% 0.045 255)", "oklch(95% 0.015 255)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Logotipo", "purpose": "Solo il logo H1: Verdana 900 italico, doppio contorno text-shadow a 8 direzioni + ombra dura 5px 5px 0, rotate(-1deg)." },
+      "body": { "displayName": "Corpo board", "purpose": "Default della pagina: Verdana 15px lh 1.65; dentro i pannelli scala a 0.9rem/0.85rem." },
+      "meta": { "displayName": "Meta-testo", "purpose": "Banda 0.72-0.8rem in muted: bar-meta, post-meta, row-last, breadcrumb, footer." },
+      "label": { "displayName": "Micro-label", "purpose": "Uppercase con letter-spacing: H3 risorse 0.78rem, sticky-tag 0.66rem, badge nuovo 0.64rem." },
+      "mono": { "displayName": "Comandi bot", "purpose": "Solo dentro kbd/code (0.86em): /regole, /learn, /contribute, /start." }
+    },
+    "shadows": [
+      { "name": "ambient", "value": "0 2px 6px rgba(23, 43, 72, 0.18)", "purpose": "Token --shadow light: board, thread e bottoni a riposo. In dark: 0 3px 10px rgba(0, 0, 0, 0.45)." },
+      { "name": "btn-hover", "value": "0 5px 12px rgba(10, 30, 60, 0.35), inset 0 1px 0 rgba(255,255,255,0.35)", "purpose": "Bottone in hover/focus-visible, con translateY(-1px)." },
+      { "name": "btn-active", "value": "0 1px 3px rgba(10, 30, 60, 0.35), inset 0 1px 2px rgba(0,0,0,0.25)", "purpose": "Bottone premuto, con translateY(1px)." },
+      { "name": "btn-inset-highlight", "value": "inset 0 1px 0 rgba(255,255,255,0.35)", "purpose": "Lucido plastica sul bordo superiore del bottone a riposo." },
+      { "name": "logo-offset", "value": "5px 5px 0 var(--logo-shadow, #7ea9d4)", "purpose": "Unica ombra dura a offset del sistema; solo il logotipo, sopra il doppio contorno." },
+      { "name": "dot-halo", "value": "0 0 0 2px color-mix(in srgb, var(--online, #1d8a4e) 25%, transparent)", "purpose": "Alone del pallino online nel breadcrumb." }
+    ],
+    "motion": [
+      { "name": "snap-out", "value": "140ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Transizione di transform e box-shadow del bottone." },
+      { "name": "newpulse", "value": "2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite", "purpose": "Pulsazione del badge nuovo: solo background-color, al 50% mix new-badge 78% con #7c1f1f. Spenta da prefers-reduced-motion." },
+      { "name": "typing", "value": "1.4s ease-in-out infinite", "purpose": "Puntini typing del bot: translateY(-3px) + opacita, delay 0.18s/0.36s. Spenta da prefers-reduced-motion." }
+    ],
+    "breakpoints": [
+      { "name": "mobile-max", "value": "680px", "purpose": "Collasso board: righe a 26px 1fr, post a colonna singola, colonne a 1, label bottone corta." },
+      { "name": "guest-min", "value": "900px", "purpose": "Masthead a due colonne (1fr auto), guest-box visibile." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Logotipo",
+      "kind": "custom",
+      "refersTo": "display",
+      "description": "Il logo H1: Verdana 900 italico con doppio contorno, ombra dura e rotazione -1 grado; 'Italia' in verde hardcoded.",
+      "html": "<h1 class='ds-logo'>Web Developers <span class='ds-logo-it'>Italia</span></h1>",
+      "css": ".ds-logo { margin: 0; font-family: Verdana, Tahoma, 'DejaVu Sans', system-ui, sans-serif; font-size: clamp(1.9rem, 6.2vw, 3.4rem); font-weight: 900; font-style: italic; letter-spacing: -0.02em; line-height: 1.05; color: var(--logo-fill, #ffffff); text-shadow: 2px 0 0 var(--logo-edge, #0b3f74), -2px 0 0 var(--logo-edge, #0b3f74), 0 2px 0 var(--logo-edge, #0b3f74), 0 -2px 0 var(--logo-edge, #0b3f74), 2px 2px 0 var(--logo-edge, #0b3f74), -2px 2px 0 var(--logo-edge, #0b3f74), 2px -2px 0 var(--logo-edge, #0b3f74), -2px -2px 0 var(--logo-edge, #0b3f74), 5px 5px 0 var(--logo-shadow, #7ea9d4); transform: rotate(-1deg); display: inline-block; } .ds-logo-it { color: #58c26e; }"
+    },
+    {
+      "name": "Bottone primario",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "CTA a gradiente verticale con lucido plastica; si alza in hover e affonda in active.",
+      "html": "<a class='ds-btn' href='#'><svg width='18' height='18' viewBox='0 0 16 16' aria-hidden='true' style='flex:none'><path d='M15 1.5 1.6 6.9c-.8.3-.8 1 -.1 1.3l3.3 1.1 1.2 3.8c.2.7.8.8 1.3.3l1.8-1.8 3.5 2.6c.6.4 1.2.2 1.4-.6l2-11.2c.2-.9-.4-1.3-1-.9zM5.6 9l7.1-4.5c.3-.2.6.1.3.4L7.5 9.8l-.2 2.2L5.6 9z' fill='currentColor'/></svg>Entra nel gruppo</a>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: Verdana, Tahoma, 'DejaVu Sans', system-ui, sans-serif; font-weight: 700; font-size: 1rem; text-decoration: none; cursor: pointer; padding: 0.72rem 1.35rem; border-radius: 6px; border: 1px solid var(--cta-deep, #0b5aa5); background: linear-gradient(180deg, var(--cta, #0f76c2), var(--cta-deep, #0b5aa5)); color: var(--cta-text, #ffffff); box-shadow: 0 2px 6px rgba(23, 43, 72, 0.18), inset 0 1px 0 rgba(255,255,255,0.35); transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 140ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn:hover, .ds-btn:focus-visible { transform: translateY(-1px); box-shadow: 0 5px 12px rgba(10, 30, 60, 0.35), inset 0 1px 0 rgba(255,255,255,0.35); } .ds-btn:active { transform: translateY(1px); box-shadow: 0 1px 3px rgba(10, 30, 60, 0.35), inset 0 1px 2px rgba(0,0,0,0.25); } .ds-btn:focus-visible { outline: 3px solid var(--accent, #0b5aa5); outline-offset: 2px; } @media (prefers-reduced-motion: reduce) { .ds-btn, .ds-btn:hover { transition: none; transform: none; } }"
+    },
+    {
+      "name": "Bottone ghost",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Variante trasparente che vive solo sulla fascia scura di testata.",
+      "html": "<div class='ds-band'><a class='ds-btn-ghost' href='#'>Regolamento</a></div>",
+      "css": ".ds-band { display: inline-block; padding: 1rem 1.25rem; border-radius: 6px; background: linear-gradient(180deg, var(--head-band-2, #123a68), var(--head-band, #0f2c50)); } .ds-btn-ghost { display: inline-flex; align-items: center; font-family: Verdana, Tahoma, 'DejaVu Sans', system-ui, sans-serif; font-weight: 700; font-size: 1rem; text-decoration: none; cursor: pointer; padding: 0.72rem 1.35rem; border-radius: 6px; background: transparent; color: var(--head-text, #e8f1fb); border: 1px solid var(--head-muted, #a9c4e2); } .ds-btn-ghost:focus-visible { outline: 3px solid var(--accent, #0b5aa5); outline-offset: 2px; }"
+    },
+    {
+      "name": "Barra di categoria",
+      "kind": "nav",
+      "refersTo": "board-bar",
+      "description": "La barra a gradiente verticale in testa a ogni board/thread: titolo con icona SVG a sinistra, meta a destra.",
+      "html": "<div class='ds-board-bar'><span class='ds-bar-title'><svg width='18' height='18' viewBox='0 0 16 16' aria-hidden='true'><path d='M1.5 3h5l1.2 1.5H14.5V13h-13V3zM3 6v5.5h10V6H3z' fill='currentColor'/></svg>Di cosa si discute</span><span class='ds-bar-meta'>le discussioni vere sono nel gruppo</span></div>",
+      "css": ".ds-board-bar { background: linear-gradient(180deg, var(--bar-top, #dcE9f8), var(--bar-bottom, #bcd4ec)); color: var(--bar-text, #113a66); border: 1px solid var(--border, #9db8d6); border-radius: 6px 6px 0 0; padding: 0.62rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-family: Verdana, Tahoma, 'DejaVu Sans', system-ui, sans-serif; } .ds-bar-title { font-size: 1rem; font-weight: 700; letter-spacing: 0.01em; display: flex; align-items: center; gap: 0.55rem; } .ds-bar-title svg { vertical-align: -0.18em; } .ds-bar-meta { font-size: 0.72rem; opacity: 0.85; }"
+    },
+    {
+      "name": "Righe di board",
+      "kind": "card",
+      "refersTo": "row-sticky",
+      "description": "L'indice: righe a griglia 30px/1fr/170px, alternate su panel-alt, sticky in ambra con tag Importante e badge nuovo.",
+      "html": "<ul class='ds-rows'><li class='ds-row ds-row-sticky'><svg width='20' height='20' viewBox='0 0 16 16' aria-hidden='true'><path d='M6 1.5h4l-.5 4 2.5 2v1.5H9v4.5L8 15l-1-1.5V9H3.5V7.5l2.5-2-.5-4z' fill='var(--sticky-text, #7a5410)'/></svg><div><span class='ds-row-title'><a href='#'>REGOLAMENTO - da leggere prima di postare</a></span><span class='ds-sticky-tag'>Importante</span><div class='ds-row-desc'>Le regole che tengono il gruppo pulito.</div></div><div class='ds-row-last'>vale sempre</div></li><li class='ds-row'><svg width='20' height='20' viewBox='0 0 16 16' aria-hidden='true'><path d='m5.5 4-4 4 4 4 1.1-1.1L3.7 8l2.9-2.9L5.5 4zm5 0-1.1 1.1L12.3 8l-2.9 2.9L10.5 12l4-4-4-4z' fill='var(--accent, #0b5aa5)'/></svg><div><span class='ds-row-title'><a href='#'>Frontend</a></span><span class='ds-new-badge'>nuovo</span><div class='ds-row-desc'>HTML, CSS, JavaScript e framework.</div></div><div class='ds-row-last'>ultimo messaggio: oggi</div></li><li class='ds-row'><svg width='20' height='20' viewBox='0 0 16 16' aria-hidden='true'><path d='M2 3h12v3.5H2V3zm0 5h12v3.5H2V8z' fill='var(--accent, #0b5aa5)'/></svg><div><span class='ds-row-title'><a href='#'>Backend, API e database</a></span><div class='ds-row-desc'>Architetture, query lente, autenticazione.</div></div><div class='ds-row-last'>ultimo messaggio: oggi</div></li></ul>",
+      "css": ".ds-rows { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border, #9db8d6); border-radius: 6px; overflow: hidden; background: var(--panel, #ffffff); font-family: Verdana, Tahoma, 'DejaVu Sans', system-ui, sans-serif; color: var(--text, #1c2c44); } .ds-row { display: grid; grid-template-columns: 30px 1fr 170px; gap: 0.9rem; align-items: center; padding: 0.85rem 1rem; border-top: 1px solid var(--border-soft, #c8d8ec); } .ds-rows .ds-row:first-child { border-top: 0; } .ds-rows .ds-row:nth-child(even) { background: var(--panel-alt, #eef4fb); } .ds-row-title { font-weight: 700; font-size: 0.95rem; } .ds-row-title a { color: var(--link, #0b5aa5); text-decoration: none; } .ds-row-title a:hover { text-decoration: underline; } .ds-row-desc { color: var(--muted, #4e6584); font-size: 0.8rem; margin-top: 0.15rem; } .ds-row-last { font-size: 0.75rem; color: var(--muted, #4e6584); text-align: right; } .ds-row-sticky { background: var(--sticky-bg, #fdf3d7) !important; } .ds-row-sticky .ds-row-title a { color: var(--sticky-text, #7a5410); } .ds-sticky-tag { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sticky-text, #7a5410); border: 1px solid var(--sticky-border, #e3c26e); border-radius: 3px; padding: 0.05rem 0.4rem; margin-left: 0.5rem; white-space: nowrap; } .ds-new-badge { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.08em; color: #fff; background: var(--new-badge, #b12f2f); border-radius: 3px; padding: 0.1rem 0.4rem; margin-left: 0.5rem; animation: ds-newpulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite; } @keyframes ds-newpulse { 0%, 100% { background-color: var(--new-badge, #b12f2f); } 50% { background-color: color-mix(in srgb, var(--new-badge, #b12f2f) 78%, #7c1f1f); } } @media (prefers-reduced-motion: reduce) { .ds-new-badge { animation: none; } }"
+    },
+    {
+      "name": "Regolamento si/no",
+      "kind": "custom",
+      "refersTo": "board",
+      "description": "Lista consentito/vietato: mark SVG check in ok e croce in no, prefisso testuale solo per screen reader.",
+      "html": "<ul class='ds-rules'><li class='ds-si'><svg class='ds-mark' width='15' height='15' viewBox='0 0 16 16' aria-hidden='true'><path d='m2.5 8.6 1.9-1.9 2.4 2.4 4.8-5.8 2 1.6-6.6 8L2.5 8.6z' fill='currentColor'/></svg><span><span class='ds-sr'>Consentito: </span>Offerte di lavoro solo con tipo di contratto e range di retribuzione</span></li><li class='ds-no'><svg class='ds-mark' width='15' height='15' viewBox='0 0 16 16' aria-hidden='true'><path d='M4.1 2.9 8 6.8l3.9-3.9 1.2 1.2L9.2 8l3.9 3.9-1.2 1.2L8 9.2l-3.9 3.9-1.2-1.2L6.8 8 2.9 4.1l1.2-1.2z' fill='currentColor'/></svg><span><span class='ds-sr'>Vietato: </span>Spam di qualsiasi forma nel flusso di chat</span></li></ul>",
+      "css": ".ds-rules { list-style: none; margin: 0; padding: 0; font-size: 0.9rem; font-family: Verdana, Tahoma, 'DejaVu Sans', system-ui, sans-serif; color: var(--text, #1c2c44); } .ds-rules li { display: flex; gap: 0.65rem; padding: 0.42rem 0; align-items: baseline; } .ds-mark { flex: none; width: 1.1rem; align-self: flex-start; margin-top: 0.22rem; } .ds-si .ds-mark { color: var(--ok, #14713d); } .ds-no .ds-mark { color: var(--no, #a92e3c); } .ds-no { color: color-mix(in srgb, var(--text, #1c2c44) 82%, var(--muted, #4e6584)); } .ds-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }"
+    },
+    {
+      "name": "Comando kbd",
+      "kind": "chip",
+      "refersTo": "kbd",
+      "description": "Il chip scuro dei comandi bot: unico habitat del mono.",
+      "html": "<kbd class='ds-kbd'>/regole</kbd> <kbd class='ds-kbd'>/learn</kbd>",
+      "css": ".ds-kbd { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.86em; background: var(--kbd-bg, #10233c); color: var(--kbd-text, #bfe0ff); border-radius: 3px; padding: 0.14em 0.5em; white-space: nowrap; }"
+    },
+    {
+      "name": "Puntini typing",
+      "kind": "custom",
+      "refersTo": "board",
+      "description": "Tre puntini verdi animati nella firma del bot, con delay a scala e guardia reduced-motion.",
+      "html": "<span class='ds-typing' aria-hidden='true'><i></i><i></i><i></i></span>",
+      "css": ".ds-typing { display: inline-flex; gap: 3px; align-items: baseline; } .ds-typing i { width: 4px; height: 4px; border-radius: 50%; background: var(--online, #1d8a4e); display: inline-block; animation: ds-typing 1.4s ease-in-out infinite; } .ds-typing i:nth-child(2) { animation-delay: 0.18s; } .ds-typing i:nth-child(3) { animation-delay: 0.36s; } @keyframes ds-typing { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-3px); opacity: 1; } } @media (prefers-reduced-motion: reduce) { .ds-typing i { animation: none; } }"
+    },
+    {
+      "name": "Pallino online",
+      "kind": "custom",
+      "refersTo": "board",
+      "description": "Indicatore di presenza del breadcrumb: 9px con alone semitrasparente via color-mix.",
+      "html": "<span class='ds-online'><span class='ds-dot' aria-hidden='true'></span> web_dev_italia_bot e online</span>",
+      "css": ".ds-online { display: inline-flex; align-items: center; gap: 0.4rem; font-family: Verdana, Tahoma, 'DejaVu Sans', system-ui, sans-serif; font-size: 0.78rem; color: var(--muted, #4e6584); } .ds-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--online, #1d8a4e); box-shadow: 0 0 0 2px color-mix(in srgb, var(--online, #1d8a4e) 25%, transparent); display: inline-block; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Millennium",
+    "overview": "Il forum italiano dove questi dev sono cresciuti, ricostruito con craft 2026. La pagina non imita una SaaS-landing (niente hero a gradiente decorativo, niente card fluttuanti): imita una board phpBB dei primi anni 2000 e la rifà con gli strumenti di oggi (custom properties, color-mix(), clamp(), grid, prefers-color-scheme). Ogni superficie è un pezzo di forum: barre di categoria a gradiente, righe alternate, thread sticky ambra, firma del bot, paginazione '1 di 1'. La densità è da bacheca: testo piccolo e fitto (base 15px Verdana), tanti livelli di meta-testo, bordi 1px ovunque. Il tono visivo è nostalgico ma pulito: la nostalgia sta nella struttura, il 2026 sta nella resa (contrasto AA, focus ring, reduced-motion, dark mode nativa).",
+    "keyCharacteristics": [
+      "Doppia skin token-pari: 'subSilver 2026' in light, 'board notturna' in dark, via prefers-color-scheme",
+      "Verdana ovunque; mono solo dentro kbd/code per i comandi del bot",
+      "Barre di categoria a gradiente verticale 2-stop, righe alternate, sticky ambra",
+      "Icone disegnate come SVG inline 'pixel-web' (viewBox 16), mai emoji",
+      "Contenitore 960px, bordi 1px, radius 3/6px, una sola ombra ambientale",
+      "Self-contained: font di sistema, zero richieste esterne, tutto inline"
+    ],
+    "rules": [
+      { "name": "La Regola delle Due Skin", "body": "Ogni colore vive come coppia di custom property su :root (light) e nel blocco prefers-color-scheme: dark; color-scheme: light dark è dichiarato. I componenti consumano solo var(), mai hex diretti. Unica eccezione canonizzata: il verde #58c26e di 'Italia' nel logo.", "section": "colors" },
+      { "name": "La Regola dell'Ambra Sticky", "body": "L'evidenza è un materiale, non un'enfasi: ciò che è 'in evidenza' usa il trio ambra, mai il blu accent e mai un rosso.", "section": "colors" },
+      { "name": "La Regola del Visited", "body": "I link visitati cambiano colore (viola link-visited): su una board la cronologia di lettura si vede.", "section": "colors" },
+      { "name": "La Regola Verdana", "body": "Tutto il testo UI è lo stack Verdana di sistema; il mono esiste solo dentro kbd/code. Nessun webfont, mai.", "section": "typography" },
+      { "name": "La Regola del Logotipo", "body": "Il trattamento display (900 italico, doppio contorno, rotazione -1 grado, ombra dura) esiste in un solo posto: il logo. Nessun altro testo lo imita.", "section": "typography" },
+      { "name": "La Regola Bordi-Prima", "body": "Nuove superfici prendono bordo 1px + eventuale --shadow; le ombre dure a offset restano confinate al logotipo.", "section": "elevation" },
+      { "name": "La Regola della Barra di Plastica", "body": "Il gradiente è il lucido 'plastica' della board: verticale, 2 stop, chiaro sopra scuro sotto, solo su barre/fascia/bottoni. Mai gradienti decorativi di sfondo.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do definire ogni nuovo colore come coppia light/dark di custom property su :root e consumarlo solo via var(); color-scheme: light dark resta dichiarato.",
+      "Do usare \" - \" come separatore nel copy e nei titoli (regola di brand, vale anche per i meta tag).",
+      "Do disegnare le icone come SVG inline su viewBox 16, fill currentColor o token, aria-hidden='true' se decorative.",
+      "Do mantenere il focus ring 3px solid var(--accent) offset 2px su ogni interattivo e i prefissi .visually-hidden dove il significato è solo visivo.",
+      "Do proteggere ogni animazione con prefers-reduced-motion: reduce.",
+      "Do tenere la pagina self-contained: font di sistema, tutto inline, zero richieste esterne."
+    ],
+    "donts": [
+      "Don't em-dash, mai; niente webfont, CDN, analytics o qualunque richiesta esterna.",
+      "Don't emoji come icone: i segni consentito/vietato del regolamento sono SVG check/cross in ok/no.",
+      "Don't mono fuori da kbd/code: solo comandi del bot e codice.",
+      "Don't metriche inventate (numero membri, testimonial) né persone fittizie spacciabili per reali.",
+      "Don't ombre dure a offset fuori dal logotipo; niente gradienti oltre i 2-stop verticali di barre, fascia e bottoni.",
+      "Don't maiuscolo esteso fuori dai micro-label (sticky-tag, H3 risorse); 'REGOLAMENTO' nei titoli è copy, non uno stile di sistema."
+    ]
+  }
+}

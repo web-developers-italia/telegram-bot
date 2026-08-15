@@ -4,261 +4,675 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Web Developers Italia - il gruppo Telegram degli sviluppatori web italiani</title>
-  <meta name="description" content="Web Developers Italia è la community Telegram degli sviluppatori web italiani: domande tecniche, carriera, lavoro e moderazione attiva. Entra gratis.">
+  <meta name="description" content="Web Developers Italia è la community Telegram degli sviluppatori web italiani: domande tecniche, carriera, lavoro con RAL e moderazione attiva. Entra gratis.">
   <link rel="canonical" href="https://web-developers-italia.github.io/telegram-bot/">
   <meta property="og:title" content="Web Developers Italia - il gruppo Telegram degli sviluppatori web italiani">
-  <meta property="og:description" content="Web Developers Italia è la community Telegram degli sviluppatori web italiani: domande tecniche, carriera, lavoro e moderazione attiva. Entra gratis.">
+  <meta property="og:description" content="Il forum degli sviluppatori web italiani oggi vive su Telegram: domande tecniche, carriera, lavoro con RAL e moderazione attiva. Entra gratis.">
   <meta property="og:url" content="https://web-developers-italia.github.io/telegram-bot/">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
-  <meta name="theme-color" content="#0067a6">
+  <meta name="theme-color" content="#0d1522">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
+    /* ============ Tema: "Millennium" - ricostruzione 2026 di una board italiana anni 2000 ============ */
     :root {
       color-scheme: light dark;
-      --bg: #ffffff;
-      --surface: #f4f6f8;
-      --text: #1a2233;
-      --text-muted: #4b5568;
-      --accent: #0067a6;
-      --accent-contrast: #ffffff;
-      --border: #dde3ea;
+      /* subSilver 2026 (light) */
+      --page: #dfe8f4;
+      --panel: #ffffff;
+      --panel-alt: #eef4fb;
+      --bar-top: #dcE9f8;
+      --bar-bottom: #bcd4ec;
+      --bar-text: #113a66;
+      --border: #9db8d6;
+      --border-soft: #c8d8ec;
+      --text: #1c2c44;
+      --muted: #4e6584;
+      --link: #0b5aa5;
+      --link-visited: #6a4a9c;
+      --accent: #0b5aa5;
+      --cta: #0f76c2;
+      --cta-deep: #0b5aa5;
+      --cta-text: #ffffff;
+      --sticky-bg: #fdf3d7;
+      --sticky-border: #e3c26e;
+      --sticky-text: #7a5410;
+      --ok: #14713d;
+      --no: #a92e3c;
+      --online: #1d8a4e;
+      --new-badge: #b12f2f;
+      --shadow: 0 2px 6px rgba(23, 43, 72, 0.18);
+      --logo-fill: #ffffff;
+      --logo-edge: #0b3f74;
+      --logo-shadow: #7ea9d4;
+      --head-band: #0f2c50;
+      --head-band-2: #123a68;
+      --head-text: #e8f1fb;
+      --head-muted: #a9c4e2;
+      --kbd-bg: #10233c;
+      --kbd-text: #bfe0ff;
     }
-
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #0f172a;
-        --surface: #1a2740;
-        --text: #e6edf5;
-        --text-muted: #a7b4c6;
-        --accent: #4db8ff;
-        --accent-contrast: #06263b;
-        --border: #2b3a54;
+        /* Tema notte: la stessa board, skin scura da secondo monitor */
+        --page: #0d1522;
+        --panel: #141f31;
+        --panel-alt: #182539;
+        --bar-top: #1e3a61;
+        --bar-bottom: #16304f;
+        --bar-text: #cfe3fa;
+        --border: #2c4165;
+        --border-soft: #223350;
+        --text: #d9e4f3;
+        --muted: #91a7c4;
+        --link: #6fb4f5;
+        --link-visited: #b39ae0;
+        --accent: #6fb4f5;
+        --cta: #1f6fb4;
+        --cta-deep: #15507f;
+        --cta-text: #f2f8ff;
+        --sticky-bg: #2b2410;
+        --sticky-border: #6e5716;
+        --sticky-text: #ecc35c;
+        --ok: #56c187;
+        --no: #ef7c88;
+        --online: #4cc38a;
+        --new-badge: #b93a3a;
+        --shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+        --logo-fill: #eaf3fd;
+        --logo-edge: #0a2c52;
+        --logo-shadow: #071c33;
+        --head-band: #0a1626;
+        --head-band-2: #0e1f38;
+        --head-text: #e8f1fb;
+        --head-muted: #9db8d8;
+        --kbd-bg: #0a1626;
+        --kbd-text: #9fd2ff;
       }
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      -webkit-text-size-adjust: 100%;
-    }
-
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
       margin: 0;
-      background: var(--bg);
+      background: var(--page);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
+      font-family: Verdana, Tahoma, "DejaVu Sans", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
     }
 
-    code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 0.1em 0.4em;
-      font-size: 0.92em;
-    }
-
-    a {
-      color: var(--accent);
-    }
-
-    .wrap {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 1.25rem;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 3.5rem 1.25rem 3rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hero h1 {
-      margin: 0 0 0.5rem;
-      font-size: clamp(2rem, 5vw + 1rem, 2.75rem);
-      letter-spacing: -0.02em;
-    }
-
-    .hero .tagline {
-      margin: 0 auto 1rem;
-      max-width: 40rem;
-      font-size: 1.25rem;
-      color: var(--text-muted);
-    }
-
-    .hero p.lead {
-      margin: 0 auto 2rem;
-      max-width: 38rem;
-      color: var(--text-muted);
-    }
-
-    .btn {
-      display: inline-block;
-      background: var(--accent);
-      color: var(--accent-contrast);
-      font-weight: 700;
-      font-size: 1.05rem;
-      text-decoration: none;
-      padding: 0.85rem 1.75rem;
-      border-radius: 999px;
-      transition: opacity 0.15s ease;
-    }
-
-    .btn:hover,
-    .btn:focus-visible {
-      opacity: 0.85;
-    }
-
-    a:focus-visible,
-    .btn:focus-visible {
+    a { color: var(--link); }
+    a:visited { color: var(--link-visited); }
+    a:focus-visible, button:focus-visible, summary:focus-visible {
       outline: 3px solid var(--accent);
-      outline-offset: 3px;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+    .skip {
+      position: absolute; left: -999px; top: 0;
+      background: var(--panel); color: var(--link);
+      padding: 0.5rem 1rem; z-index: 10; border: 1px solid var(--border);
+    }
+    .skip:focus { left: 8px; top: 8px; }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      margin: -1px; padding: 0; border: 0;
+      clip-path: inset(50%); overflow: hidden; white-space: nowrap;
     }
 
-    main section {
-      padding: 2.75rem 0;
+    code, kbd {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.86em;
+    }
+    kbd {
+      background: var(--kbd-bg);
+      color: var(--kbd-text);
+      border-radius: 3px;
+      padding: 0.14em 0.5em;
+      white-space: nowrap;
+    }
+
+    .icon { display: inline-block; vertical-align: -0.18em; flex: none; }
+
+    /* ---------- Testata: fascia scura da portale, logo da board ---------- */
+    .masthead {
+      background: linear-gradient(180deg, var(--head-band-2), var(--head-band));
+      color: var(--head-text);
+      border-bottom: 4px solid var(--cta);
+      padding: 2.4rem 1.25rem 1.9rem;
+    }
+    .masthead-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    .guest-box {
+      display: none;
+      align-self: start;
+      border: 1px solid color-mix(in srgb, var(--head-muted) 45%, transparent);
+      border-radius: 6px;
+      background: color-mix(in srgb, var(--head-band-2) 40%, transparent);
+      padding: 0.9rem 1rem 1rem;
+      font-size: 0.78rem;
+      color: var(--head-muted);
+      line-height: 1.55;
+      max-width: 250px;
+    }
+    .guest-box strong { color: var(--head-text); display: block; margin-bottom: 0.25rem; font-size: 0.85rem; }
+    .guest-box a { color: var(--head-text); font-weight: 700; }
+    @media (min-width: 900px) {
+      .masthead-inner { grid-template-columns: 1fr auto; align-items: start; }
+      .guest-box { display: block; }
+    }
+    .logo {
+      margin: 0;
+      font-size: clamp(1.9rem, 6.2vw, 3.4rem);
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--logo-fill);
+      text-shadow:
+        2px 0 0 var(--logo-edge), -2px 0 0 var(--logo-edge),
+        0 2px 0 var(--logo-edge), 0 -2px 0 var(--logo-edge),
+        2px 2px 0 var(--logo-edge), -2px 2px 0 var(--logo-edge),
+        2px -2px 0 var(--logo-edge), -2px -2px 0 var(--logo-edge),
+        5px 5px 0 var(--logo-shadow);
+      transform: rotate(-1deg);
+      display: inline-block;
+    }
+    .logo .it { color: #58c26e; text-shadow:
+        2px 0 0 var(--logo-edge), -2px 0 0 var(--logo-edge),
+        0 2px 0 var(--logo-edge), 0 -2px 0 var(--logo-edge),
+        2px 2px 0 var(--logo-edge), -2px 2px 0 var(--logo-edge),
+        2px -2px 0 var(--logo-edge), -2px -2px 0 var(--logo-edge),
+        5px 5px 0 var(--logo-shadow); }
+    .payoff {
+      margin: 0.9rem 0 0;
+      color: var(--head-muted);
+      font-size: 0.95rem;
+      max-width: 46rem;
+    }
+    .payoff strong { color: var(--head-text); }
+    .masthead-cta { margin-top: 1.4rem; display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: inherit; font-weight: 700; font-size: 1rem;
+      text-decoration: none; cursor: pointer;
+      padding: 0.72rem 1.35rem;
+      border-radius: 6px;
+      border: 1px solid var(--cta-deep);
+      background: linear-gradient(180deg, var(--cta), var(--cta-deep));
+      color: var(--cta-text) !important;
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.35);
+      transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 140ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn:hover, .btn:focus-visible { transform: translateY(-1px); box-shadow: 0 5px 12px rgba(10, 30, 60, 0.35), inset 0 1px 0 rgba(255,255,255,0.35); }
+    .btn:active { transform: translateY(1px); box-shadow: 0 1px 3px rgba(10, 30, 60, 0.35), inset 0 1px 2px rgba(0,0,0,0.25); }
+    .btn.ghost {
+      background: transparent;
+      color: var(--head-text) !important;
+      border: 1px solid var(--head-muted);
+      box-shadow: none;
+    }
+    .members-note { color: var(--head-muted); font-size: 0.8rem; margin: 0.6rem 0 0; }
+
+    /* ---------- Barra di navigazione breadcrumb ---------- */
+    .crumbs {
+      background: var(--panel);
       border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .crumbs-inner {
+      max-width: 960px; margin: 0 auto; padding: 0.5rem 1.25rem;
+      display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .crumbs a { text-decoration: none; }
+    .crumbs a:hover { text-decoration: underline; }
+    .online-now { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--online);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--online) 25%, transparent);
+      display: inline-block;
     }
 
-    main section:last-child {
-      border-bottom: none;
+    /* ---------- Impianto board ---------- */
+    main { max-width: 960px; margin: 0 auto; padding: 1.6rem 1.25rem 3rem; }
+    .board { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--panel); box-shadow: var(--shadow); }
+    .board + .board, .board + .thread, .thread + .board, .thread + .thread { margin-top: 1.7rem; }
+    .board-bar {
+      background: linear-gradient(180deg, var(--bar-top), var(--bar-bottom));
+      color: var(--bar-text);
+      border-bottom: 1px solid var(--border);
+      padding: 0.62rem 1rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .board-bar h2 { margin: 0; font-size: 1rem; font-weight: 700; letter-spacing: 0.01em; display: flex; align-items: center; gap: 0.55rem; }
+    .board-bar .bar-meta { font-size: 0.72rem; color: var(--bar-text); opacity: 0.85; }
+
+    .rows { list-style: none; margin: 0; padding: 0; }
+    .row {
+      display: grid;
+      grid-template-columns: 30px 1fr 170px;
+      gap: 0.9rem;
+      align-items: center;
+      padding: 0.85rem 1rem;
+      border-top: 1px solid var(--border-soft);
+    }
+    .rows .row:first-child { border-top: 0; }
+    .rows .row:nth-child(even) { background: var(--panel-alt); }
+    .row-title { font-weight: 700; font-size: 0.95rem; }
+    .row-title a { text-decoration: none; }
+    .row-title a:hover { text-decoration: underline; }
+    .row-desc { color: var(--muted); font-size: 0.8rem; margin-top: 0.15rem; }
+    .row-last { font-size: 0.75rem; color: var(--muted); text-align: right; line-height: 1.5; }
+    .row-last a { font-weight: 700; text-decoration: none; }
+    .row-last a:hover { text-decoration: underline; }
+    .rhythm { display: block; color: var(--muted); }
+
+    .sticky-row { background: var(--sticky-bg) !important; }
+    .sticky-row .row-title a { color: var(--sticky-text); }
+    .sticky-row .row-desc { color: color-mix(in srgb, var(--sticky-text) 80%, var(--text)); }
+    .sticky-tag {
+      font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--sticky-text);
+      border: 1px solid var(--sticky-border);
+      border-radius: 3px;
+      padding: 0.05rem 0.4rem;
+      margin-left: 0.5rem;
+      white-space: nowrap;
+    }
+    .new-badge {
+      font-size: 0.64rem; font-weight: 700; letter-spacing: 0.08em;
+      color: #fff; background: var(--new-badge);
+      border-radius: 3px; padding: 0.1rem 0.4rem;
+      margin-left: 0.5rem;
+      animation: newpulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+    @keyframes newpulse { 0%, 100% { background-color: var(--new-badge); } 50% { background-color: color-mix(in srgb, var(--new-badge) 78%, #7c1f1f); } }
+    @media (prefers-reduced-motion: reduce) {
+      .new-badge { animation: none; }
+      .btn, .btn:hover { transition: none; transform: none; }
     }
 
-    h2 {
-      font-size: 1.5rem;
-      margin: 0 0 1rem;
-      letter-spacing: -0.01em;
+    /* ---------- Thread aperto (regolamento) ---------- */
+    .thread { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--panel); box-shadow: var(--shadow); }
+    .post { display: grid; grid-template-columns: 168px 1fr; }
+    .post-author {
+      background: var(--panel-alt);
+      border-right: 1px solid var(--border-soft);
+      padding: 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.55;
     }
-
-    h3 {
-      font-size: 1.1rem;
-      margin: 1.5rem 0 0.5rem;
-    }
-
-    p {
-      margin: 0 0 1rem;
-    }
-
-    ul {
-      margin: 0 0 1rem;
-      padding-left: 1.25rem;
-    }
-
-    li {
+    .post-author .nick { font-weight: 700; font-size: 0.85rem; color: var(--text); display: block; margin-bottom: 0.15rem; overflow-wrap: anywhere; }
+    .post-author .role { color: var(--online); font-weight: 700; }
+    .avatar {
+      width: 72px; height: 72px; border: 1px solid var(--border);
+      border-radius: 6px; background: var(--panel);
+      display: grid; place-items: center;
       margin-bottom: 0.6rem;
     }
-
-    ul.rules {
-      list-style: none;
-      padding-left: 0;
+    .post-body { padding: 1.1rem 1.3rem 1.3rem; min-width: 0; }
+    .post-meta { font-size: 0.72rem; color: var(--muted); border-bottom: 1px solid var(--border-soft); padding-bottom: 0.55rem; margin-bottom: 0.9rem; }
+    .rules { list-style: none; margin: 0.4rem 0 0; padding: 0; font-size: 0.9rem; }
+    .rules li { display: flex; gap: 0.65rem; padding: 0.42rem 0; align-items: baseline; }
+    .rules .mark { flex: none; width: 1.1rem; text-align: center; align-self: flex-start; margin-top: 0.22rem; }
+    .rules .si .mark { color: var(--ok); }
+    .rules .no .mark { color: var(--no); }
+    .rules .no { color: color-mix(in srgb, var(--text) 82%, var(--muted)); }
+    .post-body p { margin: 0.9rem 0 0; }
+    .quote {
+      border: 1px solid var(--border-soft);
+      background: var(--panel-alt);
+      border-radius: 4px;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.85rem;
+      margin: 1rem 0 0;
     }
+    .quote .q-head { font-size: 0.72rem; color: var(--muted); font-weight: 700; margin-bottom: 0.3rem; }
 
-    ul.rules li {
-      padding-left: 1.75rem;
-      position: relative;
+    /* ---------- Risorse ---------- */
+    .link-list { list-style: none; margin: 0; padding: 0; font-size: 0.9rem; }
+    .link-list li { padding: 0.5rem 0; display: flex; gap: 0.6rem; align-items: baseline; }
+    .link-list .icon { align-self: center; }
+    .link-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; padding: 1rem 1.3rem 1.2rem; }
+    .link-cols h3 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 0.6rem 0 0.2rem; }
+
+    /* ---------- Firma / bot ---------- */
+    .sig { font-size: 0.85rem; }
+    .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; padding: 1rem 1.3rem 1.2rem; }
+    .sig-grid p { margin: 0.5rem 0 0; }
+    .cmds { margin: 0.8rem 0 0; display: flex; flex-wrap: wrap; gap: 0.45rem 0.55rem; padding: 0; list-style: none; }
+    .typing { display: inline-flex; gap: 3px; align-items: baseline; margin-left: 0.35rem; }
+    .typing i {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--online); display: inline-block;
+      animation: typing 1.4s ease-in-out infinite;
+    }
+    .typing i:nth-child(2) { animation-delay: 0.18s; }
+    .typing i:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes typing { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-3px); opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .typing i { animation: none; } }
+
+    /* ---------- Chiusura ---------- */
+    .closing {
+      margin-top: 2.2rem;
+      text-align: center;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      background: var(--panel);
+      padding: 2rem 1.3rem 2.2rem;
+    }
+    .closing h2 { font-size: 1.35rem; margin: 0 0 0.4rem; }
+    .closing .btn .label-short { display: none; }
+    .closing p { color: var(--muted); font-size: 0.9rem; max-width: 34rem; margin: 0 auto 1.3rem; }
+
+    .pagination {
+      margin: 2rem auto 0;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .pagination span {
+      display: inline-block; min-width: 1.7rem; padding: 0.2rem 0.35rem;
+      border: 1px solid var(--border-soft); border-radius: 3px; margin: 0 0.12rem;
+      background: var(--panel);
     }
 
     footer {
-      padding: 2.5rem 1.25rem 3rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.95rem;
+      border-top: 1px solid var(--border);
+      background: var(--panel);
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 2.5rem;
     }
+    .footer-inner { max-width: 960px; margin: 0 auto; padding: 1.2rem 1.25rem 1.5rem; }
+    .footer-links { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+    footer p { margin: 0.3rem 0 0; }
 
-    footer a {
-      color: var(--text);
-    }
-
-    footer .privacy {
-      margin-top: 0.75rem;
-      font-size: 0.85rem;
+    /* ---------- Mobile ---------- */
+    @media (max-width: 680px) {
+      .crumbs-inner { flex-direction: column; gap: 0.2rem; }
+      .online-now { flex-wrap: wrap; }
+      .closing .btn .label-long { display: none; }
+      .closing .btn .label-short { display: inline; }
+      .board-bar { flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+      .row { grid-template-columns: 26px 1fr; }
+      .row-last { grid-column: 2; text-align: left; margin-top: 0.1rem; }
+      .row-last .rhythm { display: inline; }
+      .row-last .rhythm::after { content: " · "; }
+      .post { grid-template-columns: 1fr; }
+      .post-author { border-right: 0; border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; gap: 0.8rem; }
+      .avatar { margin-bottom: 0; width: 52px; height: 52px; }
+      .link-cols, .sig-grid { grid-template-columns: 1fr; }
+      .masthead { padding-top: 1.9rem; }
     }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <h1>Web Developers Italia</h1>
-    <p class="tagline">La community Telegram degli sviluppatori web italiani</p>
-    <p class="lead">Domande tecniche su frontend, backend e DevOps, confronto sulla carriera e opportunità di lavoro, in un gruppo italiano attivo e moderato ogni giorno.</p>
-    <a class="btn" href="https://t.me/webdevitalia" target="_blank" rel="noopener noreferrer">🚀 Entra nel gruppo</a>
+<!--
+THESIS: il forum italiano dove questi dev sono cresciuti, ricostruito con craft 2026; rifiuta la SaaS-landing a gradiente e card. Il gruppo Telegram è il forum che è sopravvissuto.
+OWN-WORLD: skin "Millennium": azzurrino subSilver in light, board notturna in dark; barre di categoria a gradiente, righe alternate, sticky ambra, Verdana ovunque, logotipo italico con doppio contorno, icone SVG pixel-web disegnate, mono solo per i comandi.
+STORY: riconosco la board, leggo le categorie (= i temi veri), trovo il regolamento in evidenza (= posto serio), capisco che tutto vive su Telegram, entro.
+FIRST VIEWPORT: fascia scura con logo ruotato -1°, payoff, due bottoni (Entra nel gruppo / Regolamento); sotto, breadcrumb con bot online e inizio dell'indice board.
+FORM: forum italiano anni 2000 rifatto; candidato 4 della lista; seed 12dcb10e.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md.
+-->
+  <a class="skip" href="#indice">Salta all'indice del forum</a>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="masthead-main">
+        <h1 class="logo">Web Developers <span class="it">Italia</span></h1>
+        <p class="payoff"><strong>Il forum degli sviluppatori web italiani oggi vive su Telegram.</strong> Domande tecniche su frontend, backend e DevOps, carriera e offerte di lavoro solo con RAL, in un gruppo attivo e moderato ogni giorno.</p>
+        <div class="masthead-cta">
+          <a class="btn" href="https://t.me/webdevitalia">
+            <svg class="icon" width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M15 1.5 1.6 6.9c-.8.3-.8 1 -.1 1.3l3.3 1.1 1.2 3.8c.2.7.8.8 1.3.3l1.8-1.8 3.5 2.6c.6.4 1.2.2 1.4-.6l2-11.2c.2-.9-.4-1.3-1-.9zM5.6 9l7.1-4.5c.3-.2.6.1.3.4L7.5 9.8l-.2 2.2L5.6 9z" fill="currentColor"/></svg>
+            Entra nel gruppo
+          </a>
+          <a class="btn ghost" href="#regolamento">Regolamento</a>
+        </div>
+        <p class="members-note">Gratis, serve solo un account Telegram. Niente iscrizione al forum: il forum è questo, il gruppo è di là.</p>
+      </div>
+      <aside class="guest-box">
+        <strong>Benvenuto, ospite!</strong>
+        Non devi registrarti né aspettare l'email di conferma: questa bacheca è in sola lettura, si posta di là.
+        <br><a href="https://t.me/webdevitalia">Apri il gruppo »</a>
+      </aside>
+    </div>
   </header>
 
-  <main class="wrap">
-    <section aria-labelledby="s-community">
-      <h2 id="s-community">Il gruppo Telegram degli sviluppatori web italiani</h2>
-      <p>Web Developers Italia è una community italiana nata per chi lavora, studia o si affaccia allo sviluppo web: sviluppatori frontend e backend, DevOps engineer, designer e chiunque voglia crescere professionalmente confrontandosi con altri sviluppatori web. Il gruppo Telegram è il punto d'incontro quotidiano per fare domande, condividere esperienze e restare aggiornati sul mondo della programmazione.</p>
-    </section>
+  <nav class="crumbs" aria-label="Percorso">
+    <div class="crumbs-inner">
+      <span>
+        <a href="https://t.me/webdevitalia">Indice</a>
+        <span aria-hidden="true">»</span> Community
+        <span aria-hidden="true">»</span> <strong>Sviluppo web</strong>
+      </span>
+      <span class="online-now"><span class="dot" aria-hidden="true"></span> <a href="https://github.com/web-developers-italia/telegram-bot">web_dev_italia_bot</a>&nbsp;è online, gli umani sono nel gruppo</span>
+    </div>
+  </nav>
 
-    <section aria-labelledby="s-cosa-trovi">
-      <h2 id="s-cosa-trovi">Cosa trovi nel gruppo</h2>
-      <ul>
-        <li>Domande tecniche tra professionisti su frontend, backend, DevOps e non solo</li>
-        <li>Discussioni su carriera e lavoro nel mondo dello sviluppo web</li>
-        <li>Offerte di lavoro pubblicate solo con RAL o range retributivo indicato</li>
-        <li>Moderazione attiva, supportata da un bot open source</li>
+  <main id="indice">
+    <!-- Annunci in evidenza -->
+    <section class="board" aria-labelledby="annunci-h">
+      <div class="board-bar">
+        <h2 id="annunci-h">
+          <svg class="icon" width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 1.8 14.2 6.5l-2.3.6-2.2 2.2.3 3.2-1.6 1.6-2.4-4-3.5 3.5-1.2-1.2 3.5-3.5-4-2.4L2.4 5l3.2.3L7.8 3l.6-2.3z" fill="currentColor"/></svg>
+          Annunci
+        </h2>
+        <span class="bar-meta">in evidenza per chi arriva</span>
+      </div>
+      <ul class="rows">
+        <li class="row sticky-row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 1.5h4l-.5 4 2.5 2v1.5H9v4.5L8 15l-1-1.5V9H3.5V7.5l2.5-2-.5-4z" fill="var(--sticky-text)"/></svg>
+          <div>
+            <div class="row-title"><a href="#regolamento">REGOLAMENTO - da leggere prima di postare</a><span class="sticky-tag">Importante</span></div>
+            <div class="row-desc">Le regole che tengono il gruppo pulito: RAL obbligatoria nelle offerte, niente spam, domande fatte bene.</div>
+          </div>
+          <div class="row-last"><span class="rhythm">vale sempre</span><a href="#regolamento">leggi qui sotto ↓</a></div>
+        </li>
+        <li class="row sticky-row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5h5l1 1h6v10H2v-11zM3.5 5v7h9V5h-9z" fill="var(--sticky-text)"/></svg>
+          <div>
+            <div class="row-title"><a href="#risorse">Risorse per iniziare col web development</a><span class="sticky-tag">Per chi parte</span></div>
+            <div class="row-desc">Le guide e le piattaforme che nel gruppo consigliamo davvero, da roadmap.sh in giù.</div>
+          </div>
+          <div class="row-last"><span class="rhythm">sempre aggiornate</span><a href="#risorse">leggi qui sotto ↓</a></div>
+        </li>
       </ul>
     </section>
 
-    <section aria-labelledby="s-come-entrare">
-      <h2 id="s-come-entrare">Come entrare</h2>
-      <p>L'iscrizione è gratuita e richiede solo un account Telegram: clicca il pulsante, unisciti al gruppo e presentati agli altri membri della community.</p>
-      <a class="btn" href="https://t.me/webdevitalia" target="_blank" rel="noopener noreferrer">🚀 Entra nel gruppo</a>
+    <!-- Indice delle categorie -->
+    <section class="board" aria-labelledby="cat-h">
+      <div class="board-bar">
+        <h2 id="cat-h">
+          <svg class="icon" width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 3h5l1.2 1.5H14.5V13h-13V3zM3 6v5.5h10V6H3z" fill="currentColor"/></svg>
+          Di cosa si discute
+        </h2>
+        <span class="bar-meta">le discussioni vere sono nel gruppo</span>
+      </div>
+      <ul class="rows">
+        <li class="row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><path d="m5.5 4-4 4 4 4 1.1-1.1L3.7 8l2.9-2.9L5.5 4zm5 0-1.1 1.1L12.3 8l-2.9 2.9L10.5 12l4-4-4-4z" fill="var(--accent)"/></svg>
+          <div>
+            <div class="row-title"><a href="https://t.me/webdevitalia">Frontend</a></div>
+            <div class="row-desc">HTML, CSS, JavaScript, framework e browser che fanno i capricci.</div>
+          </div>
+          <div class="row-last"><span class="rhythm">ultimo messaggio: oggi</span><a href="https://t.me/webdevitalia">su Telegram »</a></div>
+        </li>
+        <li class="row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h12v3.5H2V3zm0 5h12v3.5H2V8zm2-3.8a.8.8 0 1 0 0 1.6.8.8 0 0 0 0-1.6zm0 5a.8.8 0 1 0 0 1.6.8.8 0 0 0 0-1.6zM12.5 13h1V15h-1v-2zm-10 0h1V15h-1v-2z" fill="var(--accent)"/></svg>
+          <div>
+            <div class="row-title"><a href="https://t.me/webdevitalia">Backend, API e database</a></div>
+            <div class="row-desc">Architetture, query lente, autenticazione e il servizio che cade alle 18:59.</div>
+          </div>
+          <div class="row-last"><span class="rhythm">ultimo messaggio: oggi</span><a href="https://t.me/webdevitalia">su Telegram »</a></div>
+        </li>
+        <li class="row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a2.6 2.6 0 0 1 2.6 2.6c0 .5-.1.9-.4 1.3l3.4 3.4a2.1 2.1 0 1 1-1.1 1.1L9.1 6.5c-.4.2-.8.3-1.1.3l-.6 1.7 1.9 1.9a2.6 2.6 0 1 1-1.2 1L6.5 9.9l-2.4.8A2.6 2.6 0 1 1 3 8.2l2.5-.9.7-1.9A2.6 2.6 0 0 1 8 1.5z" fill="var(--accent)"/></svg>
+          <div>
+            <div class="row-title"><a href="https://t.me/webdevitalia">DevOps e infrastruttura</a></div>
+            <div class="row-desc">Deploy, container, CI/CD, cloud e post-mortem raccontati con onestà.</div>
+          </div>
+          <div class="row-last"><span class="rhythm">ultimo messaggio: oggi</span><a href="https://t.me/webdevitalia">su Telegram »</a></div>
+        </li>
+        <li class="row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 10 5.6l4.5.6-3.2 3.1.7 4.4L8 11.6l-4 2.1.7-4.4L1.5 6.2 6 5.6 8 1.5z" fill="var(--accent)"/></svg>
+          <div>
+            <div class="row-title"><a href="https://t.me/webdevitalia">Carriera, contratti e RAL</a></div>
+            <div class="row-desc">Colloqui, crescita, freelance vs dipendente e quanto si viene pagati davvero.</div>
+          </div>
+          <div class="row-last"><span class="rhythm">ultimo messaggio: oggi</span><a href="https://t.me/webdevitalia">su Telegram »</a></div>
+        </li>
+        <li class="row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.2 2.5h3.6c.8 0 1.4.6 1.4 1.4v.6H14V8H9v-.9H7V8H2V4.5h3v-.6c0-.8.5-1.4 1.2-1.4zm.3 1.5v.5h3v-.5h-3zM2 9.5h5v1h2v-1h5V13.5H2V9.5z" fill="var(--accent)"/></svg>
+          <div>
+            <div class="row-title"><a href="https://t.me/webdevitalia">Job day</a><span class="new-badge">nuovo</span></div>
+            <div class="row-desc">Il thread ricorrente chi assume / chi cerca: le offerte valgono solo con RAL o range.</div>
+          </div>
+          <div class="row-last"><span class="rhythm">ogni mercoledì</span><a href="https://t.me/webdevitalia">su Telegram »</a></div>
+        </li>
+        <li class="row">
+          <svg class="icon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 4h8.5v2H13a1.7 1.7 0 0 1 0 3.4h-1.7A4.6 4.6 0 0 1 3 8V4zm8.5 3.5V8c0 .5-.1 1-.3 1.4H13a.7.7 0 0 0 0-1.4h-1.5zM4 13h8v1.4H4V13z" fill="var(--accent)"/></svg>
+          <div>
+            <div class="row-title"><a href="https://t.me/webdevitalia">I più votati della settimana</a></div>
+            <div class="row-desc">Ogni venerdì il bot ripubblica i messaggi con più reazioni: il meglio, senza scrollare.</div>
+          </div>
+          <div class="row-last"><span class="rhythm">ogni venerdì</span><a href="https://t.me/webdevitalia">su Telegram »</a></div>
+        </li>
+      </ul>
     </section>
 
-    <section aria-labelledby="s-regole">
-      <h2 id="s-regole">Regolamento in breve</h2>
-      <!-- Da tenere in sync con functions/src/telegram/commands/rules.ts -->
-      <ul class="rules">
-        <li>✅ Richieste di supporto specifiche, chiare e concise, con le soluzioni già provate</li>
-        <li>❌ Richieste di aiuto in privato</li>
-        <li>✅ Offerte di lavoro solo con tipo di contratto e range di retribuzione</li>
-        <li>❌ Spam di qualsiasi forma nel flusso di chat</li>
-        <li>✅ Discussioni su news, lavoro e lifestyle del web developer</li>
-        <li>❌ Contenuti che urtano la sensibilità dei membri (gore, porno, nudità)</li>
-        <li>✅ Codice condiviso con strumenti dedicati (Pastebin, Codepen, Stackblitz)</li>
-        <li>❌ Messaggi inviati come canale invece che dal proprio profilo personale</li>
-      </ul>
-      <p>Il regolamento completo è disponibile nel gruppo con il comando <code>/regole</code>.</p>
+    <!-- Regolamento come thread aperto -->
+    <section class="thread" id="regolamento" aria-labelledby="reg-h">
+      <div class="board-bar">
+        <h2 id="reg-h">
+          <svg class="icon" width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2h1V14h-9V7h1zm1.5 0h4V5a2 2 0 1 0-4 0v2z" fill="currentColor"/></svg>
+          REGOLAMENTO - da leggere prima di postare
+        </h2>
+        <span class="bar-meta">thread in evidenza</span>
+      </div>
+      <article class="post">
+        <div class="post-author">
+          <div class="avatar" aria-hidden="true">
+            <svg width="46" height="46" viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="11" rx="2.5" fill="var(--accent)"/><rect x="8.2" y="10.5" width="2.6" height="2.6" rx="0.6" fill="var(--panel)"/><rect x="13.2" y="10.5" width="2.6" height="2.6" rx="0.6" fill="var(--panel)"/><rect x="8.5" y="15" width="7" height="1.4" rx="0.7" fill="var(--panel)"/><rect x="11.2" y="3.5" width="1.6" height="3.5" rx="0.8" fill="var(--accent)"/><circle cx="12" cy="3.2" r="1.4" fill="var(--accent)"/></svg>
+          </div>
+          <div class="author-info">
+            <span class="nick">web_dev_italia_bot</span>
+            <span class="role">Amministratore</span><br>
+            Bot open source<br>
+            Sempre online
+          </div>
+        </div>
+        <div class="post-body">
+          <div class="post-meta">Vale in tutto il gruppo, dal primo messaggio. Nel gruppo lo richiami con <kbd>/regole</kbd>.</div>
+          <ul class="rules">
+            <li class="si"><svg class="icon mark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="m2.5 8.6 1.9-1.9 2.4 2.4 4.8-5.8 2 1.6-6.6 8L2.5 8.6z" fill="currentColor"/></svg><span><span class="visually-hidden">Consentito: </span>Richieste di supporto specifiche, chiare e concise, con le soluzioni già provate</span></li>
+            <li class="no"><svg class="icon mark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.1 2.9 8 6.8l3.9-3.9 1.2 1.2L9.2 8l3.9 3.9-1.2 1.2L8 9.2l-3.9 3.9-1.2-1.2L6.8 8 2.9 4.1l1.2-1.2z" fill="currentColor"/></svg><span><span class="visually-hidden">Vietato: </span>Richieste di aiuto in privato</span></li>
+            <li class="si"><svg class="icon mark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="m2.5 8.6 1.9-1.9 2.4 2.4 4.8-5.8 2 1.6-6.6 8L2.5 8.6z" fill="currentColor"/></svg><span><span class="visually-hidden">Consentito: </span>Offerte di lavoro solo con tipo di contratto e range di retribuzione</span></li>
+            <li class="no"><svg class="icon mark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.1 2.9 8 6.8l3.9-3.9 1.2 1.2L9.2 8l3.9 3.9-1.2 1.2L8 9.2l-3.9 3.9-1.2-1.2L6.8 8 2.9 4.1l1.2-1.2z" fill="currentColor"/></svg><span><span class="visually-hidden">Vietato: </span>Spam di qualsiasi forma nel flusso di chat</span></li>
+            <li class="si"><svg class="icon mark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="m2.5 8.6 1.9-1.9 2.4 2.4 4.8-5.8 2 1.6-6.6 8L2.5 8.6z" fill="currentColor"/></svg><span><span class="visually-hidden">Consentito: </span>Discussioni su news, lavoro e lifestyle del web developer</span></li>
+            <li class="no"><svg class="icon mark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.1 2.9 8 6.8l3.9-3.9 1.2 1.2L9.2 8l3.9 3.9-1.2 1.2L8 9.2l-3.9 3.9-1.2-1.2L6.8 8 2.9 4.1l1.2-1.2z" fill="currentColor"/></svg><span><span class="visually-hidden">Vietato: </span>Contenuti che urtano la sensibilità dei membri (gore, porno, nudità)</span></li>
+            <li class="si"><svg class="icon mark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="m2.5 8.6 1.9-1.9 2.4 2.4 4.8-5.8 2 1.6-6.6 8L2.5 8.6z" fill="currentColor"/></svg><span><span class="visually-hidden">Consentito: </span>Codice condiviso con strumenti dedicati (Pastebin, Codepen, Stackblitz)</span></li>
+            <li class="no"><svg class="icon mark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.1 2.9 8 6.8l3.9-3.9 1.2 1.2L9.2 8l3.9 3.9-1.2 1.2L8 9.2l-3.9 3.9-1.2-1.2L6.8 8 2.9 4.1l1.2-1.2z" fill="currentColor"/></svg><span><span class="visually-hidden">Vietato: </span>Messaggi inviati come canale invece che dal proprio profilo personale</span></li>
+          </ul>
+          <div class="quote">
+            <div class="q-head">Come si chiede aiuto qui</div>
+            Fai direttamente la domanda, con contesto e cosa hai già provato: niente "ciao, posso chiedere?". Chi arriva da meno di 24 ore non può postare link: è l'anti-spam, non ce l'abbiamo con te.
+          </div>
+          <p>Il regolamento completo, con gli aggiornamenti votati dalla community, è nel gruppo: <kbd>/regole</kbd>.</p>
+        </div>
+      </article>
     </section>
 
-    <section aria-labelledby="s-risorse">
-      <h2 id="s-risorse">Risorse per iniziare</h2>
-      <p>Sei nuovo nel mondo del web development? Nel gruppo si consigliano spesso queste risorse:</p>
-      <h3>Per iniziare</h3>
-      <ul>
-        <li><a href="https://roadmap.sh/" target="_blank" rel="noopener noreferrer">roadmap.sh</a> - percorsi guidati per ogni ruolo tech</li>
-        <li><a href="http://jsforcats.com/" target="_blank" rel="noopener noreferrer">JS for Cats</a> - introduzione a JavaScript</li>
-        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide" target="_blank" rel="noopener noreferrer">MDN JavaScript Guide</a> - la guida di riferimento a JavaScript</li>
-        <li><a href="https://github.com/getify/You-Dont-Know-JS" target="_blank" rel="noopener noreferrer">You Don't Know JS</a> - serie di libri gratuiti su JavaScript</li>
-        <li><a href="https://github.com/EbookFoundation/free-programming-books" target="_blank" rel="noopener noreferrer">Free Programming Books</a> - raccolta di libri di programmazione gratuiti</li>
-      </ul>
-      <h3>Piattaforme di e-learning</h3>
-      <ul>
-        <li><a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">freeCodeCamp</a></li>
-        <li><a href="https://www.codecademy.com/" target="_blank" rel="noopener noreferrer">Codecademy</a></li>
-        <li><a href="https://www.codewars.com/" target="_blank" rel="noopener noreferrer">Codewars</a></li>
-      </ul>
+    <!-- Risorse -->
+    <section class="board" id="risorse" aria-labelledby="ris-h">
+      <div class="board-bar">
+        <h2 id="ris-h">
+          <svg class="icon" width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.2C6.8 2.2 5.2 1.8 3 1.8v10.4c2.2 0 3.8.4 5 1.4 1.2-1 2.8-1.4 5-1.4V1.8c-2.2 0-3.8.4-5 1.4zm-.8 9A7.9 7.9 0 0 0 4.4 11V3.4c1.2.1 2.1.5 2.8 1.1v7.7zm1.6 0V4.5c.7-.6 1.6-1 2.8-1.1V11c-1 .1-2 .5-2.8 1.2z" fill="currentColor"/></svg>
+          Risorse per iniziare
+        </h2>
+        <span class="bar-meta">quelle che consigliamo davvero</span>
+      </div>
+      <div class="link-cols">
+        <div>
+          <h3>Per partire</h3>
+          <ul class="link-list">
+            <li><svg class="icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 3.5 11 8l-4.5 4.5-1-1L9 8 5.5 4.5l1-1z" fill="var(--accent)"/></svg><span><a href="https://roadmap.sh/" target="_blank" rel="noopener noreferrer">roadmap.sh</a> - percorsi guidati per ogni ruolo tech</span></li>
+            <li><svg class="icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 3.5 11 8l-4.5 4.5-1-1L9 8 5.5 4.5l1-1z" fill="var(--accent)"/></svg><span><a href="http://jsforcats.com/" target="_blank" rel="noopener noreferrer">JS for Cats</a> - introduzione a JavaScript</span></li>
+            <li><svg class="icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 3.5 11 8l-4.5 4.5-1-1L9 8 5.5 4.5l1-1z" fill="var(--accent)"/></svg><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide" target="_blank" rel="noopener noreferrer">MDN JavaScript Guide</a> - la guida di riferimento a JavaScript</span></li>
+            <li><svg class="icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 3.5 11 8l-4.5 4.5-1-1L9 8 5.5 4.5l1-1z" fill="var(--accent)"/></svg><span><a href="https://github.com/getify/You-Dont-Know-JS" target="_blank" rel="noopener noreferrer">You Don't Know JS</a> - serie di libri gratuiti su JavaScript</span></li>
+            <li><svg class="icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 3.5 11 8l-4.5 4.5-1-1L9 8 5.5 4.5l1-1z" fill="var(--accent)"/></svg><span><a href="https://github.com/EbookFoundation/free-programming-books" target="_blank" rel="noopener noreferrer">Free Programming Books</a> - raccolta di libri di programmazione gratuiti</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Per fare pratica</h3>
+          <ul class="link-list">
+            <li><svg class="icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 3.5 11 8l-4.5 4.5-1-1L9 8 5.5 4.5l1-1z" fill="var(--accent)"/></svg><span><a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">freeCodeCamp</a> - corsi completi e gratuiti</span></li>
+            <li><svg class="icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 3.5 11 8l-4.5 4.5-1-1L9 8 5.5 4.5l1-1z" fill="var(--accent)"/></svg><span><a href="https://www.codecademy.com/" target="_blank" rel="noopener noreferrer">Codecademy</a> - esercizi interattivi</span></li>
+            <li><svg class="icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 3.5 11 8l-4.5 4.5-1-1L9 8 5.5 4.5l1-1z" fill="var(--accent)"/></svg><span><a href="https://www.codewars.com/" target="_blank" rel="noopener noreferrer">Codewars</a> - allenamento con le kata</span></li>
+          </ul>
+          <h3>Nel gruppo</h3>
+          <ul class="link-list">
+            <li><svg class="icon" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 3.5 11 8l-4.5 4.5-1-1L9 8 5.5 4.5l1-1z" fill="var(--accent)"/></svg><span><kbd>/learn</kbd> te le ripropone quando servono, anche in risposta a una domanda</span></li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <section aria-labelledby="s-bot">
-      <h2 id="s-bot">Il bot del gruppo</h2>
-      <p>Il gruppo è gestito da un bot open source scritto in TypeScript: chiunque può leggerne il codice o contribuire con una pull request sulla <a href="https://github.com/web-developers-italia/telegram-bot" target="_blank" rel="noopener noreferrer">repository GitHub</a>.</p>
-      <p>Tra i comandi principali: <code>/regole</code> mostra il regolamento, <code>/learn</code> suggerisce risorse per iniziare, <code>/contribute</code> porta alla repo e alle issue aperte, <code>/start</code> in chat privata mostra il messaggio di benvenuto.</p>
+    <!-- Il bot -->
+    <section class="board sig" aria-labelledby="bot-h">
+      <div class="board-bar">
+        <h2 id="bot-h">
+          <svg class="icon" width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 5.5h8A1.5 1.5 0 0 1 13.5 7v5A1.5 1.5 0 0 1 12 13.5H4A1.5 1.5 0 0 1 2.5 12V7A1.5 1.5 0 0 1 4 5.5zM5.6 8v2h1.6V8H5.6zm3.2 0v2h1.6V8H8.8zM7.2 1.5h1.6v3H7.2v-3z" fill="currentColor"/></svg>
+          Il moderatore è un bot, ed è open source
+        </h2>
+        <span class="bar-meta">TypeScript, grammY, Effect</span>
+      </div>
+      <div class="sig-grid">
+        <div>
+          <p><strong>Benvenuto ai nuovi, anti-spam, blocco link nelle prime 24 ore, pulizia degli inattivi con revisione umana</strong>: il gruppo si tiene pulito da solo, e il codice che lo fa è pubblico.</p>
+          <p>Chiunque può leggerlo, aprire una issue o contribuire una PR sulla <a href="https://github.com/web-developers-italia/telegram-bot">repository GitHub</a>. Le modifiche passano da lì: anche questa pagina.</p>
+        </div>
+        <div>
+          <p><strong>I comandi che userai subito</strong> <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span></p>
+          <ul class="cmds">
+            <li><kbd>/regole</kbd></li>
+            <li><kbd>/learn</kbd></li>
+            <li><kbd>/contribute</kbd></li>
+            <li><kbd>/start</kbd></li>
+          </ul>
+          <p>Privacy: il bot salva solo id, username, timestamp di attività e conteggi (reazioni, inviti), mai il testo dei messaggi. Tutto scade dopo 90 giorni.</p>
+        </div>
+      </div>
     </section>
+
+    <!-- Chiusura -->
+    <section class="closing" aria-labelledby="close-h">
+      <h2 id="close-h">Il forum è questo. La community è di là.</h2>
+      <p>Niente registrazione, niente attesa di approvazione, niente "utente attivato via email". Apri Telegram, entra, presentati e fai la tua prima domanda fatta bene.</p>
+      <a class="btn" href="https://t.me/webdevitalia">
+        <svg class="icon" width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M15 1.5 1.6 6.9c-.8.3-.8 1 -.1 1.3l3.3 1.1 1.2 3.8c.2.7.8.8 1.3.3l1.8-1.8 3.5 2.6c.6.4 1.2.2 1.4-.6l2-11.2c.2-.9-.4-1.3-1-.9zM5.6 9l7.1-4.5c.3-.2.6.1.3.4L7.5 9.8l-.2 2.2L5.6 9z" fill="currentColor"/></svg>
+        <span class="label-long">Entra in Web Developers Italia</span><span class="label-short">Entra nel gruppo</span>
+      </a>
+    </section>
+
+    <p class="pagination">Pagine: <span>1</span> di 1 - le altre scorrono nel gruppo, una chat alla volta</p>
   </main>
 
   <footer>
-    <p>
-      <a href="https://t.me/webdevitalia" target="_blank" rel="noopener noreferrer">Entra nel gruppo Telegram</a>
-      ·
-      <a href="https://github.com/web-developers-italia/telegram-bot" target="_blank" rel="noopener noreferrer">Codice del bot su GitHub</a>
-    </p>
-    <p class="privacy">Il bot salva il minimo indispensabile: id utente, username, timestamp di attività e conteggi (reazioni, inviti), mai il testo dei messaggi. Retention 90 giorni.</p>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="https://t.me/webdevitalia">Gruppo Telegram</a>
+        <a href="https://github.com/web-developers-italia/telegram-bot">Codice del bot su GitHub</a>
+        <a href="#regolamento">Regolamento</a>
+      </div>
+      <p>Web Developers Italia - community italiana di sviluppatori web: frontend, backend, DevOps, carriera e lavoro.</p>
+      <p>Il bot salva il minimo indispensabile: id utente, username, timestamp di attività e conteggi (reazioni, inviti), mai il testo dei messaggi. Retention 90 giorni.</p>
+      <p>Stile "Millennium": omaggio ai forum italiani dove molti di noi hanno iniziato. Pagina statica, zero tracker, zero richieste esterne.</p>
+    </div>
   </footer>
 </body>
 </html>
