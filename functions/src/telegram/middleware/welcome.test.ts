@@ -46,6 +46,9 @@ describe("welcome", () => {
 		expect(calls.replies).toHaveLength(1);
 		expect(calls.replies[0].text).toContain("Benvenuto/a");
 		expect(calls.replies[0].text).toContain("New");
+		expect(calls.replies[0].text).toContain("/regole");
+		expect(calls.replies[0].text).toContain("/dontasktoask");
+		expect(calls.replies[0].text).toContain("/learn");
 		expect(welcomeStatesSet).toHaveLength(1);
 		expect(welcomeStatesSet[0].chatId).toBe(-1001);
 		expect(welcomeStatesSet[0].state.messageId).toBe(55);
