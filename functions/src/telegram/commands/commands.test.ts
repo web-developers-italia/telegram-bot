@@ -10,6 +10,7 @@ import {
 import { admin } from "./admin.js";
 import { contribute } from "./contribute.js";
 import { dontasktoask } from "./dontasktoask.js";
+import { eventi, eventiText } from "./eventi.js";
 import { commands } from "./index.js";
 import { learn } from "./learn.js";
 import { pong } from "./pong.js";
@@ -165,6 +166,34 @@ describe("/contribute", () => {
 
 		expect(calls.replies[0].text).not.toContain("Pull Request attive");
 		expect(calls.replies[0].text).not.toContain("Issue attive");
+	});
+});
+
+describe("/eventi", () => {
+	it("con la lista vuota di default, risponde che non c'è nessun evento in programma", async () => {
+		const { service, calls } = makeFakeTelegram({ message: message() });
+		await runCommandWith(eventi, service);
+
+		expect(calls.replies[0].text).toContain("Nessun evento");
+	});
+
+	it("eventiText mostra solo gli eventi futuri, con titolo e data", () => {
+		const now = Date.parse("2026-06-01T00:00:00+02:00");
+		const list = [
+			{ title: "Passato", startsAtIso: "2026-05-01T20:00:00+02:00" },
+			{ title: "WDI night", startsAtIso: "2026-09-10T21:00:00+02:00" },
+		];
+
+		const text = eventiText(list, now).text;
+
+		expect(text).toContain("Prossimi eventi");
+		expect(text).toContain("WDI night");
+		expect(text).toContain("gio 10 settembre, 21:00");
+		expect(text).not.toContain("Passato");
+	});
+
+	it("ha i trigger /eventi e /events", () => {
+		expect(eventi.triggers).toEqual(["/eventi", "/events"]);
 	});
 });
 
