@@ -6,17 +6,27 @@ import { BotConfig, BotConfigLive } from "../services/BotConfig.js";
 import { Github, GithubLive } from "../services/Github.js";
 import { Members } from "../services/Members.js";
 import { MembersLive } from "../services/MembersLive.js";
+import { Reactions } from "../services/Reactions.js";
+import { ReactionsLive } from "../services/ReactionsLive.js";
+import { Referrals } from "../services/Referrals.js";
+import { ReferralsLive } from "../services/ReferralsLive.js";
 import { commands } from "./commands/index.js";
 import { channelBan } from "./middleware/channelBan.js";
 import { makeFloodGuard } from "./middleware/floodGuard.js";
 import { linkGuard } from "./middleware/linkGuard.js";
+import { reactionTracker } from "./middleware/reactionTracker.js";
+import { referralTracker } from "./middleware/referralTracker.js";
 import { trackActivity } from "./middleware/trackActivity.js";
 import { welcome } from "./middleware/welcome.js";
 import { makeCommandRunner } from "./runCommand.js";
 
 export type CreateBotOptions = {
 	readonly botInfo?: UserFromGetMe;
-	readonly layer?: Layer.Layer<BotConfig | Github | Members, never, never>;
+	readonly layer?: Layer.Layer<
+		BotConfig | Github | Members | Reactions | Referrals,
+		never,
+		never
+	>;
 };
 
 export const createBot = (
@@ -25,7 +35,14 @@ export const createBot = (
 ): Bot => {
 	const bot = new Bot(token, { botInfo: options.botInfo });
 	const runtime = ManagedRuntime.make(
-		options.layer ?? Layer.mergeAll(BotConfigLive, GithubLive, MembersLive),
+		options.layer ??
+			Layer.mergeAll(
+				BotConfigLive,
+				GithubLive,
+				MembersLive,
+				ReactionsLive,
+				ReferralsLive,
+			),
 	);
 	const run = makeCommandRunner(runtime);
 	const floodGuard = makeFloodGuard();
@@ -52,7 +69,18 @@ export const createBot = (
 		await next();
 	});
 
-	bot.on("chat_member", run(welcome));
+	// Sull'evento chat_member girano sia welcome che referralTracker: stesso
+	// pattern difensivo del pass-through sopra, ogni run isolata dal fallimento
+	// dell'altra.
+	bot.on("chat_member", async (ctx) => {
+		await run(welcome)(ctx).catch((error) =>
+			logger.error("welcome failed", error),
+		);
+		await run(referralTracker)(ctx).catch((error) =>
+			logger.error("referralTracker failed", error),
+		);
+	});
+	bot.on(["message_reaction", "message_reaction_count"], run(reactionTracker));
 
 	for (const command of commands) {
 		const commandNames = command.triggers

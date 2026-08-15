@@ -14,7 +14,7 @@ Progetto `wdi-telegram-bot`, region `europe-west1`:
 - **Workload Identity Federation**: pool + provider OIDC limitati al repository
   `web-developers-italia/telegram-bot`.
 - **Firestore** (database `(default)` + **TTL** su `members_activity.expiresAt`,
-  ~90gg).
+  `message_reactions.expiresAt` e `referrals.expiresAt`, ~90gg).
 - **Secret Manager**: contenitori `TELEGRAM_BOT_KEY`/`TELEGRAM_WEBHOOK_SECRET`
   + accesso in lettura per il runtime SA. **I valori NON stanno in Terraform.**
 

@@ -23,7 +23,12 @@ if (!token) {
 const bot = createBot(token);
 
 bot.start({
-	allowed_updates: ["message", "chat_member"],
+	allowed_updates: [
+		"message",
+		"chat_member",
+		"message_reaction",
+		"message_reaction_count",
+	],
 	onStart: (me) => console.log(`@${me.username} in polling…`),
 });
 

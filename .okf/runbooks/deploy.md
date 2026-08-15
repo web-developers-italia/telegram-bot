@@ -22,6 +22,13 @@ auth Google via **Workload Identity Federation** → `firebase-tools deploy
 --only functions,firestore --force --project wdi-telegram-bot`.
 La CI ([ci.yml](/.github/workflows/ci.yml)) fa lint+build+test su ogni PR.
 
+**`allowed_updates`**: il deploy ordinario non tocca la registrazione del webhook.
+Se una PR modifica `allowed_updates` in
+[scripts/set-webhook.ts](/functions/scripts/set-webhook.ts) (come l'aggiunta di
+`message_reaction`/`message_reaction_count`), va rilanciato manualmente `npm run
+webhook:set` dopo il deploy: altrimenti Telegram continua a usare la lista
+registrata l'ultima volta e i nuovi tipi di update non arrivano.
+
 # Setup one-shot (nuovo ambiente o primo rollout)
 
 L'infrastruttura è **codice** ([infra/terraform](/infra/terraform), OpenTofu):

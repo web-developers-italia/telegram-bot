@@ -4,6 +4,7 @@ import { contribute } from "./contribute.js";
 import { dontasktoask } from "./dontasktoask.js";
 import { eventi } from "./eventi.js";
 import { help } from "./help.js";
+import { invito } from "./invito.js";
 import { learn } from "./learn.js";
 import { pong } from "./pong.js";
 import { rielabora } from "./rielabora.js";
@@ -22,5 +23,6 @@ export const commands: readonly Command[] = [
 	eventi,
 	rielabora,
 	stats,
+	invito,
 	help,
 ];

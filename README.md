@@ -2,6 +2,8 @@
 
 Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/webdevitalia), mettendo a disposizione una serie di strumenti.
 
+Sito della community: [web-developers-italia.github.io/telegram-bot](https://web-developers-italia.github.io/telegram-bot/) (sorgente in `site/`, deploy automatico su GitHub Pages).
+
 ## Dettagli tecnici
 
 - **Framework bot**: [grammY](https://grammy.dev/) (TypeScript, ESM)
@@ -23,8 +25,13 @@ Questo bot aiuta a gestire il gruppo di [Web Developers Italia](https://t.me/web
 | `/contribute` `/contribuisci` | Link alla repo + PR e issue aperte |
 | `@admin` `/admin` | Notifica gli amministratori (mention invisibili) |
 | `/stats` (solo admin) | Membri attivi negli ultimi 7/30 giorni |
+| `/invito` `/invite` | Il tuo link d'invito personale: chi entra dal gruppo tramite quel link viene attribuito a te |
+| `/eventi` `/events` | I prossimi eventi della community (fonte: `functions/src/community/events.ts`, aggiornabile via PR) |
+| `/help` `/comandi` | Elenco dei comandi disponibili, generato dai comandi registrati |
 
-Automatismi: benvenuto ai nuovi membri (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, tracking attività con retention 90 giorni, pulizia mensile degli inattivi review-gated via PR (vedi [`moderation/`](moderation/README.md)).
+Automatismi: benvenuto ai nuovi membri con tre dritte pratiche (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, anti-flood (troppi messaggi in pochi secondi: delete oltre soglia e un avviso con cooldown), reminder automatico degli eventi imminenti (giornaliero, 0-24h prima dell'inizio), tracking attività con retention 90 giorni, pulizia mensile degli inattivi review-gated via PR (vedi [`moderation/`](moderation/README.md)), digest periodico dei messaggi più reagiti con link diretti nel gruppo (e versione testo per LinkedIn nel log del workflow), attribuzione degli ingressi al link d'invito personale (`/invito`) con classifica inviti periodica (post ogni 3 mesi; i contatori scadono dopo 90 giorni senza nuovi inviti) di chi ha portato più dev nel gruppo.
+
+Il bot deve avere il permesso amministratore "Invite users via link" per poter creare i link d'invito personali di `/invito`.
 
 ## Sviluppo locale (senza ngrok!)
 
@@ -70,11 +77,11 @@ Poi aggiungi il comando all'array in `commands/index.ts` e un test in `commands.
 
 - **Deploy automatico**: push su `main` → `.github/workflows/deploy.yml` (auth Google via Workload Identity Federation, setup one-shot con `infra/setup-deploy-wif.sh`).
 - **Secrets runtime**: `TELEGRAM_BOT_KEY` e `TELEGRAM_WEBHOOK_SECRET` in Secret Manager (`firebase functions:secrets:set`). Per l'emulatore functions: `functions/.secret.local` (gitignorato).
-- **Webhook**: dopo il primo deploy, registra il webhook con `TELEGRAM_BOT_KEY=… WEBHOOK_URL=… TELEGRAM_WEBHOOK_SECRET=… npm run webhook:set` (imposta anche `allowed_updates`, necessario per gli eventi di join).
+- **Webhook**: dopo il primo deploy, registra il webhook con `TELEGRAM_BOT_KEY=… WEBHOOK_URL=… TELEGRAM_WEBHOOK_SECRET=… npm run webhook:set` (imposta anche `allowed_updates`, necessario per gli eventi di join). **Da rilanciare dopo ogni modifica ad `allowed_updates`** (come l'aggiunta di `message_reaction`/`message_reaction_count` in questa PR): altrimenti Telegram continua a usare la lista registrata l'ultima volta e il tracking reazioni non riceve update.
 - **TTL Firestore**: `infra/setup-firestore-ttl.sh` abilita l'eliminazione automatica dei dati di attività (~90 giorni dall'ultima attività).
 
 Il runbook completo (rotazione token, cutover, ruoli IAM) è nel bundle di conoscenza [`.okf/`](.okf/index.md).
 
 ## Privacy
 
-Il bot salva per ogni membro solo: user id, username, timestamp di ultima attività e di ingresso nel gruppo. I dati scadono automaticamente 90 giorni dopo l'ultima attività e non sono accessibili a client esterni (Firestore rules deny-all).
+Il bot salva per ogni membro solo: user id, username, timestamp di ultima attività e di ingresso nel gruppo. Per i messaggi del gruppo salva inoltre solo: chat id, message id e conteggio delle reazioni ricevute (mai il testo del messaggio). Per i referral salva solo: user id, username, link d'invito personale e conteggio inviti. In tutti i casi i dati scadono automaticamente 90 giorni dopo l'ultimo aggiornamento e non sono accessibili a client esterni (Firestore rules deny-all).

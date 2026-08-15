@@ -1,11 +1,9 @@
 import { fmt, FormattedString } from "@grammyjs/parse-mode";
 import { Effect } from "effect";
+import { isGroupChat } from "../chat.js";
 import { defineCommand, type Command } from "../CommandsProtocol.js";
 import { NotAGroup } from "../errors.js";
 import { TelegramCtx } from "../TelegramCtx.js";
-
-const isGroupChat = (chatType: string | undefined): boolean =>
-	chatType === "group" || chatType === "supergroup";
 
 const notifyAdmins = Effect.gen(function* () {
 	const telegram = yield* TelegramCtx;
