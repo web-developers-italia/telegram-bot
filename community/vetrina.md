@@ -41,6 +41,6 @@ sviluppatori web, frontend, backend, DevOps, carriera, offerte di lavoro.)
 
 Checklist stato:
 
-- [ ] Descrizione aggiornata
-- [ ] Messaggio pinnato
-- [ ] Foto verificata
+- [x] Descrizione aggiornata
+- [x] Messaggio pinnato
+- [x] Foto verificata (logo "WEB" tricolore su navy: leggibile a 40px, verificato il 15/08/2026)
