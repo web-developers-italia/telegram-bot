@@ -69,6 +69,15 @@ describe("/regole", () => {
 	it("ha i trigger italiani e inglesi", () => {
 		expect(rules.triggers).toEqual(["/regolamento", "/regole", "/rules"]);
 	});
+
+	it("include le regole su contenuti AI, self-promotion e lingua", async () => {
+		const { service, calls } = makeFakeTelegram({ message: message() });
+		await runCommandWith(rules, service);
+
+		expect(calls.replies[0].text).toContain("dichiarati come tali");
+		expect(calls.replies[0].text).toContain("Self-promotion");
+		expect(calls.replies[0].text).toContain("Italiano di default");
+	});
 });
 
 describe("/learn e /dontasktoask", () => {

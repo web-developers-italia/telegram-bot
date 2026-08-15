@@ -35,6 +35,16 @@ export const rulesText = (repoUrl: string): FormattedString =>
 
 ✅ Richieste di supporto per riuscire a risolvere autonomamente esercizi scolastici.
 
+✅ Contenuti generati con l'AI solo se dichiarati come tali.
+
+❌ Risposte copia-incollate da un LLM spacciate per proprie.
+
+✅ Self-promotion (progetti, articoli, video propri) al massimo una a settimana, con contesto utile.
+
+❌ Self-promotion ripetuta o senza contesto: è spam.
+
+✅ Italiano di default; inglese benvenuto se ti è più comodo.
+
 Gli utenti sono tenuti a evitare comportamenti socialmente inadeguati, al fine di mantenere stabile e positiva la comunicazione nella chat.
 
 ${FormattedString.link("Contribuisci al gruppo su Github", repoUrl)}`;
