@@ -6,16 +6,23 @@ import { BotConfig, BotConfigLive } from "../services/BotConfig.js";
 import { Github, GithubLive } from "../services/Github.js";
 import { Members } from "../services/Members.js";
 import { MembersLive } from "../services/MembersLive.js";
+import { Reactions } from "../services/Reactions.js";
+import { ReactionsLive } from "../services/ReactionsLive.js";
 import { commands } from "./commands/index.js";
 import { channelBan } from "./middleware/channelBan.js";
 import { linkGuard } from "./middleware/linkGuard.js";
+import { reactionTracker } from "./middleware/reactionTracker.js";
 import { trackActivity } from "./middleware/trackActivity.js";
 import { welcome } from "./middleware/welcome.js";
 import { makeCommandRunner } from "./runCommand.js";
 
 export type CreateBotOptions = {
 	readonly botInfo?: UserFromGetMe;
-	readonly layer?: Layer.Layer<BotConfig | Github | Members, never, never>;
+	readonly layer?: Layer.Layer<
+		BotConfig | Github | Members | Reactions,
+		never,
+		never
+	>;
 };
 
 export const createBot = (
@@ -24,7 +31,8 @@ export const createBot = (
 ): Bot => {
 	const bot = new Bot(token, { botInfo: options.botInfo });
 	const runtime = ManagedRuntime.make(
-		options.layer ?? Layer.mergeAll(BotConfigLive, GithubLive, MembersLive),
+		options.layer ??
+			Layer.mergeAll(BotConfigLive, GithubLive, MembersLive, ReactionsLive),
 	);
 	const run = makeCommandRunner(runtime);
 
@@ -48,6 +56,7 @@ export const createBot = (
 	});
 
 	bot.on("chat_member", run(welcome));
+	bot.on(["message_reaction", "message_reaction_count"], run(reactionTracker));
 
 	for (const command of commands) {
 		const commandNames = command.triggers

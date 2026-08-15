@@ -1,6 +1,12 @@
 import type { FormattedString } from "@grammyjs/parse-mode";
 import { Context as EffectContext, Effect } from "effect";
-import type { ChatMember, ChatMemberUpdated, Message } from "grammy/types";
+import type {
+	ChatMember,
+	ChatMemberUpdated,
+	Message,
+	MessageReactionCountUpdated,
+	MessageReactionUpdated,
+} from "grammy/types";
 import type { Context, InlineKeyboard } from "grammy";
 import { TelegramApiError } from "./errors.js";
 
@@ -21,6 +27,10 @@ export type TelegramCtxService = {
 	readonly commandPayload: string | undefined;
 	/** Update chat_member (join/left/kick/promote): assente per gli update normali (message). */
 	readonly chatMemberUpdate: ChatMemberUpdated | undefined;
+	/** Update message_reaction (reazione di un utente non anonimo): assente per gli update normali. */
+	readonly messageReaction: MessageReactionUpdated | undefined;
+	/** Update message_reaction_count (conteggio aggregato, reazioni anonime): assente per gli update normali. */
+	readonly messageReactionCount: MessageReactionCountUpdated | undefined;
 	readonly reply: (
 		text: string | FormattedString,
 		options?: ReplyOptions,
@@ -57,6 +67,8 @@ export const makeTelegramCtx = (ctx: Context): TelegramCtxService => ({
 	chatType: ctx.chat?.type,
 	commandPayload: typeof ctx.match === "string" ? ctx.match : undefined,
 	chatMemberUpdate: ctx.chatMember,
+	messageReaction: ctx.messageReaction,
+	messageReactionCount: ctx.messageReactionCount,
 	reply: (text, options) =>
 		call("sendMessage", () =>
 			ctx.reply(isFormatted(text) ? text.text : text, {

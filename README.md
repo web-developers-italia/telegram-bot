@@ -26,7 +26,7 @@ Sito della community: [web-developers-italia.github.io/telegram-bot](https://web
 | `@admin` `/admin` | Notifica gli amministratori (mention invisibili) |
 | `/stats` (solo admin) | Membri attivi negli ultimi 7/30 giorni |
 
-Automatismi: benvenuto ai nuovi membri (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, tracking attività con retention 90 giorni, pulizia mensile degli inattivi review-gated via PR (vedi [`moderation/`](moderation/README.md)).
+Automatismi: benvenuto ai nuovi membri (un solo messaggio di welcome vivo per chat), ban dei messaggi inviati "come canale", blocco link per i nuovi arrivati nelle prime 24 ore, tracking attività con retention 90 giorni, pulizia mensile degli inattivi review-gated via PR (vedi [`moderation/`](moderation/README.md)), digest settimanale dei messaggi più apprezzati per reazioni con link diretti nel gruppo (e versione testo per LinkedIn nel log del workflow).
 
 ## Sviluppo locale (senza ngrok!)
 
@@ -79,4 +79,4 @@ Il runbook completo (rotazione token, cutover, ruoli IAM) è nel bundle di conos
 
 ## Privacy
 
-Il bot salva per ogni membro solo: user id, username, timestamp di ultima attività e di ingresso nel gruppo. I dati scadono automaticamente 90 giorni dopo l'ultima attività e non sono accessibili a client esterni (Firestore rules deny-all).
+Il bot salva per ogni membro solo: user id, username, timestamp di ultima attività e di ingresso nel gruppo. Per i messaggi del gruppo salva inoltre solo: chat id, message id e conteggio delle reazioni ricevute (mai il testo del messaggio). In entrambi i casi i dati scadono automaticamente 90 giorni dopo l'ultimo aggiornamento e non sono accessibili a client esterni (Firestore rules deny-all).

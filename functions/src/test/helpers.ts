@@ -1,9 +1,16 @@
 import { Cause, Effect, Exit, Layer, Option } from "effect";
 import type { InlineKeyboard } from "grammy";
-import type { ChatMember, ChatMemberUpdated, Message } from "grammy/types";
+import type {
+	ChatMember,
+	ChatMemberUpdated,
+	Message,
+	MessageReactionCountUpdated,
+	MessageReactionUpdated,
+} from "grammy/types";
 import { BotConfig, make as makeBotConfig } from "../services/BotConfig.js";
 import { Github, type OpenItems } from "../services/Github.js";
 import { Members, type WelcomeState } from "../services/Members.js";
+import { Reactions } from "../services/Reactions.js";
 import type { Command } from "../telegram/CommandsProtocol.js";
 import {
 	GithubUnavailable,
@@ -44,6 +51,8 @@ type FakeOptions = {
 	readonly nextMessageId?: number;
 	readonly chatMemberUpdate?: ChatMemberUpdated;
 	readonly commandPayload?: string;
+	readonly messageReaction?: MessageReactionUpdated;
+	readonly messageReactionCount?: MessageReactionCountUpdated;
 };
 
 export const makeFakeTelegram = (options: FakeOptions = {}) => {
@@ -54,6 +63,8 @@ export const makeFakeTelegram = (options: FakeOptions = {}) => {
 		chatType: options.chatType ?? options.message?.chat.type,
 		commandPayload: options.commandPayload,
 		chatMemberUpdate: options.chatMemberUpdate,
+		messageReaction: options.messageReaction,
+		messageReactionCount: options.messageReactionCount,
 		reply: (text, replyOptions) =>
 			Effect.sync(() => {
 				calls.replies.push({
@@ -134,22 +145,55 @@ export const membersStub = (options: MembersStubOptions = {}) => {
 	return { layer, touched, joined, isRecentJoinerCalls, welcomeStatesSet };
 };
 
+export const reactionsStub = () => {
+	const applyDeltaCalls: Array<{
+		chatId: number;
+		messageId: number;
+		delta: number;
+	}> = [];
+	const setCountCalls: Array<{
+		chatId: number;
+		messageId: number;
+		count: number;
+	}> = [];
+
+	const layer = Layer.succeed(Reactions, {
+		applyDelta: (chatId, messageId, delta) =>
+			Effect.sync(
+				() => void applyDeltaCalls.push({ chatId, messageId, delta }),
+			),
+		setCount: (chatId, messageId, count) =>
+			Effect.sync(() => void setCountCalls.push({ chatId, messageId, count })),
+	});
+	return { layer, applyDeltaCalls, setCountCalls };
+};
+
 export const testLayers = (items?: OpenItems) =>
 	Layer.mergeAll(Layer.succeed(BotConfig, testConfig), githubStub(items));
 
 /** Layer Members di default per i comandi che non testano esplicitamente Members. */
 const defaultMembersLayer = () => membersStub().layer;
 
+/** Layer Reactions di default per i comandi che non testano esplicitamente Reactions. */
+const defaultReactionsLayer = () => reactionsStub().layer;
+
 export const runCommandWith = (
 	command: Command,
 	service: TelegramCtxService,
 	items?: OpenItems,
 	membersLayer: Layer.Layer<Members, never, never> = defaultMembersLayer(),
+	reactionsLayer: Layer.Layer<
+		Reactions,
+		never,
+		never
+	> = defaultReactionsLayer(),
 ) =>
 	Effect.runPromise(
 		command.run.pipe(
 			Effect.provideService(TelegramCtx, service),
-			Effect.provide(Layer.mergeAll(testLayers(items), membersLayer)),
+			Effect.provide(
+				Layer.mergeAll(testLayers(items), membersLayer, reactionsLayer),
+			),
 		),
 	);
 
@@ -159,11 +203,18 @@ export const runCommandExit = (
 	service: TelegramCtxService,
 	items?: OpenItems,
 	membersLayer: Layer.Layer<Members, never, never> = defaultMembersLayer(),
+	reactionsLayer: Layer.Layer<
+		Reactions,
+		never,
+		never
+	> = defaultReactionsLayer(),
 ) =>
 	Effect.runPromiseExit(
 		command.run.pipe(
 			Effect.provideService(TelegramCtx, service),
-			Effect.provide(Layer.mergeAll(testLayers(items), membersLayer)),
+			Effect.provide(
+				Layer.mergeAll(testLayers(items), membersLayer, reactionsLayer),
+			),
 		),
 	);
 
