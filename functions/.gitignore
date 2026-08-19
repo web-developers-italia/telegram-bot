@@ -1,5 +1,5 @@
 ## Compiled JavaScript files
-lib
+/lib/
 
 ## Deps
 node_modules/
