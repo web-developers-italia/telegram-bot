@@ -1,5 +1,111 @@
 {
-	"generatedAt": "1970-01-01T00:00:00.000Z",
+	"generatedAt": "2026-11-01T15:43:11.984Z",
 	"thresholdDays": 60,
-	"candidates": []
+	"candidates": [
+		{
+			"userId": 52621206,
+			"username": "Rigo_Pan",
+			"lastActivityIso": "2026-08-04T07:24:20.179Z"
+		},
+		{
+			"userId": 7307298140,
+			"username": "Borsettadigucci",
+			"lastActivityIso": "2026-08-07T09:01:58.026Z"
+		},
+		{
+			"userId": 80513586,
+			"username": "Optiroot",
+			"lastActivityIso": "2026-08-07T15:53:44.366Z"
+		},
+		{
+			"userId": 141195057,
+			"username": "peppezocco",
+			"lastActivityIso": "2026-08-07T15:54:30.743Z"
+		},
+		{
+			"userId": 38957398,
+			"username": "Heisenberg132",
+			"lastActivityIso": "2026-08-07T16:04:10.064Z"
+		},
+		{
+			"userId": 360663692,
+			"username": "roman991",
+			"lastActivityIso": "2026-08-08T10:40:14.546Z"
+		},
+		{
+			"userId": 1193080677,
+			"username": "pizzamarinarasad",
+			"lastActivityIso": "2026-08-08T18:27:28.474Z"
+		},
+		{
+			"userId": 109770626,
+			"username": "ilginop",
+			"lastActivityIso": "2026-08-10T14:16:50.083Z"
+		},
+		{
+			"userId": 750553661,
+			"username": "Frankk90",
+			"lastActivityIso": "2026-08-10T19:11:33.672Z"
+		},
+		{
+			"userId": 603260699,
+			"username": "MGG97",
+			"lastActivityIso": "2026-08-11T08:31:41.061Z"
+		},
+		{
+			"userId": 398200551,
+			"username": "cher89",
+			"lastActivityIso": "2026-08-11T10:53:55.760Z"
+		},
+		{
+			"userId": 301279161,
+			"username": "Egdo90",
+			"lastActivityIso": "2026-08-11T18:18:34.173Z"
+		},
+		{
+			"userId": 1029720044,
+			"username": "Teosun0",
+			"lastActivityIso": "2026-08-13T08:26:26.205Z"
+		},
+		{
+			"userId": 112275573,
+			"username": "Fullbl",
+			"lastActivityIso": "2026-08-13T08:35:32.319Z"
+		},
+		{
+			"userId": 43120899,
+			"username": "Mirioo",
+			"lastActivityIso": "2026-08-15T12:04:06.870Z"
+		},
+		{
+			"userId": 1065158784,
+			"username": "Know_ledges",
+			"lastActivityIso": "2026-08-15T12:32:36.926Z"
+		},
+		{
+			"userId": 5669706945,
+			"username": "Zeyrox03",
+			"lastActivityIso": "2026-08-21T15:19:12.158Z"
+		},
+		{
+			"userId": 1669008783,
+			"username": "giampiero1735",
+			"lastActivityIso": "2026-08-21T17:32:58.166Z"
+		},
+		{
+			"userId": 8686877638,
+			"username": "Alex4r87",
+			"lastActivityIso": "2026-08-21T19:08:26.869Z"
+		},
+		{
+			"userId": 5287162075,
+			"username": null,
+			"lastActivityIso": "2026-08-25T06:48:09.509Z"
+		},
+		{
+			"userId": 669064768,
+			"username": "Brazzo_dev",
+			"lastActivityIso": "2026-08-26T20:24:16.828Z"
+		}
+	]
 }
